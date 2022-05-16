@@ -17,9 +17,5 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
         http!!.csrf().disable().cors()
-
-        http.authorizeRequests()
-                .antMatchers("/api/v1/**").permitAll()
-                .anyRequest().authenticated()
     }
 }
