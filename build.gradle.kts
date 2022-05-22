@@ -19,6 +19,7 @@ configurations {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -29,14 +30,13 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-    implementation ("com.graphql-java:graphql-spring-boot-starter:5.0.2")
-    implementation ("com.graphql-java:graphql-java-tools:5.2.4")
+    implementation ("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release")
+//    implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
 }
 
 tasks.withType<KotlinCompile> {
