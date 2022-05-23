@@ -1,0 +1,7 @@
+type Weekand {
+    hello: String!
+}
+
+type Query {
+    weekand(customField: String): Weekand!
+}
