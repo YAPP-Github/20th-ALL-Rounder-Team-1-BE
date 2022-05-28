@@ -1,4 +1,4 @@
-package com.yapp.weekand.global.config.security
+package com.yapp.weekand.common.config.security
 
 import org.springframework.beans.factory.annotation.Configurable
 import org.springframework.context.annotation.Bean
