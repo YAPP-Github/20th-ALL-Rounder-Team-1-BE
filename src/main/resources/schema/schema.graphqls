@@ -1,7 +1,83 @@
-type Weekand {
-    hello: String!
+schema {
+    query: Query
 }
 
 type Query {
     weekand(customField: String): Weekand!
+}
+
+type Weekand {
+    hello: String!
+}
+
+type User {
+    id: ID!
+    email: String!
+    nickname: String!
+    profile_url: String!
+    goal: String
+    followerCount: Int!
+    jobs: [UserJob!]!
+    interests: [UserInterest!]!
+}
+
+enum UserJob {
+    STUDENT
+}
+
+enum UserInterest {
+    PM
+    MD
+}
+
+type Notification {
+    message: String!
+    type: NotificationType!
+}
+
+enum NotificationType {
+    FOLLOW
+    SCHEDULE_START
+    SCHEDULE_END
+    STICKER
+}
+
+type ScheduleSticker {
+    name: ScheduleStickerName
+
+}
+enum ScheduleStickerName {
+    SMILE
+    GOLD_MEDAL
+    "따봉"
+    GOOD
+    CHEER_UP
+}
+type ScheduleCategory {
+    id: ID!
+    name: String!
+    color: String!
+    open_type: ScheduleCategoryOpenType!
+}
+
+enum ScheduleCategoryOpenType {
+    ALL_OPEN
+    FOLLOWER_OPEN
+    CLOSED
+}
+
+type Schedule {
+    id: ID!
+    name: String!
+    status: ScheduleStatus!
+    category: ScheduleCategory!
+    date_time_start: String!
+    date_time_end: String!
+    sticker_count: Int!
+    sticker_names: [ScheduleStickerName!]!
+}
+
+enum ScheduleStatus {
+    COMPLETED
+    SKIP
 }
