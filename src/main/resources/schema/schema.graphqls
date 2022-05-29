@@ -14,7 +14,7 @@ type User {
     id: ID!
     email: String!
     nickname: String!
-    profile_url: String!
+    profileUrl: String!
     goal: String
     followerCount: Int!
     jobs: [UserJob!]!
@@ -56,7 +56,7 @@ type ScheduleCategory {
     id: ID!
     name: String!
     color: String!
-    open_type: ScheduleCategoryOpenType!
+    openType: ScheduleCategoryOpenType!
 }
 
 enum ScheduleCategoryOpenType {
@@ -70,10 +70,10 @@ type Schedule {
     name: String!
     status: ScheduleStatus!
     category: ScheduleCategory!
-    date_time_start: String!
-    date_time_end: String!
-    sticker_count: Int!
-    sticker_names: [ScheduleStickerName!]!
+    dateTimeStart: String!
+    dateTimeEnd: String!
+    stickerCount: Int!
+    stickerNames: [ScheduleStickerName!]!
 }
 
 enum ScheduleStatus {
