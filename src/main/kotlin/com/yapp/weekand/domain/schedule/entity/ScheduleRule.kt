@@ -26,8 +26,7 @@ class ScheduleRule (
         @Enumerated(EnumType.STRING)
         var repeatType: RepeatType,
 
-        @OneToMany(mappedBy = "scheduleRule")
-        var repeatSelectedValue: MutableList<RepeatWeek> = mutableListOf(),
+        var repeatSelectedValue: String? = null,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id")
