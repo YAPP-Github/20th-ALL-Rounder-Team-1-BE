@@ -49,7 +49,6 @@ type ScheduleSticker {
 enum ScheduleStickerName {
     SMILE
     GOLD_MEDAL
-    "따봉"
     GOOD
     CHEER_UP
 }
