@@ -1,4 +1,4 @@
-package com.yapp.weekand.domain.Interest.entity
+package com.yapp.weekand.domain.interest.entity
 
 import com.yapp.weekand.domain.user.entity.User
 import javax.persistence.*

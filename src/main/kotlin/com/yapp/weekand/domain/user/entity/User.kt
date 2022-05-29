@@ -1,6 +1,6 @@
 package com.yapp.weekand.domain.user.entity
 
-import com.yapp.weekand.domain.Interest.entity.UserInterest
+import com.yapp.weekand.domain.interest.entity.UserInterest
 import com.yapp.weekand.domain.follow.entity.Follow
 import com.yapp.weekand.domain.job.entity.UserJob
 import com.yapp.weekand.domain.notification.entity.Notification
@@ -30,7 +30,6 @@ class User (
 
     var followerCount: Int = 0,
 
-    @Lob
     var profileFilename: String? = null,
 
     @OneToMany(mappedBy = "user")
@@ -51,4 +50,3 @@ class User (
     @OneToMany(mappedBy = "followeeUser")
     var followeeList: MutableList<Follow> = mutableListOf()
 ) : BaseEntity()
-

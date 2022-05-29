@@ -12,7 +12,7 @@ class ScheduleStatus (
 
         var status: Status,
 
-        var date_yml: LocalDateTime,
+        var date_ymd: LocalDateTime,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "schedule_rule_id")

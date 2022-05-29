@@ -1,4 +1,4 @@
-package com.yapp.weekand.domain.Interest.entity
+package com.yapp.weekand.domain.interest.entity
 
 enum class Interest {
 }
