@@ -11,9 +11,9 @@ class WeekandResolver {
     @DgsQuery
     fun weekand(@InputArgument customField : String?): Weekand {
         if(customField === null){
-            return defaultWeekand;
+            return defaultWeekand
         }
-        return Weekand(customField);
+        return Weekand(customField)
     }
 
     data class Weekand(val hello: String)
