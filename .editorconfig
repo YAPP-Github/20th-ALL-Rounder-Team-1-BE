@@ -1,0 +1,7 @@
+[*]
+# EOF 를 new line
+end_of_line = lf
+insert_final_newline = true
+# indent size 4 로 명시화
+indent_style = tab
+indent_size = 4
