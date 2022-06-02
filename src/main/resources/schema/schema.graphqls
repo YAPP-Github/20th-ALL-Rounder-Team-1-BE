@@ -4,7 +4,7 @@ schema {
 
 type Query {
     weekand(customField: String): Weekand!
-	checkDuplicateNickname(nickname: String): Boolean
+	checkDuplicateNickname(nickname: String!): Boolean!
 }
 
 type Weekand {
