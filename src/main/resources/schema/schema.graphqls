@@ -79,5 +79,6 @@ type Schedule {
 
 enum ScheduleStatus {
     COMPLETED
+    UNCOMPLETED
     SKIP
 }

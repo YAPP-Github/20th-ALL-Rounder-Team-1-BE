@@ -1,5 +1,7 @@
 package com.yapp.weekand.domain.schedule.entity
 
 enum class Status {
-    COMPLETED, SKIP
+    COMPLETED,
+    UNCOMPLETED,
+	SKIP
 }
