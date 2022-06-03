@@ -34,4 +34,23 @@ internal class UserServiceTest {
 		// then
 		Assertions.assertThat(checkDuplicateNickname).isEqualTo(true)
 	}
+
+	@Test
+	@DisplayName("회원 ID를 통해 회원을 조회한다")
+	fun findUserById() {
+		// given
+		var user = User(
+			email= "test@test.com",
+			nickname = "test",
+			password = "1234!",
+			marketingAgreed = true)
+
+		// when
+		val savedUser = userRepository.save(user)
+		val foundUser = userService.findUserById(savedUser.id!!)
+
+		// then
+		Assertions.assertThat(foundUser).isNotEmpty()
+		Assertions.assertThat(foundUser.get()).isEqualTo(user)
+	}
 }
