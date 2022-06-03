@@ -10,4 +10,6 @@ class UserService (
 	private val userRepository: UserRepository
 ){
 	fun checkDuplicateNickname(nickname: String) = userRepository.existsUserByNickname(nickname)
+
+	fun findUserById(id: Long) = userRepository.findById(id)
 }
