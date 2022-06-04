@@ -11,5 +11,5 @@ class UserService (
 ){
 	fun checkDuplicateNickname(nickname: String) = userRepository.existsUserByNickname(nickname)
 
-	fun findUserById(id: Long) = userRepository.findById(id)
+	fun findUserById(id: Long) = userRepository.findById(id).get()
 }
