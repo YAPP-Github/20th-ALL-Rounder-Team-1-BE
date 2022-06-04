@@ -47,7 +47,7 @@ internal class UserServiceTest {
 
 		// when
 		val savedUser = userRepository.save(user)
-		val foundUser = userService.findUserById(savedUser.id!!)
+		val foundUser = userService.findUserById(savedUser.id)
 
 		// then
 		Assertions.assertThat(foundUser).isEqualTo(user)
