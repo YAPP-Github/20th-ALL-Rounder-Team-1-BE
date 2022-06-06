@@ -21,7 +21,7 @@ class JwtProvider(
 	private val userDetailsService: UserDetailServiceImpl,
 	@Value("\${jwt.secret}") private val secretKey: String,
 	@Value("\${jwt.access-token-expiry}") private val accessTokenValidTime: Int,
-	@Value("\${jwt.refresh-token-expiry}") private val refreshTokenValidTime: Int,
+	@Value("\${jwt.refresh-token-expiry}") private val refreshTokenValidTime: Long,
 	@Value("\${jwt.access-token-header}") private val ACCESS_TOKEN_HEADER: String,
 	@Value("\${jwt.refresh-token-header}") private val REFRESH_TOKEN_HEADER: String
 )

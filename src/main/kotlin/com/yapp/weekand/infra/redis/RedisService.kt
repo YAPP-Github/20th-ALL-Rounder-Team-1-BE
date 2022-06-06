@@ -8,9 +8,9 @@ import java.time.Duration
 class RedisService (
 	private val redisTemplate: RedisTemplate<String, String>
 ) {
-	fun setValue(token: String, email: String, time: Int) {
+	fun setValue(token: String, email: String, time: Long) {
 		val values = redisTemplate.opsForValue()
-		values.set(token, email, Duration.ofMinutes(time.toLong()))
+		values.set(token, email, Duration.ofMinutes(time))
 	}
 
 	fun getValue(token: String): String? {

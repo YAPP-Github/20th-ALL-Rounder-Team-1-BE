@@ -26,7 +26,7 @@ class AuthService (
 ) {
 
 	@Value("\${jwt.refresh-token-expiry}")
-	private val refreshTokenExpiry: Int = 0
+	private val refreshTokenExpiry: Long = 0
 
 	fun login(loginRequest: LoginRequest): LoginResponse {
 		val user = userRepository.findByEmail(loginRequest.email)
