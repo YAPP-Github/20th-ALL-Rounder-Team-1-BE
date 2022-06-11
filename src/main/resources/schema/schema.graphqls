@@ -6,6 +6,7 @@ type Query {
     weekand(customField: String): Weekand!
 	checkDuplicateNickname(nickname: String!): Boolean!
 	user(id: ID!): User
+	getFollowers(page: Int!, size: Int!): GetFollowsResponse!
 }
 
 type Weekand {

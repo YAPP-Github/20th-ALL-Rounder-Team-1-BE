@@ -1,0 +1,15 @@
+type GetFollowsResponse {
+	pageInfo: PageInfo
+	follows: [Follower]
+}
+
+type PageInfo {
+	hasNext: Boolean!
+}
+
+type Follower{
+	id: ID
+	nickname: String
+	profileUrl: String
+	goal: String
+}
