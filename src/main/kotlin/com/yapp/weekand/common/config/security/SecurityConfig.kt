@@ -23,7 +23,7 @@ class SecurityConfig(
 
 	override fun configure(web: WebSecurity) {
 		web
-			.ignoring().antMatchers("/api/v1/login", "/api/v1/signup", "/api/v1/refresh")
+			.ignoring().antMatchers("/api/v1/login", "/api/v1/signup", "/api/v1/refresh", "/graphiql")
 	}
 
     override fun configure(http: HttpSecurity) {
