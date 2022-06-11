@@ -5,6 +5,7 @@ schema {
 type Query {
     weekand(customField: String): Weekand!
 	checkDuplicateNickname(nickname: String!): Boolean!
+	user(id: ID!): User
 }
 
 type Weekand {

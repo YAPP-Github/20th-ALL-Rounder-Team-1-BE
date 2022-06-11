@@ -3,6 +3,7 @@ package com.yapp.weekand.domain.user.resolver
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
+import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.service.UserService
 
 @DgsComponent
@@ -12,5 +13,10 @@ class UserResolver(
 	@DgsQuery
 	fun checkDuplicateNickname(@InputArgument nickname : String):Boolean {
 		return userService.checkDuplicateNickname(nickname)
+	}
+
+	@DgsQuery
+	fun user(@InputArgument id: String): User? {
+		return userService.findUserById(id.toLong())
 	}
 }

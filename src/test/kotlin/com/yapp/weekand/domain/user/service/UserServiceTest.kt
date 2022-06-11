@@ -50,7 +50,6 @@ internal class UserServiceTest {
 		val foundUser = userService.findUserById(savedUser.id!!)
 
 		// then
-		Assertions.assertThat(foundUser).isNotEmpty()
-		Assertions.assertThat(foundUser.get()).isEqualTo(user)
+		Assertions.assertThat(foundUser).isEqualTo(user)
 	}
 }
