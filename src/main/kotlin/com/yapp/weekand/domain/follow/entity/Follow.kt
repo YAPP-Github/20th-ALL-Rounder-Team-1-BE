@@ -1,4 +1,4 @@
-package com.yapp.weekand.domain.follow2.entity
+package com.yapp.weekand.domain.follow.entity
 
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.common.entity.BaseEntity
