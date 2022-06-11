@@ -10,9 +10,10 @@ import javax.persistence.*
 
 @Entity
 class User (
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    val id: Long? = null,
+    var id: Long = 0L,
 
     @Column(nullable = false)
     var email: String,
