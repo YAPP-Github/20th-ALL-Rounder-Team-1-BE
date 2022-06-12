@@ -3,6 +3,11 @@ type FollowerList {
 	followers: [FollowUser!]!
 }
 
+type FolloweeList {
+	pageInfo: PageInfo
+	followees: [FollowUser!]!
+}
+
 type PageInfo {
 	hasNext: Boolean!
 }

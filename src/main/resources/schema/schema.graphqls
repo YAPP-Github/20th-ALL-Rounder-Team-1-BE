@@ -7,6 +7,7 @@ type Query {
 	checkDuplicateNickname(nickname: String!): Boolean!
 	user(id: ID!): User
 	followers(page: Int!, size: Int!): FollowerList!
+	followees(page: Int!, size: Int!): FolloweeList!
 }
 
 type Weekand {
