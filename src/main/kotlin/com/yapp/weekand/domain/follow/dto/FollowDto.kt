@@ -1,9 +1,9 @@
 package com.yapp.weekand.domain.follow.dto
 
 class FollowDto {
-	class getFollowsResponse(
+	class followerList(
 		val pageInfo: PageInfo,
-		val follows: List<Follows>
+		val followers: List<Follows>
 	)
 
 	class Follows (

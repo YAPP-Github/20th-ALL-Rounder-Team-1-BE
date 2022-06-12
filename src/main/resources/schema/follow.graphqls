@@ -1,13 +1,13 @@
-type GetFollowsResponse {
+type FollowerList {
 	pageInfo: PageInfo
-	follows: [Follower]
+	followers: [FollowUser!]!
 }
 
 type PageInfo {
 	hasNext: Boolean!
 }
 
-type Follower{
+type FollowUser{
 	id: ID
 	nickname: String
 	profileUrl: String

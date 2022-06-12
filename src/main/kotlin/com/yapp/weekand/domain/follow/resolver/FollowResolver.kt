@@ -13,8 +13,8 @@ class FollowResolver (
 	private val userService: UserService
 ) {
 	@DgsQuery
-	fun getFollowers(page:Int, size:Int): FollowDto.getFollowsResponse {
+	fun followers(page:Int, size:Int): FollowDto.followerList {
 		val followers = followService.getFollowers(userService.getCurrentUser(), PageRequest.of(page, size))
-		return FollowDto.getFollowsResponse(FollowDto.PageInfo(followers.hasNext()), follows = followers.content)
+		return FollowDto.followerList(FollowDto.PageInfo(followers.hasNext()), followers = followers.content)
 	}
 }
