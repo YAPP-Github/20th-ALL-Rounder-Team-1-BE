@@ -13,9 +13,9 @@ import javax.persistence.MappedSuperclass
 abstract class BaseEntity {
     @CreatedDate
     @Column(name = "date_created", updatable = false)
-    var date_created: LocalDateTime = LocalDateTime.now()
+    var dateCreated: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
-    @Column(name = "date_updated")
-    var date_updated: LocalDateTime = LocalDateTime.now()
+	@Column(name = "date_updated")
+	var dateUpdated: LocalDateTime = LocalDateTime.now()
 }

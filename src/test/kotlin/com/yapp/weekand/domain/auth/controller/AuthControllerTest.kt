@@ -66,7 +66,7 @@ class AuthControllerTest {
 		//when
 		every { jwtProvider.resolveRefreshToken(any()) } returns "refreshToken"
 		every { jwtProvider.resolveAccessToken(any()) } returns "preAccessToken"
-		every { authService.reissueAccessToken(any(), any()) } returns reissueAccessTokenResponse
+		every { authService.renewAccessToken(any(), any()) } returns reissueAccessTokenResponse
 
 		//then
 		mockMvc

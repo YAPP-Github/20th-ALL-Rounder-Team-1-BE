@@ -1,0 +1,15 @@
+type FollowerList {
+	pageInfo: PageInfo
+	followers: [FollowUser!]!
+}
+
+type PageInfo {
+	hasNext: Boolean!
+}
+
+type FollowUser{
+	id: ID
+	nickname: String
+	profileUrl: String
+	goal: String
+}
