@@ -6,15 +6,18 @@ import com.netflix.graphql.dgs.InputArgument
 
 @DgsComponent
 class WeekandResolver {
-    private val defaultWeekand = Weekand("world")
+	private val defaultWeekand = Weekand("world")
 
-    @DgsQuery
-    fun weekand(@InputArgument customField : String?): Weekand {
-        if(customField === null){
-            return defaultWeekand
-        }
-        return Weekand(customField)
-    }
+	@DgsQuery
+	fun weekand(@InputArgument customField: String?): Weekand {
+		if (customField === "error") {
+			throw WeekandException("현재 weekand 이용이 불가능 합니다")
+		}
+		if (customField === null) {
+			return defaultWeekand
+		}
+		return Weekand(customField)
+	}
 
-    data class Weekand(val hello: String)
+	data class Weekand(val hello: String)
 }
