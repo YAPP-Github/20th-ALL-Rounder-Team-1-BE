@@ -15,8 +15,14 @@ class FollowService(
 	private val followRepository: FollowRepository
 ) {
 	fun getFollowers(user: User, pageable: Pageable): Slice<FollowDto.Follows> {
-		return followRepository.findByFolloweeUserOrderByDateCreated(user, pageable)
+		return followRepository.findByFolloweeUserOrderByDateCreatedDesc(user, pageable)
 			.map(Follow::followerUser)
 			.map{ FollowDto.Follows(id = it.id, nickname = it.nickname, goal = it.goal, profileFilename = it.profileFilename) }
+	}
+
+	fun getFollowees(user:User, pageable: Pageable): Slice<FollowDto.Follows> {
+		return followRepository.findByFollowerUserOrderByDateCreatedDesc(user, pageable)
+			.map(Follow::followeeUser)
+			.map { FollowDto.Follows(id = it.id, nickname = it.nickname, goal = it.goal, profileFilename = it.profileFilename) }
 	}
 }

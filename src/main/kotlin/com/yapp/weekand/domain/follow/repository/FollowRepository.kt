@@ -7,5 +7,7 @@ import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface FollowRepository: JpaRepository<Follow, Long> {
-	fun findByFolloweeUserOrderByDateCreated(user: User, pageable: Pageable): Slice<Follow>
+	fun findByFolloweeUserOrderByDateCreatedDesc(user: User, pageable: Pageable): Slice<Follow>
+
+	fun findByFollowerUserOrderByDateCreatedDesc(user: User, pageable: Pageable): Slice<Follow>
 }
