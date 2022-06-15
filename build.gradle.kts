@@ -55,6 +55,7 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	testImplementation("com.ninja-squad:springmockk:3.1.1")
+	implementation("com.coveo:spring-boot-parameter-store-integration:1.1.2")
 }
 
 tasks.withType<KotlinCompile> {
