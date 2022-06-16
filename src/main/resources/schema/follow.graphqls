@@ -1,15 +1,11 @@
 type FollowerList {
-	pageInfo: PageInfo
+	paginationInfo: PaginationInfo
 	followers: [FollowUser!]!
 }
 
 type FolloweeList {
-	pageInfo: PageInfo
+	paginationInfo: PaginationInfo
 	followees: [FollowUser!]!
-}
-
-type PageInfo {
-	hasNext: Boolean!
 }
 
 type FollowUser{

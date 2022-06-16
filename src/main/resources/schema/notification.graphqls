@@ -1,0 +1,17 @@
+type NotificationList {
+	paginationInfo: PaginationInfo!
+	notifications: [Notification!]!
+}
+
+type Notification {
+	id: ID!
+	message: String!
+	type: NotificationType!
+}
+
+enum NotificationType {
+	FOLLOW
+	SCHEDULE_START
+	SCHEDULE_END
+	STICKER
+}

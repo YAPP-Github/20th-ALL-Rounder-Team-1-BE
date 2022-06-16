@@ -8,10 +8,15 @@ type Query {
 	user(id: ID!): User
 	followers(page: Int!, size: Int!): FollowerList!
 	followees(page: Int!, size: Int!): FolloweeList!
+	notifications(page: Int!, size: Int!): NotificationList!
 }
 
 type Weekand {
     hello: String!
+}
+
+type PaginationInfo {
+	hasNext: Boolean!
 }
 
 type User {
@@ -32,18 +37,6 @@ enum UserJob {
 enum UserInterest {
     PM
     MD
-}
-
-type Notification {
-    message: String!
-    type: NotificationType!
-}
-
-enum NotificationType {
-    FOLLOW
-    SCHEDULE_START
-    SCHEDULE_END
-    STICKER
 }
 
 type ScheduleSticker {
