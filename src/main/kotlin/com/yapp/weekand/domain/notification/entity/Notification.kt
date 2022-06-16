@@ -17,5 +17,5 @@ class Notification(
         var message: String,
 
         @Enumerated(EnumType.STRING)
-        var type: Type
+        var type: NotificationType
 ) : BaseEntity()
