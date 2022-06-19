@@ -2,6 +2,7 @@ package com.yapp.weekand.domain.category.entity
 
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.common.entity.BaseEntity
+import com.yapp.weekand.domain.user.entity.User
 import javax.persistence.*
 
 @Entity
@@ -18,5 +19,9 @@ class ScheduleCategory (
         var openType: OpenType,
 
         @OneToMany(mappedBy = "scheduleCategory")
-        var scheduleRules: MutableList<ScheduleRule> = mutableListOf()
+        var scheduleRules: MutableList<ScheduleRule> = mutableListOf(),
+
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "user_id")
+		var user: User,
 ): BaseEntity()
