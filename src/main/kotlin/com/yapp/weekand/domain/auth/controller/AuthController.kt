@@ -17,16 +17,10 @@ class AuthController(
 	private val authService: AuthService,
 	private val jwtProvider: JwtProvider
 ) {
-
-	@PostMapping("/login")
-	fun login(@RequestBody loginRequestInput: LoginRequest): ResponseEntity<LoginResponse> {
-		return ResponseEntity.status(HttpStatus.OK).body(authService.login(loginRequestInput))
-	}
-
 	@PostMapping("/refresh")
 	fun renewAccessToken(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<ReissueAccessTokenResponse> {
 		val refreshToken:String = jwtProvider.resolveRefreshToken(request)
 		val accessToken:String = jwtProvider.resolveAccessToken(request)
-		return ResponseEntity.status(HttpStatus.OK).body(authService.renewAccessToken(accessToken, refreshToken))
+		return ResponseEntity.status(HttpStatus.OK).body(authService.reissueAccessToken(accessToken, refreshToken))
 	}
 }
