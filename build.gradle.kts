@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.6.7"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("com.netflix.dgs.codegen") version "5.1.2"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
@@ -67,4 +68,15 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
+	schemaPaths = mutableListOf("$projectDir/src/main/resources/schema")
+	generateClient = false
+	packageName = "com.yapp.weekand.api.generated"
+	generateDataTypes = true
+	language = "kotlin"
+	typeMapping = mutableMapOf(
+		"NotificationType" to "com.yapp.weekand.domain.notification.entity.NotificationType"
+	)
 }
