@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
@@ -35,28 +34,6 @@ class AuthControllerTest {
 
 	@MockkBean
 	lateinit var jwtProvider: JwtProvider
-
-	@Test
-	@DisplayName("로그인을 한다")
-	fun `로그인`() {
-	    //given
-		val loginRequest = EntityFactory.loginRequest()
-		val loginResponse = EntityFactory.loginResponse()
-
-		//when
-		every { authService.login(any()) } returns loginResponse
-
-		//then
-		mockMvc
-			.perform(MockMvcRequestBuilders.post("/api/v1/login")
-				.content(jacksonObjectMapper().writeValueAsString(loginRequest))
-				.contentType(MediaType.APPLICATION_JSON))
-			.andDo(MockMvcResultHandlers.print())
-			.andExpect(MockMvcResultMatchers.status().isOk)
-			.andExpect(jsonPath("$.accessToken").value(loginResponse.accessToken))
-			.andExpect(jsonPath("$.refreshToken").value(loginResponse.refreshToken))
-	}
-
 	@Test
 	@DisplayName("access token을 재발급 받는다.")
 	fun `access token 재발급`() {
@@ -66,7 +43,7 @@ class AuthControllerTest {
 		//when
 		every { jwtProvider.resolveRefreshToken(any()) } returns "refreshToken"
 		every { jwtProvider.resolveAccessToken(any()) } returns "preAccessToken"
-		every { authService.renewAccessToken(any(), any()) } returns reissueAccessTokenResponse
+		every { authService.reissueAccessToken(any(), any()) } returns reissueAccessTokenResponse
 
 		//then
 		mockMvc
