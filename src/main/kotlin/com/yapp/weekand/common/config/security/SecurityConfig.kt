@@ -23,12 +23,6 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
 	@Bean
 	fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
-
-	override fun configure(web: WebSecurity) {
-		web
-			.ignoring().antMatchers("/api/v1/refresh")
-	}
-
 	override fun configure(http: HttpSecurity) {
 		http
 			.httpBasic().disable()

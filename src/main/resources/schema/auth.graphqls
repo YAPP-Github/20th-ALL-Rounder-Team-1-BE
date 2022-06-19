@@ -7,3 +7,7 @@ type LoginResponse{
 	accessToken: String!
 	refreshToken: String!
 }
+
+type ReissueAccessTokenResponse{
+	accessToken: String!
+}

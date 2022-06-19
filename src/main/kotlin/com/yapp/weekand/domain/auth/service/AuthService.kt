@@ -46,17 +46,9 @@ class AuthService (
 		)
 	}
 
-	fun reissueAccessToken(accessToken: String, refreshToken: String): ReissueAccessTokenResponse {
-		val user: User = userRepository.findByEmail(jwtProvider.getUserPk(accessToken))
-			?: throw UserNotFoundException()
-
+	fun reissueAccessToken(refreshToken: String): ReissueAccessTokenResponse {
 		val email: String = redisService.getValue(refreshToken)
 			?: throw InvalidTokenException()
-
-		if (email != user.email) {
-			throw InvalidTokenException()
-		}
-
-		return ReissueAccessTokenResponse(jwtProvider.createAccessToken(user.email))
+		return ReissueAccessTokenResponse(jwtProvider.createAccessToken(email))
 	}
 }
