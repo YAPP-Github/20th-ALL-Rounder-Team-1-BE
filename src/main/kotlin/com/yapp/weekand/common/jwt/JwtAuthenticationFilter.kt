@@ -28,12 +28,8 @@ class JwtAuthenticationFilter(
 			return
 		} catch (e: NullPointerException) {
 			Logger.info(e.message)
-			sendErrorResponse(response as HttpServletResponse, ErrorCode.EMPTY_JWT)
-			return
 		} catch (e: Exception) {
 			Logger.info(e.message)
-			sendErrorResponse(response as HttpServletResponse, ErrorCode.INVALID_JWT)
-			return
 		}
 		chain.doFilter(request, response)
 	}
