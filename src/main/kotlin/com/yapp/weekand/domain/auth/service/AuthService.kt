@@ -39,7 +39,6 @@ class AuthService (
 		val accessToken = jwtProvider.createAccessToken(user.email)
 		val refreshToken = jwtProvider.createRefreshToken()
 		redisService.setValue(refreshToken, user.email, refreshTokenExpiry)
-		Logger.info(refreshTokenExpiry.toString())
 
 		return LoginResponse(
 			accessToken = accessToken,
@@ -47,7 +46,7 @@ class AuthService (
 		)
 	}
 
-	fun renewAccessToken(accessToken: String, refreshToken: String): ReissueAccessTokenResponse {
+	fun reissueAccessToken(accessToken: String, refreshToken: String): ReissueAccessTokenResponse {
 		val user: User = userRepository.findByEmail(jwtProvider.getUserPk(accessToken))
 			?: throw UserNotFoundException()
 
