@@ -1,0 +1,18 @@
+type ScheduleCategoryList {
+	paginationInfo: PaginationInfo!
+	scheduleCategories: [ScheduleCategory!]!
+}
+
+type ScheduleCategory {
+	id: ID!
+	name: String!
+	color: String!
+	openType: ScheduleCategoryOpenType!
+}
+
+enum ScheduleCategorySort {
+	DATE_CREATED_ASC
+	DATE_CREATED_DESC
+	NAME_ASC
+	NAME_DESC
+}
