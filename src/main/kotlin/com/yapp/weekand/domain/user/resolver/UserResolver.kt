@@ -11,7 +11,7 @@ class UserResolver(
 	private val userService: UserService
 ) {
 	@DgsQuery
-	fun checkDuplicateNickname(@InputArgument nickname : String):Boolean {
+	fun checkDuplicateNickname(@InputArgument nickname: String): Boolean {
 		return userService.checkDuplicateNickname(nickname)
 	}
 
