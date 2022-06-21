@@ -11,6 +11,7 @@ type Query {
 	notifications(page: Int!, size: Int!): NotificationList!
 	login(loginInput: LoginInput!): LoginResponse!
 	reissue: ReissueAccessTokenResponse!
+	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
 }
 
 type Weekand {
@@ -50,12 +51,6 @@ enum ScheduleStickerName {
 	COOL
 	GOOD
 	CHEER_UP
-}
-type ScheduleCategory {
-    id: ID!
-    name: String!
-    color: String!
-    openType: ScheduleCategoryOpenType!
 }
 
 enum ScheduleCategoryOpenType {
