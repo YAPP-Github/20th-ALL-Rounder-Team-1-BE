@@ -1,6 +1,6 @@
 package com.yapp.weekand.domain.sticker.entity
 
-enum class StickerName {
+enum class ScheduleStickerName {
     LIKE,
 	COOL,
 	GOOD,
