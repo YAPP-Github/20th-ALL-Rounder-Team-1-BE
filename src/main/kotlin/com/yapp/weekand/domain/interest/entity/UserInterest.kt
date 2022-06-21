@@ -9,8 +9,7 @@ class UserInterest(
         @Column(name = "user_interest_id")
         val id: Long? = null,
 
-        @Enumerated(EnumType.STRING)
-        var interestName: Interest,
+        var interestName: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id")
