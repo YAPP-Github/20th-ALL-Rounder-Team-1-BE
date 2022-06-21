@@ -9,6 +9,8 @@ type Query {
 	followers(page: Int!, size: Int!): FollowerList!
 	followees(page: Int!, size: Int!): FolloweeList!
 	notifications(page: Int!, size: Int!): NotificationList!
+	login(loginInput: LoginInput!): LoginResponse!
+	reissue: ReissueAccessTokenResponse!
 	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
 }
 

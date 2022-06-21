@@ -1,13 +1,15 @@
 package com.yapp.weekand.domain.follow.dto
 
+import com.yapp.weekand.api.generated.types.PaginationInfo
+
 class FollowDto {
 	class FollowerList(
-		val pageInfo: PageInfo,
+		val paginationInfo: PaginationInfo,
 		val followers: List<Follows>
 	)
 
 	class FolloweeList(
-		val pageInfo: PageInfo,
+		val paginationInfo: PaginationInfo,
 		val followees: List<Follows>
 	)
 
@@ -18,7 +20,7 @@ class FollowDto {
 		val profileFilename: String?
 	)
 
-	class PageInfo(
+	class PaginationInfo(
 		val hasNext: Boolean
 	)
 }

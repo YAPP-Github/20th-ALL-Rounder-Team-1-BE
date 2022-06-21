@@ -10,7 +10,7 @@ class RedisService (
 ) {
 	fun setValue(token: String, email: String, time: Long) {
 		val values = redisTemplate.opsForValue()
-		values.set(token, email, Duration.ofMinutes(time))
+		values.set(token, email, Duration.ofMillis(time))
 	}
 
 	fun getValue(token: String): String? {
