@@ -14,6 +14,8 @@ type Query {
 	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
     sendAuthKey(email: String!): String!
     validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
+	# TODO 추후 date 인자를 받아야 함
+	scheduleStickerSummary(scheduleId: ID!):ScheduleStickerSummary!
 }
 
 type Weekand {
