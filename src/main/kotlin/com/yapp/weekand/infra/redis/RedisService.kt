@@ -8,17 +8,17 @@ import java.time.Duration
 class RedisService (
 	private val redisTemplate: RedisTemplate<String, String>
 ) {
-	fun setValue(token: String, email: String, time: Long) {
+	fun setValue(key: String, value: String, time: Long) {
 		val values = redisTemplate.opsForValue()
-		values.set(token, email, Duration.ofMillis(time))
+		values.set(key, value, Duration.ofMillis(time))
 	}
 
-	fun getValue(token: String): String? {
+	fun getValue(key: String): String? {
 		val values = redisTemplate.opsForValue()
-		return values.get(token)
+		return values.get(key)
 	}
 
-	fun deleteValue(token: String) {
-		redisTemplate.delete(token)
+	fun deleteValue(key: String) {
+		redisTemplate.delete(key)
 	}
 }
