@@ -1,6 +1,6 @@
 package com.yapp.weekand.domain.auth.exception
 
 import com.yapp.weekand.common.error.ErrorCode
-import com.yapp.weekand.common.error.exception.BaseException
+import com.yapp.weekand.common.error.graphql.AbstractBaseGraphQLException
 
-class UserNotFoundException: BaseException(ErrorCode.USER_NOT_FOUND)
+class UserNotFoundException: AbstractBaseGraphQLException(ErrorCode.USER_NOT_FOUND)

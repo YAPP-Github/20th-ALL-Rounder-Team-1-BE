@@ -1,6 +1,6 @@
 package com.yapp.weekand.domain.auth.exception
 
 import com.yapp.weekand.common.error.ErrorCode
-import com.yapp.weekand.common.error.exception.BaseException
+import com.yapp.weekand.common.error.graphql.AbstractBaseGraphQLException
 
-class LoginFailException: BaseException(ErrorCode.LOGIN_FAIL)
+class LoginFailException: AbstractBaseGraphQLException(ErrorCode.LOGIN_FAIL)
