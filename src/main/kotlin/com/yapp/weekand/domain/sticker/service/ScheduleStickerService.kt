@@ -20,7 +20,7 @@ class ScheduleStickerService(
 ) {
 	fun getScheduleStickerSummary(scheduleId: Long): ScheduleStickerSummary {
 		val schedule =
-			scheduleRepository.findByIdOrNull(scheduleId) ?: throw ScheduleNotFoundException("해당 일정을 찾을 수 없습니다")
+			scheduleRepository.findByIdOrNull(scheduleId) ?: throw ScheduleNotFoundException()
 
 		// TODO: date 관련 Graphql scalar 적용 후 인자를 받아 적용
 		val dateTime = LocalDate.now();

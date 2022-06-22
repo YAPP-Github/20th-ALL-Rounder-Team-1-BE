@@ -22,5 +22,8 @@ enum class ErrorCode(
 	INVALID_USER_JWT(HttpStatus.UNAUTHORIZED,"3006","권한이 없는 유저의 접근입니다."),
 	LOGIN_FAIL(HttpStatus.UNAUTHORIZED,"3007", "이메일, 비밀번호가 일치하지 않습니다."),
 	EMAIL_SEND_FAIL(HttpStatus.BAD_REQUEST, "3008", "이메일 전송에 실패하였습니다."),
-	EMAIL_DUPLICATED(HttpStatus.BAD_REQUEST, "3009", "이미 등록된 이메일입니다.")
+	EMAIL_DUPLICATED(HttpStatus.BAD_REQUEST, "3009", "이미 등록된 이메일입니다."),
+
+	//Schedule
+	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다")
 }
