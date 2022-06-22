@@ -2,7 +2,7 @@ package com.yapp.weekand.common.error
 
 class ErrorResponse(
 	val status: Int,
-	val code: Int,
+	val code: String,
 	val message: String
 ) {
 	companion object {

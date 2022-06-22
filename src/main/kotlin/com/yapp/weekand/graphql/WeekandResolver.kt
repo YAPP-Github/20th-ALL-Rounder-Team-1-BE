@@ -11,7 +11,7 @@ class WeekandResolver {
 	@DgsQuery
 	fun weekand(@InputArgument customField: String?): Weekand {
 		if (customField == "error") {
-			throw WeekandException("현재 weekand 이용이 불가능 합니다")
+			throw WeekandException()
 		}
 		if (customField == null) {
 			return defaultWeekand
