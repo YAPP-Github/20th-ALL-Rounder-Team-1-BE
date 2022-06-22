@@ -11,3 +11,8 @@ type LoginResponse{
 type ReissueAccessTokenResponse{
 	accessToken: String!
 }
+
+input ValidAuthKeyInput {
+	authKey: String!
+	email: String!
+}

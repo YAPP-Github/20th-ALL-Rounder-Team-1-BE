@@ -12,6 +12,8 @@ type Query {
 	login(loginInput: LoginInput!): LoginResponse!
 	reissue: ReissueAccessTokenResponse!
 	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
+    sendAuthKey(email: String!): String!
+    validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
 }
 
 type Weekand {
