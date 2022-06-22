@@ -6,6 +6,7 @@ import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.auth.exception.LoginFailException
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.domain.user.repository.UserRepository
+import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.redis.RedisService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -33,6 +34,9 @@ class AuthServiceTest {
 
 	@MockK(relaxed = true)
 	lateinit var redisService: RedisService
+
+	@MockK(relaxed = true)
+	lateinit var emailService: EmailService
 
 	@MockK
 	private var user: User =  EntityFactory.testLoginUser()
