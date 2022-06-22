@@ -10,6 +10,7 @@ import com.yapp.weekand.domain.auth.dto.LoginResponse
 import com.yapp.weekand.domain.auth.dto.ReissueAccessTokenResponse
 import com.yapp.weekand.domain.auth.exception.InvalidTokenException
 import com.yapp.weekand.domain.auth.exception.LoginFailException
+import com.yapp.weekand.domain.auth.exception.UserEmailDuplicatedException
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.redis.RedisService
@@ -62,7 +63,7 @@ class AuthService (
 
 	fun sendEmailAuthKey(email: String) {
 		if (userRepository.existsUserByEmail(email)) {
-			throw UserNotFoundException()
+			throw UserEmailDuplicatedException()
 		}
 		val authKey = createAuthKey()
 		redisService.setValue("$AUTH_KEY_PREFIX:$email", authKey, authKeyExpiry)
@@ -71,10 +72,11 @@ class AuthService (
 
 	fun isValidAuthKey(request: ValidAuthKeyInput): Boolean {
 		val authKey = redisService.getValue("$AUTH_KEY_PREFIX:"+request.email)
-		if (authKey != null && request.authKey == authKey) {
-			return true
+			?: return false
+		if (authKey != request.authKey) {
+			return false
 		}
-		return false
+		return true
 	}
 
 	private fun createAuthKey(): String {
