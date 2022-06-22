@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 
-@SpringBootTest(classes = [DgsAutoConfiguration::class, AuthResolver::class])
-class AuthResolverTest{
+@SpringBootTest(classes = [DgsAutoConfiguration::class, AuthQueryResolver::class])
+class AuthQueryResolverTest{
 
 	@Autowired
 	lateinit var dgsQueryExecutor: DgsQueryExecutor

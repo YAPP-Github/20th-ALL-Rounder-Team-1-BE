@@ -57,6 +57,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	testImplementation("com.ninja-squad:springmockk:3.1.1")
 	implementation("com.coveo:spring-boot-parameter-store-integration:1.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 }
 
 tasks.withType<KotlinCompile> {
