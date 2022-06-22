@@ -57,6 +57,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	testImplementation("com.ninja-squad:springmockk:3.1.1")
 	implementation("com.coveo:spring-boot-parameter-store-integration:1.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 }
 
 tasks.withType<KotlinCompile> {
@@ -77,7 +79,6 @@ tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
 	generateDataTypes = true
 	language = "kotlin"
 	typeMapping = mutableMapOf(
-		"NotificationType" to "com.yapp.weekand.domain.notification.entity.NotificationType",
-		"ScheduleCategoryOpenType" to "com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType"
+		"NotificationType" to "com.yapp.weekand.domain.notification.entity.NotificationType"
 	)
 }
