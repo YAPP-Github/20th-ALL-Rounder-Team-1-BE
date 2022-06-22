@@ -1,3 +1,6 @@
 spring:
   profiles:
     default: dev
+  mail:
+    host: smtp.daum.net
+    port: 465

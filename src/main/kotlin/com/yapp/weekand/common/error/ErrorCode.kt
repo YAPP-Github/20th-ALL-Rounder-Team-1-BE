@@ -20,4 +20,5 @@ enum class ErrorCode(
 	EMPTY_JWT(HttpStatus.FORBIDDEN,3005, "JWT를 입력해주세요."),
 	INVALID_USER_JWT(HttpStatus.UNAUTHORIZED,3006,"권한이 없는 유저의 접근입니다."),
 	LOGIN_FAIL(HttpStatus.UNAUTHORIZED,3007, "이메일, 비밀번호가 일치하지 않습니다."),
+	EMAIL_SEND_FAIL(HttpStatus.BAD_REQUEST, 3008, "이메일 전송에 실패하였습니다."),
 }
