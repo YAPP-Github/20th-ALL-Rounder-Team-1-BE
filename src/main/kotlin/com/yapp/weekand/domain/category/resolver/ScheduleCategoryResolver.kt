@@ -6,6 +6,7 @@ import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.PaginationInfo
 import com.yapp.weekand.api.generated.types.ScheduleCategoryList
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
+import com.yapp.weekand.api.generated.types.SearchScheduleList
 import com.yapp.weekand.domain.category.service.ScheduleCategoryService
 import com.yapp.weekand.domain.user.service.UserService
 
@@ -25,6 +26,21 @@ class ScheduleCategoryResolver(
 		return ScheduleCategoryList(
 			paginationInfo = PaginationInfo(scheduleCategories.hasNext()),
 			scheduleCategories = scheduleCategories.content
+		)
+	}
+
+	@DgsQuery
+	fun searchSchedules (
+		@InputArgument sort: ScheduleCategorySort,
+		@InputArgument page: Int,
+		@InputArgument size: Int,
+		@InputArgument searchQuery: String?,
+		@InputArgument categoryId: Long
+	): SearchScheduleList {
+		val searchSchedules = scheduleCategoryService.searchSchedules(sort, page, size, searchQuery, categoryId)
+		return SearchScheduleList(
+			paginationInfo = PaginationInfo(searchSchedules.hasNext()),
+			schedules = searchSchedules.content
 		)
 	}
 }

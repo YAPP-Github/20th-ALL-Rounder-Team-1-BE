@@ -16,3 +16,26 @@ enum ScheduleCategorySort {
 	NAME_ASC
 	NAME_DESC
 }
+
+type SearchScheduleList {
+	paginationInfo: PaginationInfo!
+	schedules: [ScheduleInfo!]!
+}
+
+type ScheduleInfo {
+	id: ID!
+	name: String!
+	category: ScheduleCategory!
+	dateTimeStart: String!
+	dateTimeEnd: String!
+	repeatType: RepeatType!
+	repeatSelectedValue: String
+}
+
+enum RepeatType {
+	DAILY
+	WEEKLY
+	MONTHLY
+	YEARLY
+	ONCE
+}
