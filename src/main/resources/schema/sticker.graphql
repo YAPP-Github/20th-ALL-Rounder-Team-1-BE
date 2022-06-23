@@ -1,0 +1,22 @@
+enum ScheduleStickerName {
+	LIKE
+	COOL
+	GOOD
+	CHEER_UP
+}
+
+type ScheduleSticker {
+	name: ScheduleStickerName!
+	stickerCount: Int!
+}
+
+type ScheduleStickerUser {
+	user: User!
+	stickerName: ScheduleStickerName!
+}
+
+type ScheduleStickerSummary {
+	totalCount: Int!
+	scheduleStickers: [ScheduleSticker!]!
+	scheduleStickerUsers: [ScheduleStickerUser!]!
+}

@@ -9,8 +9,7 @@ class UserJob(
         @Column(name = "user_job_id")
         val id: Long? = null,
 
-        @Enumerated(EnumType.STRING)
-        var jobName: Job,
+        var jobName: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id")

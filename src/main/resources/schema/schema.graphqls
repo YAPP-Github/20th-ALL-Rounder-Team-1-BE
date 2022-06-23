@@ -14,6 +14,8 @@ type Query {
 	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
     sendAuthKey(email: String!): String!
     validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
+	# TODO 추후 date 인자를 받아야 함
+	scheduleStickerSummary(scheduleId: ID!):ScheduleStickerSummary!
 }
 
 type Weekand {
@@ -31,28 +33,8 @@ type User {
     profileUrl: String!
     goal: String
     followerCount: Int!
-    jobs: [UserJob!]!
-    interests: [UserInterest!]!
-}
-
-enum UserJob {
-    STUDENT
-}
-
-enum UserInterest {
-    PM
-    MD
-}
-
-type ScheduleSticker {
-    name: ScheduleStickerName
-
-}
-enum ScheduleStickerName {
-	LIKE
-	COOL
-	GOOD
-	CHEER_UP
+    jobs: [String!]!
+    interests: [String!]!
 }
 
 enum ScheduleCategoryOpenType {
