@@ -36,10 +36,6 @@ internal class ScheduleStickerServiceTest {
 	@MockK(relaxed = true)
 	lateinit var scheduleRepository: ScheduleRepository
 
-	fun mockScheduleRule() {
-
-	}
-
 	@Test
 	fun `스케줄을 조회해야 한다`() {
 		val givenScheduleId = 1L
