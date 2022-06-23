@@ -25,5 +25,6 @@ enum class ErrorCode(
 	EMAIL_DUPLICATED(HttpStatus.BAD_REQUEST, "3009", "이미 등록된 이메일입니다."),
 
 	//Schedule
-	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다")
+	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다"),
+	SCHEDULE_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"4002", "해당 카테고리를 찾을 수 없습니다")
 }
