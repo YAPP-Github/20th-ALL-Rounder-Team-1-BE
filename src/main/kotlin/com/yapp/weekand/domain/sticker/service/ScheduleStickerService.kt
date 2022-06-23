@@ -25,7 +25,7 @@ class ScheduleStickerService(
 		// TODO: date 관련 Graphql scalar 적용 후 인자를 받아 적용
 		val dateTime = LocalDate.now();
 		val scheduleStickerList =
-			scheduleStickerRepository.findByScheduleRuleAnAndScheduleDateOrderByDateCreatedDesc(schedule, dateTime)
+			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(schedule, dateTime)
 
 		val scheduleStickers = scheduleStickerList
 			.groupingBy { it.name }

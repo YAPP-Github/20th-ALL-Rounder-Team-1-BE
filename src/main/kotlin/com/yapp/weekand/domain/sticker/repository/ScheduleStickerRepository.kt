@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDate
 
 interface ScheduleStickerRepository : JpaRepository<ScheduleSticker, Long> {
-	fun findByScheduleRuleAnAndScheduleDateOrderByDateCreatedDesc(scheduleRule: ScheduleRule, scheduleDate: LocalDate): List<ScheduleSticker>
+	fun findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(scheduleRule: ScheduleRule, scheduleDate: LocalDate): List<ScheduleSticker>
 }

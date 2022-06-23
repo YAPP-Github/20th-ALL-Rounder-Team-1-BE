@@ -82,7 +82,7 @@ internal class ScheduleStickerServiceTest {
 		scheduleStickerService.getScheduleStickerSummary(givenScheduleId)
 
 		verify(exactly = 1) {
-			scheduleStickerRepository.findByScheduleRuleAnAndScheduleDateOrderByDateCreatedDesc(givenScheduleRule, TEST_LOCAL_DATE)
+			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(givenScheduleRule, TEST_LOCAL_DATE)
 		}
 	}
 
@@ -100,7 +100,7 @@ internal class ScheduleStickerServiceTest {
 		} returns givenScheduleRule
 
 		every {
-			scheduleStickerRepository.findByScheduleRuleAnAndScheduleDateOrderByDateCreatedDesc(givenScheduleRule, TEST_LOCAL_DATE)
+			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(givenScheduleRule, TEST_LOCAL_DATE)
 		} returns givenScheduleStickerList
 
 		val scheduleStickers = givenScheduleStickerList
