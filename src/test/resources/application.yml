@@ -1,0 +1,30 @@
+spring:
+    mail:
+        host: smtp.daum.net
+        port: 465
+        username: username
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:mem:testdb
+        username: sa
+        password: password
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+    redis:
+        host: 127.0.0.1
+        port: 6379
+
+jwt:
+    secret: testsecretkeydgk4wd9wf92sdl124dfswe3418d
+    access-token-expiry: 1800000
+    refresh-token-expiry: 2592000000
+    access-token-header: Access-Token
+    refresh-token-header: Refresh-Token
+mail:
+    authkey-expiry: 300000

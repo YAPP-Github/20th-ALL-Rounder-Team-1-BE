@@ -5,6 +5,7 @@ import com.yapp.weekand.common.entity.EntityFactory
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
+import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -26,6 +27,9 @@ internal class ScheduleCategoryServiceTest {
 
 	@MockK(relaxed = true)
 	lateinit var scheduleCategoryRepository: ScheduleCategoryRepository
+
+	@MockK(relaxed = true)
+	lateinit var scheduleRepository: ScheduleRepository
 
 	@Test
 	fun `일정 카테고리 목록을 조회해야 한다`() {
