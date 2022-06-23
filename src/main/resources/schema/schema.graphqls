@@ -17,6 +17,7 @@ type Query {
 	# TODO 추후 date 인자를 받아야 함
 	scheduleStickerSummary(scheduleId: ID!):ScheduleStickerSummary!
 	searchUsers(searchQuery: String, job: String, interest: String, sort: SearchUserSort): SearchUserList!
+	schedules(date: String!): ScheduleList!
 }
 
 type Weekand {
@@ -31,21 +32,4 @@ enum ScheduleCategoryOpenType {
 	ALL_OPEN
 	FOLLOWER_OPEN
 	CLOSED
-}
-
-type Schedule {
-	id: ID!
-	name: String!
-	status: ScheduleStatus!
-	category: ScheduleCategory!
-	dateTimeStart: String!
-	dateTimeEnd: String!
-	stickerCount: Int!
-	stickerNames: [ScheduleStickerName!]!
-}
-
-enum ScheduleStatus {
-	COMPLETED
-	UNCOMPLETED
-	SKIP
 }
