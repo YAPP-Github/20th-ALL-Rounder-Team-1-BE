@@ -1,9 +1,9 @@
 schema {
-    query: Query
+	query: Query
 }
 
 type Query {
-    weekand(customField: String): Weekand!
+	weekand(customField: String): Weekand!
 	checkDuplicateNickname(nickname: String!): Boolean!
 	user(id: ID!): User
 	followers(page: Int!, size: Int!): FollowerList!
@@ -16,46 +16,36 @@ type Query {
     validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
 	# TODO 추후 date 인자를 받아야 함
 	scheduleStickerSummary(scheduleId: ID!):ScheduleStickerSummary!
+	searchUsers(searchQuery: String, job: String, interest: String, sort: SearchUserSort): SearchUserList!
 }
 
 type Weekand {
-    hello: String!
+	hello: String!
 }
 
 type PaginationInfo {
 	hasNext: Boolean!
 }
 
-type User {
-    id: ID!
-    email: String!
-    nickname: String!
-    profileUrl: String!
-    goal: String
-    followerCount: Int!
-    jobs: [String!]!
-    interests: [String!]!
-}
-
 enum ScheduleCategoryOpenType {
-    ALL_OPEN
-    FOLLOWER_OPEN
-    CLOSED
+	ALL_OPEN
+	FOLLOWER_OPEN
+	CLOSED
 }
 
 type Schedule {
-    id: ID!
-    name: String!
-    status: ScheduleStatus!
-    category: ScheduleCategory!
-    dateTimeStart: String!
-    dateTimeEnd: String!
-    stickerCount: Int!
-    stickerNames: [ScheduleStickerName!]!
+	id: ID!
+	name: String!
+	status: ScheduleStatus!
+	category: ScheduleCategory!
+	dateTimeStart: String!
+	dateTimeEnd: String!
+	stickerCount: Int!
+	stickerNames: [ScheduleStickerName!]!
 }
 
 enum ScheduleStatus {
-    COMPLETED
-    UNCOMPLETED
-    SKIP
+	COMPLETED
+	UNCOMPLETED
+	SKIP
 }

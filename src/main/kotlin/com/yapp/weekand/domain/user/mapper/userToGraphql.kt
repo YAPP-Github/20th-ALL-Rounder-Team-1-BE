@@ -11,6 +11,7 @@ fun User.toGraphql() =
 		profileUrl = profileFilename.orEmpty(),
 		goal = goal,
 		followerCount = followerCount,
+		followeeCount = followerCount,
 		jobs = jobs.map { it.jobName },
 		interests = interests.map { it.interestName },
 	)
