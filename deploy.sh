@@ -9,3 +9,4 @@ echo "##########(이미지 tagging)##########"
 docker tag weekand-server:latest 256165122645.dkr.ecr.ap-northeast-2.amazonaws.com/weekand-server:latest || exit 4
 echo "##########(이미지 AWS ECR 에 push)##########"
 docker push 256165122645.dkr.ecr.ap-northeast-2.amazonaws.com/weekand-server:latest || exit 5
+echo "##########(이미지 배포 완료)##########"
