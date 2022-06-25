@@ -4,8 +4,8 @@ import com.yapp.weekand.api.generated.types.ScheduleCategory
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
 import com.yapp.weekand.api.generated.types.ScheduleInfo
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryNotFoundException
+import com.yapp.weekand.domain.category.mapper.toGraphql
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
-import com.yapp.weekand.domain.schedule.mapper.toGraphql
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.domain.PageRequest
@@ -55,7 +55,8 @@ class ScheduleCategoryService(
 					dateTimeStart = it.dateStart.toString(),
 					dateTimeEnd = it.dateEnd.toString(),
 					repeatType = it.repeatType,
-					repeatSelectedValue = it.repeatSelectedValue
+					repeatSelectedValue = it.repeatSelectedValue,
+					memo = it.memo
 				)
 			}
 	}

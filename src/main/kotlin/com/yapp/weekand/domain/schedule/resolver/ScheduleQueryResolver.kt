@@ -9,12 +9,15 @@ import com.yapp.weekand.api.generated.types.ScheduleCategory
 import com.yapp.weekand.api.generated.types.ScheduleList
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.schedule.entity.Status
+import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
 import java.time.LocalTime
 import java.util.*
 
 @DgsComponent
-class ScheduleQueryResolver {
+class ScheduleQueryResolver(
+	private val scheduleService: ScheduleService
+) {
 	fun tmpScheduleListGen(count: Int): List<Schedule> = IntArray(count) { it + 1 }.map {
 		Schedule(
 			id = it.toString(),
@@ -40,4 +43,7 @@ class ScheduleQueryResolver {
 			schedules = tmpScheduleListGen(30),
 		)
 	}
+
+	@DgsQuery
+	fun schedule(@InputArgument scheduleId: Long) = scheduleService.getSchedule(scheduleId)
 }

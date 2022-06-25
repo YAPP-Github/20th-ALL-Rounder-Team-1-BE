@@ -10,6 +10,7 @@ class ScheduleStatus (
         @Column(name = "schedule_status_id")
         val id: Long? = null,
 
+		@Enumerated(EnumType.STRING)
         var status: Status,
 
         var date_ymd: LocalDateTime,
