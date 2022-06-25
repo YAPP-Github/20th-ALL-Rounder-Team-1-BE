@@ -20,3 +20,15 @@ enum ScheduleStatus {
 	SKIP
 	UNDETERMINED
 }
+
+type ScheduleInfo {
+	id: ID!
+	name: String!
+	category: ScheduleCategory!
+	dateTimeStart: String!
+	dateTimeEnd: String!
+	repeatType: RepeatType!
+	repeatSelectedValue: String
+	memo: String
+	dateSkip: [String]
+}

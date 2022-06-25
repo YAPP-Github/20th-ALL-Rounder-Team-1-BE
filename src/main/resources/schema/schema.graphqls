@@ -19,6 +19,7 @@ type Query {
 	searchSchedules(sort: ScheduleCategorySort!, page: Int!, size: Int!, searchQuery: String, categoryId: Int!): SearchScheduleList!
 	searchUsers(searchQuery: String, job: String, interest: String, sort: SearchUserSort): SearchUserList!
 	schedules(date: String!): ScheduleList!
+	schedule(scheduleId: ID!): ScheduleInfo!
 }
 
 type Weekand {
