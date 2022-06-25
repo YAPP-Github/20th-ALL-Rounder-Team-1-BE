@@ -13,4 +13,7 @@ interface ScheduleRepository : JpaRepository<ScheduleRule, Long> {
 
 	@Query("SELECT r FROM ScheduleRule r join fetch r.scheduleCategory where r.scheduleCategory.id = :id")
 	fun findScheduleRules(pageable: Pageable, @Param("id") scheduleId: Long): Slice<ScheduleRule>
+
+	@Query("SELECT r FROM ScheduleRule r join fetch r.scheduleCategory left join fetch r.scheduleStatus where r.id = :id")
+	fun findByScheduleId(@Param("id") scheduleId: Long): ScheduleRule?
 }
