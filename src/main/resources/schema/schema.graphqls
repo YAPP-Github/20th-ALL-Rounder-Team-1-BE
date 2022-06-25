@@ -16,6 +16,7 @@ type Query {
     validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
 	# TODO 추후 date 인자를 받아야 함
 	scheduleStickerSummary(scheduleId: ID!):ScheduleStickerSummary!
+	searchSchedules(sort: ScheduleCategorySort!, page: Int!, size: Int!, searchQuery: String, categoryId: Int!): SearchScheduleList!
 	searchUsers(searchQuery: String, job: String, interest: String, sort: SearchUserSort): SearchUserList!
 	schedules(date: String!): ScheduleList!
 }
