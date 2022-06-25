@@ -1,0 +1,23 @@
+type User {
+	id: ID!
+	email: String!
+	nickname: String!
+	profileUrl: String!
+	goal: String
+	followerCount: Int!
+	followeeCount: Int!
+	jobs: [String!]!
+	interests: [String!]!
+}
+
+type SearchUserList {
+	paginationInfo: PaginationInfo!
+	users: [User!]!
+}
+
+enum SearchUserSort {
+	POPULAR
+	FOLLOWER_COUNT_DESC
+	NAME_ASC
+	NAME_DESC
+}

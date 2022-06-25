@@ -1,0 +1,22 @@
+type ScheduleList {
+	paginationInfo: PaginationInfo!
+	schedules: [Schedule!]!
+}
+
+type Schedule {
+	id: ID!
+	name: String!
+	status: ScheduleStatus!
+	category: ScheduleCategory!
+	dateTimeStart: String!
+	dateTimeEnd: String!
+	stickerCount: Int!
+	stickerNames: [ScheduleStickerName!]!
+}
+
+enum ScheduleStatus {
+	COMPLETED
+	UNCOMPLETED
+	SKIP
+	UNDETERMINED
+}

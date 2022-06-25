@@ -4,7 +4,16 @@ spring:
         url: jdbc:mysql://database-1.ccbd1uk8wp0e.ap-northeast-2.rds.amazonaws.com:3306/weekand-prod
         username: admin
         password: ${/weekand/mysql/password}
-
+    mail:
+        username: helpteam@week-and.kr
+        password: ${/weekand/email/password}
+        properties:
+            mail:
+                smtp:
+                    ssl:
+                        enable: true
+                        required: true
+                    auth: true
     jpa:
         hibernate:
             ddl-auto: none
@@ -15,13 +24,14 @@ spring:
     redis:
         host: 127.0.0.1
         port: 6379
-
 jwt:
     secret: ${/weekand/jwt/secret}
     access-token-expiry: 1800000
     refresh-token-expiry: 2592000000
     access-token-header: Access-Token
     refresh-token-header: Refresh-Token
+mail:
+    authkey-expiry: 300000
 
 awsParameterStorePropertySource:
     enabled: true
