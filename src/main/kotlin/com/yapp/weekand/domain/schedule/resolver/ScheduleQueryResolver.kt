@@ -11,6 +11,7 @@ import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
+import org.springframework.security.access.prepost.PreAuthorize
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.abs
@@ -38,6 +39,7 @@ class ScheduleQueryResolver(
 	}
 
 	@DgsQuery
+	@PreAuthorize("isAuthenticated()")
 	fun schedules(@InputArgument date: LocalDateTime): ScheduleList {
 		return ScheduleList(
 			paginationInfo = PaginationInfo(hasNext = false),
@@ -46,5 +48,6 @@ class ScheduleQueryResolver(
 	}
 
 	@DgsQuery
+	@PreAuthorize("isAuthenticated()")
 	fun schedule(@InputArgument scheduleId: Long) = scheduleService.getSchedule(scheduleId)
 }

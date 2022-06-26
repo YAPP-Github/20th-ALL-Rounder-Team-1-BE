@@ -9,6 +9,7 @@ import com.yapp.weekand.api.generated.types.ScheduleCategorySort
 import com.yapp.weekand.api.generated.types.SearchScheduleList
 import com.yapp.weekand.domain.category.service.ScheduleCategoryService
 import com.yapp.weekand.domain.user.service.UserService
+import org.springframework.security.access.prepost.PreAuthorize
 
 @DgsComponent
 class ScheduleCategoryResolver(
@@ -16,6 +17,7 @@ class ScheduleCategoryResolver(
 	private val userService: UserService
 ) {
 	@DgsQuery
+	@PreAuthorize("isAuthenticated()")
 	fun scheduleCategories(
 		@InputArgument sort: ScheduleCategorySort,
 		@InputArgument page: Int,
@@ -30,6 +32,7 @@ class ScheduleCategoryResolver(
 	}
 
 	@DgsQuery
+	@PreAuthorize("isAuthenticated()")
 	fun searchSchedules (
 		@InputArgument sort: ScheduleCategorySort,
 		@InputArgument page: Int,

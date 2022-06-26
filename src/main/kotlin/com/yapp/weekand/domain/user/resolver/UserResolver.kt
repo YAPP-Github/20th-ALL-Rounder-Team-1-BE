@@ -6,8 +6,9 @@ import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.PaginationInfo
 import com.yapp.weekand.api.generated.types.SearchUserList
 import com.yapp.weekand.api.generated.types.SearchUserSort
-import com.yapp.weekand.domain.user.entity.User
+import com.yapp.weekand.domain.user.mapper.toGraphql
 import com.yapp.weekand.domain.user.service.UserService
+import org.springframework.security.access.prepost.PreAuthorize
 import java.util.Random
 import com.yapp.weekand.api.generated.types.User as UserGraphql
 
@@ -21,8 +22,9 @@ class UserResolver(
 	}
 
 	@DgsQuery
-	fun user(@InputArgument id: String): User? {
-		return userService.findUserById(id.toLong())
+	@PreAuthorize("isAuthenticated()")
+	fun user(@InputArgument id: String): UserGraphql? {
+		return userService.getCurrentUser().toGraphql()
 	}
 
 	fun tmpUserListGen(count:Int): List<UserGraphql> = IntArray(count) { it + 1}.map {
@@ -39,6 +41,7 @@ class UserResolver(
 		)
 	}
 	@DgsQuery
+	@PreAuthorize("isAuthenticated()")
 	fun searchUsers(@InputArgument searchQuery: String?, job: String?, interest: String?, sort: SearchUserSort?): SearchUserList {
 		return SearchUserList(
 			paginationInfo = PaginationInfo(hasNext = false),
