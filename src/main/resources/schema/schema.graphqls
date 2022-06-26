@@ -45,11 +45,11 @@ type Query {
 	"""
 	이메일 인증 키를 발급한다
 	"""
-    sendAuthKey(email: String!): String!
+	sendAuthKey(email: String!): String!
 	"""
 	이메일 인증 키를 검증한다
 	"""
-    validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
+	validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
 	"""
 	일정의 스티커 요약 정보를 반환한다
 	"""
