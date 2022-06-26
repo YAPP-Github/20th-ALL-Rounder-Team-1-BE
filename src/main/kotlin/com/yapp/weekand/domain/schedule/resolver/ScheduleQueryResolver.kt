@@ -38,7 +38,7 @@ class ScheduleQueryResolver(
 	}
 
 	@DgsQuery
-	fun schedules(@InputArgument date: String): ScheduleList {
+	fun schedules(@InputArgument date: LocalDateTime): ScheduleList {
 		return ScheduleList(
 			paginationInfo = PaginationInfo(hasNext = false),
 			schedules = tmpScheduleListGen(30),

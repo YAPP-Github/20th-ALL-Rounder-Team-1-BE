@@ -6,21 +6,70 @@ schema {
 }
 
 type Query {
+	"""
+	weekand 테스트 query
+	"""
 	weekand(customField: String): Weekand!
+	"""
+	닉네임의 중복 여부를 체크한다
+	"""
 	checkDuplicateNickname(nickname: String!): Boolean!
+	"""
+	현재 로그인 된 회원 상세 정보를 가져온다
+	"""
+	#TODO: id 인자 제거 및 로그인 세션에서 가져오도록
 	user(id: ID!): User
+	"""
+	팔로우 하고 있는 유저 목록을 가져온다
+	"""
 	followers(page: Int!, size: Int!): FollowerList!
+	"""
+	자신을 팔로우 하고 있는 유저 목록을 가져온다
+	"""
 	followees(page: Int!, size: Int!): FolloweeList!
+	"""
+	알림 목록을 가져온다
+	"""
 	notifications(page: Int!, size: Int!): NotificationList!
+	"""
+	로그인 한다
+	"""
 	login(loginInput: LoginInput!): LoginResponse!
+	"""
+	로그인 리프레시 토큰을 발급한다
+	"""
 	reissue: ReissueAccessTokenResponse!
+	"""
+	일정 카테고리 목록을 가져온다
+	"""
 	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
+	"""
+	이메일 인증 키를 발급한다
+	"""
     sendAuthKey(email: String!): String!
+	"""
+	이메일 인증 키를 검증한다
+	"""
     validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
+	"""
+	일정의 스티커 요약 정보를 반환한다
+	"""
 	scheduleStickerSummary(scheduleId: ID!, selectedDate: Timestamp!): ScheduleStickerSummary!
+	"""
+	일정을 검색한다
+	"""
 	searchSchedules(sort: ScheduleCategorySort!, page: Int!, size: Int!, searchQuery: String, categoryId: Int!): SearchScheduleList!
+	"""
+	회원을 검색한다
+	"""
 	searchUsers(searchQuery: String, job: String, interest: String, sort: SearchUserSort): SearchUserList!
-	schedules(date: String!): ScheduleList!
+	"""
+	메인 화면에 표시될 일정 목록을 반환한다
+	"""
+	schedules(date: Timestamp!): ScheduleList!
+	"""
+	일정 상세 정보를 반환한다
+	"""
 	schedule(scheduleId: ID!): ScheduleInfo!
 }
 
