@@ -1,14 +1,14 @@
-input LoginInput{
+input LoginInput {
 	email: String!
 	password: String!
 }
 
-type LoginResponse{
+type LoginResponse {
 	accessToken: String!
 	refreshToken: String!
 }
 
-type ReissueAccessTokenResponse{
+type ReissueAccessTokenResponse {
 	accessToken: String!
 }
 

@@ -11,8 +11,9 @@ import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
-import java.time.LocalTime
+import java.time.LocalDateTime
 import java.util.*
+import kotlin.math.abs
 
 @DgsComponent
 class ScheduleQueryResolver(
@@ -29,9 +30,9 @@ class ScheduleQueryResolver(
 				color = "red",
 				openType = ScheduleCategoryOpenType.ALL_OPEN,
 			),
-			dateTimeStart = LocalTime.now().toString(),
-			dateTimeEnd = LocalTime.now().toString(),
-			stickerCount = Random().nextInt() % 100,
+			dateTimeStart = LocalDateTime.now(),
+			dateTimeEnd = LocalDateTime.now(),
+			stickerCount = abs(Random().nextInt() % 100),
 			stickerNames = listOf(ScheduleStickerName.CHEER_UP, ScheduleStickerName.COOL),
 		)
 	}

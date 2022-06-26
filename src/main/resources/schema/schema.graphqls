@@ -1,3 +1,6 @@
+"""Unix Timestamp"""
+scalar Timestamp
+
 schema {
 	query: Query
 }
@@ -30,8 +33,3 @@ type PaginationInfo {
 	hasNext: Boolean!
 }
 
-enum ScheduleCategoryOpenType {
-	ALL_OPEN
-	FOLLOWER_OPEN
-	CLOSED
-}

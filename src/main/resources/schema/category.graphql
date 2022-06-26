@@ -22,11 +22,16 @@ type SearchScheduleList {
 	schedules: [ScheduleInfo!]!
 }
 
-
 enum RepeatType {
 	DAILY
 	WEEKLY
 	MONTHLY
 	YEARLY
 	ONCE
+}
+
+enum ScheduleCategoryOpenType {
+	ALL_OPEN
+	FOLLOWER_OPEN
+	CLOSED
 }
