@@ -8,8 +8,8 @@ type Schedule {
 	name: String!
 	status: ScheduleStatus!
 	category: ScheduleCategory!
-	dateTimeStart: String!
-	dateTimeEnd: String!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
 	stickerCount: Int!
 	stickerNames: [ScheduleStickerName!]!
 }
@@ -25,8 +25,8 @@ type ScheduleInfo {
 	id: ID!
 	name: String!
 	category: ScheduleCategory!
-	dateTimeStart: String!
-	dateTimeEnd: String!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
 	repeatType: RepeatType!
 	repeatSelectedValue: String
 	memo: String

@@ -52,8 +52,8 @@ class ScheduleCategoryService(
 					id = it.id.toString(),
 					name = it.name,
 					category = it.scheduleCategory.toGraphql(),
-					dateTimeStart = it.dateStart.toString(),
-					dateTimeEnd = it.dateEnd.toString(),
+					dateTimeStart = it.dateStart,
+					dateTimeEnd = it.dateEnd,
 					repeatType = it.repeatType,
 					repeatSelectedValue = it.repeatSelectedValue,
 					memo = it.memo

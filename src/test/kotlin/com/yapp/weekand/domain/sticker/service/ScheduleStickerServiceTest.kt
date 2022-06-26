@@ -13,19 +13,18 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.data.repository.findByIdOrNull
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @ExtendWith(MockKExtension::class)
 internal class ScheduleStickerServiceTest {
 
-	private val TEST_LOCAL_DATE: LocalDate = LocalDate.of(2022, 6, 12)
+	private val TEST_LOCAL_DATE_TIME: LocalDateTime = LocalDateTime.of(2022, 6, 12, 5, 30)
 
 	@InjectMockKs
 	lateinit var scheduleStickerService: ScheduleStickerService
@@ -44,7 +43,7 @@ internal class ScheduleStickerServiceTest {
 			scheduleRepository.findByIdOrNull(givenScheduleId)
 		} returns ScheduleRuleFactory.scheduleRule()
 
-		scheduleStickerService.getScheduleStickerSummary(givenScheduleId)
+		scheduleStickerService.getScheduleStickerSummary(givenScheduleId, TEST_LOCAL_DATE_TIME)
 
 		verify(exactly = 1) {
 			scheduleRepository.findByIdOrNull(givenScheduleId)
@@ -60,7 +59,12 @@ internal class ScheduleStickerServiceTest {
 		} returns null
 
 
-		assertThrows<ScheduleNotFoundException> { scheduleStickerService.getScheduleStickerSummary(givenScheduleId) }
+		assertThrows<ScheduleNotFoundException> {
+			scheduleStickerService.getScheduleStickerSummary(
+				givenScheduleId,
+				TEST_LOCAL_DATE_TIME
+			)
+		}
 	}
 
 	@Test
@@ -68,17 +72,19 @@ internal class ScheduleStickerServiceTest {
 		val givenScheduleId = 1L
 		val givenScheduleRule = ScheduleRuleFactory.scheduleRule()
 
-		mockkStatic(LocalDate::class)
-		every { LocalDate.now() } returns TEST_LOCAL_DATE
-
 		every {
 			scheduleRepository.findByIdOrNull(givenScheduleId)
 		} returns givenScheduleRule
 
-		scheduleStickerService.getScheduleStickerSummary(givenScheduleId)
+		scheduleStickerService.getScheduleStickerSummary(givenScheduleId, TEST_LOCAL_DATE_TIME)
+
+		val expectedLocalDate = TEST_LOCAL_DATE_TIME.toLocalDate()
 
 		verify(exactly = 1) {
-			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(givenScheduleRule, TEST_LOCAL_DATE)
+			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(
+				givenScheduleRule,
+				expectedLocalDate
+			)
 		}
 	}
 
@@ -88,15 +94,17 @@ internal class ScheduleStickerServiceTest {
 		val givenScheduleRule = ScheduleRuleFactory.scheduleRule()
 		val givenScheduleStickerList = ScheduleStickerFactory.scheduleStickerList(3)
 
-		mockkStatic(LocalDate::class)
-		every { LocalDate.now() } returns TEST_LOCAL_DATE
+		val expectedLocalDate = TEST_LOCAL_DATE_TIME.toLocalDate()
 
 		every {
 			scheduleRepository.findByIdOrNull(givenScheduleId)
 		} returns givenScheduleRule
 
 		every {
-			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(givenScheduleRule, TEST_LOCAL_DATE)
+			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(
+				givenScheduleRule,
+				expectedLocalDate
+			)
 		} returns givenScheduleStickerList
 
 		val scheduleStickers = givenScheduleStickerList
@@ -123,7 +131,7 @@ internal class ScheduleStickerServiceTest {
 			scheduleStickerUsers,
 		)
 
-		val result = scheduleStickerService.getScheduleStickerSummary(givenScheduleId)
+		val result = scheduleStickerService.getScheduleStickerSummary(givenScheduleId, TEST_LOCAL_DATE_TIME)
 
 		Assertions.assertEquals(expected_result, result)
 	}

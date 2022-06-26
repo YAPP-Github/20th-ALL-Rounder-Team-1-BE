@@ -4,11 +4,13 @@ import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.domain.sticker.service.ScheduleStickerService
+import java.time.LocalDateTime
 
 @DgsComponent
 class ScheduleStickerResolver(
 	private val scheduleStickerService: ScheduleStickerService
 ) {
 	@DgsQuery
-	fun scheduleStickerSummary(@InputArgument scheduleId: String) = scheduleStickerService.getScheduleStickerSummary(scheduleId = scheduleId.toLong())
+	fun scheduleStickerSummary(@InputArgument scheduleId: String, @InputArgument selectedDate: LocalDateTime) =
+		scheduleStickerService.getScheduleStickerSummary(scheduleId = scheduleId.toLong(), selectedDate)
 }

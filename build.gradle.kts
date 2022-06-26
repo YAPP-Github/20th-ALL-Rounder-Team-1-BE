@@ -81,6 +81,7 @@ tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
 	generateDataTypes = true
 	language = "kotlin"
 	typeMapping = mutableMapOf(
+		"Timestamp" to "java.time.LocalDateTime",
 		"NotificationType" to "com.yapp.weekand.domain.notification.entity.NotificationType",
 		"ScheduleCategoryOpenType" to "com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType",
 		"ScheduleStickerName" to "com.yapp.weekand.domain.sticker.entity.ScheduleStickerName",
