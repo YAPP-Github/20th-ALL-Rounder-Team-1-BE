@@ -11,6 +11,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -18,12 +19,11 @@ class ScheduleStickerService(
 	private val scheduleStickerRepository: ScheduleStickerRepository,
 	private val scheduleRepository: ScheduleRepository,
 ) {
-	fun getScheduleStickerSummary(scheduleId: Long): ScheduleStickerSummary {
+	fun getScheduleStickerSummary(scheduleId: Long, date: LocalDateTime): ScheduleStickerSummary {
 		val schedule =
 			scheduleRepository.findByIdOrNull(scheduleId) ?: throw ScheduleNotFoundException()
 
-		// TODO: date 관련 Graphql scalar 적용 후 인자를 받아 적용
-		val dateTime = LocalDate.now();
+		val dateTime = date.toLocalDate()
 		val scheduleStickerList =
 			scheduleStickerRepository.findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(schedule, dateTime)
 
