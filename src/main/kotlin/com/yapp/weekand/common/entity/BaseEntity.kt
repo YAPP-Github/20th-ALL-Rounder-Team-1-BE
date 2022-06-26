@@ -4,6 +4,8 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.persistence.Column
 import javax.persistence.EntityListeners
 import javax.persistence.MappedSuperclass
@@ -13,9 +15,9 @@ import javax.persistence.MappedSuperclass
 abstract class BaseEntity {
     @CreatedDate
     @Column(name = "date_created", updatable = false)
-    var dateCreated: LocalDateTime = LocalDateTime.now()
+    var dateCreated: LocalDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime()
 
     @LastModifiedDate
 	@Column(name = "date_updated")
-	var dateUpdated: LocalDateTime = LocalDateTime.now()
+	var dateUpdated: LocalDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime()
 }
