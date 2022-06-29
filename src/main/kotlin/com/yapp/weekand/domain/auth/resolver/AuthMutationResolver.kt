@@ -27,9 +27,14 @@ class AuthMutationResolver(
 			throw InvalidFormattedException()
 		}
 
-		if(12 < signUpInput.nickName.length || signUpInput.nickName.length < 2) {
+		if(MAX_NICKNAME_LENGTH < signUpInput.nickName.length || signUpInput.nickName.length < MIN_NICKNAME_LENGTH) {
 			throw InvalidFormattedException()
 		}
 		return authService.signUp(signUpInput)
+	}
+
+	companion object {
+		const val MIN_NICKNAME_LENGTH = 2
+		const val MAX_NICKNAME_LENGTH = 12
 	}
 }
