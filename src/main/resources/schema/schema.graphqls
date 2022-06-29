@@ -2,7 +2,8 @@
 scalar Timestamp
 
 schema {
-	query: Query
+	query: Query,
+	mutation: Mutation
 }
 
 type Query {
@@ -70,6 +71,13 @@ type Query {
 	일정 상세 정보를 반환한다
 	"""
 	schedule(scheduleId: ID!): ScheduleInfo!
+}
+
+type Mutation {
+	"""
+	회원가입을 한다
+	"""
+	signUp(signUpInput: SignUpInput!): String!
 }
 
 type Weekand {

@@ -16,3 +16,12 @@ input ValidAuthKeyInput {
 	authKey: String!
 	email: String!
 }
+
+input SignUpInput {
+	email: String!
+	password: String!
+	nickName: String!
+	jobs: [String!]
+	interests: [String!]
+	marketingAgreed: Boolean
+}
