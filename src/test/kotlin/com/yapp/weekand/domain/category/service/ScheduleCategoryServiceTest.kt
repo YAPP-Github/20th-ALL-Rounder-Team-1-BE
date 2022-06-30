@@ -1,6 +1,7 @@
 package com.yapp.weekand.domain.category.service
 
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
+import com.yapp.weekand.common.entity.ScheduleCategoryFactory
 import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
@@ -102,5 +103,18 @@ internal class ScheduleCategoryServiceTest {
 		}
 
 		Assertions.assertEquals(result, expectedScheduleCategories)
+	}
+
+	@Test
+	fun `카테고리를 추가한다`() {
+		val givenUser = UserFactory.testLoginUser()
+		val category = ScheduleCategoryFactory.categoryInput()
+		every { scheduleCategoryRepository.save(any()) } returns ScheduleCategory.of(category, givenUser)
+
+		scheduleCategoryService.createCategory(category, givenUser)
+
+		verify(exactly = 1) {
+			scheduleCategoryRepository.save(any())
+		}
 	}
 }
