@@ -72,6 +72,10 @@ type Query {
 	schedule(scheduleId: ID!): ScheduleInfo!
 }
 
+type Mutation {
+	createFollow(input: CreateFollowInput!): Boolean!
+}
+
 type Weekand {
 	hello: String!
 }
