@@ -12,7 +12,7 @@ import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
 
 @DgsComponent
-class ScheduleCategoryResolver(
+class ScheduleCategoryQueryResolver(
 	private val scheduleCategoryService: ScheduleCategoryService,
 	private val userService: UserService
 ) {
