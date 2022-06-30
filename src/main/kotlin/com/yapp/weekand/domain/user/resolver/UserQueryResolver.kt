@@ -13,7 +13,7 @@ import java.util.Random
 import com.yapp.weekand.api.generated.types.User as UserGraphql
 
 @DgsComponent
-class UserResolver(
+class UserQueryResolver(
 	private val userService: UserService
 ) {
 	@DgsQuery
