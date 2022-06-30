@@ -9,7 +9,7 @@ enum class ErrorCode(
 	val code: String,
 	val message: String
 ) {
-	// Common
+	//Common
 	REQUEST_ERROR(HttpStatus.BAD_REQUEST,"2000", "입력 값을 확인해주세요."),
 	WEEKAND_ERROR(HttpStatus.BAD_REQUEST, "2001", "현재 weekand 이용이 불가능 합니다"),
 
@@ -24,8 +24,10 @@ enum class ErrorCode(
 	EMAIL_SEND_FAIL(HttpStatus.BAD_REQUEST, "3008", "이메일 전송에 실패하였습니다."),
 	EMAIL_DUPLICATED(HttpStatus.BAD_REQUEST, "3009", "이미 등록된 이메일입니다."),
 	SIGNUP_FAIL(HttpStatus.BAD_REQUEST, "3010", "회원가입에 실패하였습니다."),
-	INVALID_FORMATTED(HttpStatus.BAD_REQUEST, "3011", "올바른 형식이 아닙니다."),
-	NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "3012", "이미 등록된 닉네임입니다."),
+	INVALID_FORMATTED_PASSWORD(HttpStatus.BAD_REQUEST, "3011", "올바른 비밀번호 형식이 아닙니다."),
+	INVALID_FORMATTED_EMAIL(HttpStatus.BAD_REQUEST, "3012", "올바른 이메일 형식이 아닙니다."),
+	INVALID_FORMATTED_NICKNAME(HttpStatus.BAD_REQUEST, "3013", "올바른 닉네임 형식이 아닙니다."),
+	NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "3013", "이미 등록된 닉네임입니다."),
 
 	//Schedule
 	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다"),

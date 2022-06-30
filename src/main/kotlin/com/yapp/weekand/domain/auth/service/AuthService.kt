@@ -68,7 +68,7 @@ class AuthService (
 
 	fun sendEmailAuthKey(email: String) {
 		if (userRepository.existsUserByEmail(email)) {
-			throw UserEmailDuplicatedException()
+			throw EmailDuplicatedException()
 		}
 		val authKey = createAuthKey()
 		redisService.setValue("$AUTH_KEY_PREFIX:$email", authKey, authKeyExpiry)
@@ -87,17 +87,19 @@ class AuthService (
 	@Transactional
 	fun signUp(signUpInput: SignUpInput): String {
 		if (userRepository.existsUserByEmail(signUpInput.email)) {
-			throw UserEmailDuplicatedException()
+			throw EmailDuplicatedException()
 		}
 
-		if (userRepository.existsUserByNickname(signUpInput.nickName)) {
-			throw UserNickNameDuplicatedException()
+		if (userRepository.existsUserByNickname(signUpInput.nickname)) {
+			throw NicknameDuplicatedException()
 		}
 
-		val user = User(nickname = signUpInput.nickName,
+		val user = User (
+			nickname = signUpInput.nickname,
 			email = signUpInput.email,
-			marketingAgreed = true,
-			password = passwordEncoder.encode(signUpInput.password))
+			password = passwordEncoder.encode(signUpInput.password)
+		)
+
 		userRepository.save(user)
 
 		if(signUpInput.interests != null) {
