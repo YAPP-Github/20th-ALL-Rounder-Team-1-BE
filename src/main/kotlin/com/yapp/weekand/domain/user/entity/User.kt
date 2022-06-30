@@ -26,9 +26,6 @@ class User (
 
     var goal: String = "",
 
-    @Column(nullable = false)
-    var marketingAgreed: Boolean,
-
     var followerCount: Int = 0,
 
     var profileFilename: String? = null,

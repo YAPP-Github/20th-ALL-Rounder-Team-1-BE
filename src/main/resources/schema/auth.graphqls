@@ -20,8 +20,8 @@ input ValidAuthKeyInput {
 input SignUpInput {
 	email: String!
 	password: String!
-	nickName: String!
+	nickname: String!
 	jobs: [String!]
 	interests: [String!]
-	marketingAgreed: Boolean
+	signUpAgreed: Boolean!
 }
