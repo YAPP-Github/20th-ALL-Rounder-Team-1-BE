@@ -1,7 +1,7 @@
 package com.yapp.weekand.domain.notification.service
 
 import com.yapp.weekand.api.generated.types.Notification as NotificationGraphqlType
-import com.yapp.weekand.common.entity.EntityFactory
+import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.domain.notification.entity.Notification
 import com.yapp.weekand.domain.notification.entity.NotificationType
 import com.yapp.weekand.domain.notification.repository.NotificationRepository
@@ -28,7 +28,7 @@ internal class NotificationServiceTest {
 
 	@Test
 	fun `알림 목록을 조회해야 한다`() {
-		val givenUser = EntityFactory.testLoginUser()
+		val givenUser = UserFactory.testLoginUser()
 		var givenPage = 1
 		var givenSize = 5
 		val givenPageable = PageRequest.of(givenPage, givenSize)
@@ -42,7 +42,7 @@ internal class NotificationServiceTest {
 
 	@Test
 	fun `알림 목록을 반환해야 한다`() {
-		val givenUser = EntityFactory.testLoginUser()
+		val givenUser = UserFactory.testLoginUser()
 		var givenPage = 1
 		var givenSize = 5
 		val givenPageable = PageRequest.of(givenPage, givenSize)

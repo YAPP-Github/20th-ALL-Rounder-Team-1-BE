@@ -1,6 +1,6 @@
 package com.yapp.weekand.domain.category.repository
 
-import com.yapp.weekand.common.entity.EntityFactory
+import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.user.entity.User
@@ -28,7 +28,7 @@ class ScheduleCategoryRepositoryTest {
 
 	@BeforeEach
 	fun beforeEach() {
-		givenTestUser = userRepository.save(EntityFactory.testLoginUser())
+		givenTestUser = userRepository.save(UserFactory.testLoginUser())
 		dummyScheduleCategories = listOf<ScheduleCategory>(
 			ScheduleCategory(
 				id = 1,

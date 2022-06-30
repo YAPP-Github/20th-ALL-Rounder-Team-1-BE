@@ -3,7 +3,7 @@ package com.yapp.weekand.domain.auth.resolver
 import com.netflix.graphql.dgs.DgsQueryExecutor
 import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration
 import com.ninjasquad.springmockk.MockkBean
-import com.yapp.weekand.common.entity.EntityFactory
+import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.domain.auth.service.AuthService
 import io.mockk.every
@@ -30,7 +30,7 @@ class AuthQueryResolverTest{
 	@DisplayName("로그인 성공시 Access, Refresh Token 발급")
 	fun `로그인`() {
 		//given
-		val loginResponse = EntityFactory.loginResponse()
+		val loginResponse = UserFactory.loginResponse()
 
 		//when
 		every { authService.login(any()) } returns loginResponse

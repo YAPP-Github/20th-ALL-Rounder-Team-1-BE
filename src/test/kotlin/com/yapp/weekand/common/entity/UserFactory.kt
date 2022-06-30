@@ -2,11 +2,12 @@ package com.yapp.weekand.common.entity
 
 import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.auth.dto.LoginResponse
+import com.yapp.weekand.domain.interest.entity.UserInterest
 import com.yapp.weekand.domain.user.entity.User
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
-class EntityFactory {
+class UserFactory {
 	companion object{
 		val passwordEncoder: PasswordEncoder = BCryptPasswordEncoder()
 
@@ -24,6 +25,17 @@ class EntityFactory {
 		fun loginResponse() = LoginResponse(
 			accessToken = "accessToken",
 			refreshToken = "refreshToken"
+		)
+
+		fun userInterest(user: User) = listOf(
+			UserInterest(
+				interestName = "관심사1",
+				user = user
+			),
+			UserInterest(
+				interestName = "관심사2",
+				user = user
+			)
 		)
 	}
 }

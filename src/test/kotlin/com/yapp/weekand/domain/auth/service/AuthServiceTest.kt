@@ -1,6 +1,6 @@
 package com.yapp.weekand.domain.auth.service
 
-import com.yapp.weekand.common.entity.EntityFactory
+import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.auth.exception.LoginFailException
@@ -47,7 +47,7 @@ class AuthServiceTest {
 	lateinit var emailService: EmailService
 
 	@MockK
-	private var user: User =  EntityFactory.testLoginUser()
+	private var user: User =  UserFactory.testLoginUser()
 
 	@MockK(relaxed = true)
 	private lateinit var passwordEncoder: PasswordEncoder

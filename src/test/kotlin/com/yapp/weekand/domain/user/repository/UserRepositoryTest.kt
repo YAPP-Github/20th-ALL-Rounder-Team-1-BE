@@ -1,7 +1,7 @@
-package com.yapp.weekand.domain.user.service
+package com.yapp.weekand.domain.user.repository
 
 import com.yapp.weekand.domain.user.entity.User
-import com.yapp.weekand.domain.user.repository.UserRepository
+import com.yapp.weekand.domain.user.service.UserService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @SpringBootTest
-internal class UserServiceTest {
+internal class UserRepositoryTest {
 	@Autowired
 	lateinit var userRepository: UserRepository
 
