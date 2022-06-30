@@ -1,7 +1,7 @@
 package com.yapp.weekand.infra.email
 
 import com.yapp.weekand.common.util.Logger
-import com.yapp.weekand.domain.auth.exception.EmailFailException
+import com.yapp.weekand.domain.auth.exception.EmailSendFailException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
@@ -25,7 +25,7 @@ class EmailService (
             emailSender.send(mimeMessage)
         } catch (e: Exception) {
             Logger.info(e.message)
-            throw EmailFailException()
+            throw EmailSendFailException()
         }
     }
 
