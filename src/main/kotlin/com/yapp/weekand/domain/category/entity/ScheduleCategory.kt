@@ -1,5 +1,6 @@
 package com.yapp.weekand.domain.category.entity
 
+import com.yapp.weekand.api.generated.types.ScheduleCategoryInput
 import com.yapp.weekand.common.entity.BaseEntity
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.domain.user.entity.User
@@ -25,4 +26,15 @@ class ScheduleCategory(
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	var user: User,
-) : BaseEntity()
+) : BaseEntity() {
+	companion object {
+		fun of(categoryInput: ScheduleCategoryInput, user: User): ScheduleCategory {
+			return ScheduleCategory(
+				name = categoryInput.name,
+				color = categoryInput.color,
+				openType = categoryInput.openType,
+				user = user
+			)
+		}
+	}
+}
