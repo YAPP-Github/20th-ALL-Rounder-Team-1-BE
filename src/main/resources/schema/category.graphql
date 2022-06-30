@@ -35,3 +35,9 @@ enum ScheduleCategoryOpenType {
 	FOLLOWER_OPEN
 	CLOSED
 }
+
+input ScheduleCategoryInput {
+	name: String!
+	color: String!
+	openType: ScheduleCategoryOpenType!
+}
