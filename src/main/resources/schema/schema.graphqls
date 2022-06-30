@@ -78,6 +78,10 @@ type Mutation {
 	회원가입을 한다
 	"""
 	signUp(signUpInput: SignUpInput!): String!
+	"""
+	관심사를 추가가한다
+	"""
+	updateInterests(interests: [String!]): String
 }
 
 type Weekand {
