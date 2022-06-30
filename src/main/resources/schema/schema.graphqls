@@ -77,7 +77,11 @@ type Mutation {
 	"""
 	회원가입을 한다
 	"""
-	signUp(signUpInput: SignUpInput!): String!
+	signUp(signUpInput: SignUpInput!): Boolean!
+	"""
+	비밀번호를 수정한다
+	"""
+	updatePassword(passwordInput: PasswordInput!): Boolean!
 }
 
 type Weekand {

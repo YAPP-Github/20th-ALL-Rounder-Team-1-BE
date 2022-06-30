@@ -25,3 +25,8 @@ input SignUpInput {
 	interests: [String!]
 	signUpAgreed: Boolean!
 }
+
+input PasswordInput {
+	newPassword: String!
+	oldPassword: String!
+}
