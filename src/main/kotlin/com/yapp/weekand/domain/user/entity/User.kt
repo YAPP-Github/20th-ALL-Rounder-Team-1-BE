@@ -1,11 +1,11 @@
 package com.yapp.weekand.domain.user.entity
 
-import com.yapp.weekand.domain.interest.entity.UserInterest
+import com.yapp.weekand.common.entity.BaseEntity
 import com.yapp.weekand.domain.follow.entity.Follow
+import com.yapp.weekand.domain.interest.entity.UserInterest
 import com.yapp.weekand.domain.job.entity.UserJob
 import com.yapp.weekand.domain.notification.entity.Notification
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
-import com.yapp.weekand.common.entity.BaseEntity
 import javax.persistence.*
 
 @Entity
@@ -50,4 +50,8 @@ class User (
 
     @OneToMany(mappedBy = "followeeUser")
     var followeeList: MutableList<Follow> = mutableListOf()
-) : BaseEntity()
+) : BaseEntity() {
+	fun updateInterest(interests: MutableList<UserInterest>) {
+		this.interests = interests
+	}
+}
