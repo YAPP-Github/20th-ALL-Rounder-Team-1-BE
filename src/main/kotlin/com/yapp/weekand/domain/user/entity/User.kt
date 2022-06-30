@@ -47,4 +47,8 @@ class User (
 
     @OneToMany(mappedBy = "followeeUser")
     var followeeList: MutableList<Follow> = mutableListOf()
-) : BaseEntity()
+) : BaseEntity() {
+	fun updatePassword(password: String) {
+		this.password = password
+	}
+}

@@ -1,5 +1,6 @@
 package com.yapp.weekand.domain.auth.service
 
+import com.yapp.weekand.api.generated.types.PasswordInput
 import com.yapp.weekand.api.generated.types.SignUpInput
 import com.yapp.weekand.api.generated.types.ValidAuthKeyInput
 import com.yapp.weekand.common.jwt.JwtProvider
@@ -85,7 +86,7 @@ class AuthService (
 	}
 
 	@Transactional
-	fun signUp(signUpInput: SignUpInput): String {
+	fun signUp(signUpInput: SignUpInput) {
 		if (userRepository.existsUserByEmail(signUpInput.email)) {
 			throw EmailDuplicatedException()
 		}
@@ -109,7 +110,14 @@ class AuthService (
 		if(signUpInput.jobs != null) {
 			saveJobs(signUpInput.jobs, user)
 		}
-		return "succeed"
+	}
+
+	@Transactional
+	fun updatePassword(user: User, passwordInput: PasswordInput) {
+		if (!passwordEncoder.matches(passwordInput.oldPassword, user.password)) {
+			throw PasswordNotMatchException()
+		}
+		user.updatePassword(passwordEncoder.encode(passwordInput.newPassword))
 	}
 
 	private fun saveJobs(jobs: List<String>, user: User) {
