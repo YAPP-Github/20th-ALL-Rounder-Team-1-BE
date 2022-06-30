@@ -6,15 +6,13 @@ import com.yapp.weekand.domain.user.entity.User
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
-class EntityFactory {
+class UserFactory {
 	companion object{
-		val passwordEncoder: PasswordEncoder = BCryptPasswordEncoder()
-
 		fun testLoginUser() = User(
 			email= "test@naver.com",
 			nickname = "위캔드",
-			password = passwordEncoder.encode("weekand1234!"),
-			marketingAgreed = true)
+			password = "weekand1234!"
+		)
 
 		fun loginRequest() = LoginRequest(
 			email = "test",

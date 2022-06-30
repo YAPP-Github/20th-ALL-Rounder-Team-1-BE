@@ -18,13 +18,13 @@ class ScheduleRuleFactory {
 				memo = "나의 스케줄 메모 입니다",
 				repeatType = RepeatType.ONCE,
 				repeatSelectedValue = null,
-				user = EntityFactory.testLoginUser(),
+				user = UserFactory.testLoginUser(),
 				scheduleCategory = ScheduleCategory(
 					id = 11L,
 					name = "스케줄 카테고리",
 					color = "RED",
 					openType = ScheduleCategoryOpenType.ALL_OPEN,
-					user = EntityFactory.testLoginUser(),
+					user = UserFactory.testLoginUser(),
 				)
 			)
 	}
