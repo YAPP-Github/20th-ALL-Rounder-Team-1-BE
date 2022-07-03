@@ -1,16 +1,19 @@
 package com.yapp.weekand.domain.auth.service
 
+import com.yapp.weekand.api.generated.types.SignUpInput
 import com.yapp.weekand.api.generated.types.ValidAuthKeyInput
-import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.common.util.Constants.Companion.AUTH_KEY_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.REFRESH_TOKEN_PREFIX
 import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.auth.dto.LoginResponse
 import com.yapp.weekand.domain.auth.dto.ReissueAccessTokenResponse
-import com.yapp.weekand.domain.auth.exception.InvalidTokenException
-import com.yapp.weekand.domain.auth.exception.LoginFailException
-import com.yapp.weekand.domain.auth.exception.UserEmailDuplicatedException
+import com.yapp.weekand.domain.auth.exception.*
+import com.yapp.weekand.domain.interest.entity.UserInterest
+import com.yapp.weekand.domain.interest.repository.UserInterestRepository
+import com.yapp.weekand.domain.job.entity.UserJob
+import com.yapp.weekand.domain.job.repository.UserJobRepository
+import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.redis.RedisService
@@ -27,7 +30,9 @@ class AuthService (
 	private val jwtProvider: JwtProvider,
 	private val redisService: RedisService,
 	private val passwordEncoder: PasswordEncoder,
-	private val emailService: EmailService
+	private val emailService: EmailService,
+	private val userInterestRepository: UserInterestRepository,
+	private val userJobRepository: UserJobRepository
 ) {
 	@Value("\${jwt.refresh-token-expiry}")
 	private val refreshTokenExpiry: Long = 0
@@ -63,7 +68,7 @@ class AuthService (
 
 	fun sendEmailAuthKey(email: String) {
 		if (userRepository.existsUserByEmail(email)) {
-			throw UserEmailDuplicatedException()
+			throw EmailDuplicatedException()
 		}
 		val authKey = createAuthKey()
 		redisService.setValue("$AUTH_KEY_PREFIX:$email", authKey, authKeyExpiry)
@@ -77,6 +82,52 @@ class AuthService (
 			return false
 		}
 		return true
+	}
+
+	@Transactional
+	fun signUp(signUpInput: SignUpInput): String {
+		if (userRepository.existsUserByEmail(signUpInput.email)) {
+			throw EmailDuplicatedException()
+		}
+
+		if (userRepository.existsUserByNickname(signUpInput.nickname)) {
+			throw NicknameDuplicatedException()
+		}
+
+		val user = User (
+			nickname = signUpInput.nickname,
+			email = signUpInput.email,
+			password = passwordEncoder.encode(signUpInput.password)
+		)
+
+		userRepository.save(user)
+
+		if(signUpInput.interests != null) {
+			saveInterests(signUpInput.interests, user)
+		}
+
+		if(signUpInput.jobs != null) {
+			saveJobs(signUpInput.jobs, user)
+		}
+		return "succeed"
+	}
+
+	private fun saveJobs(jobs: List<String>, user: User) {
+		for (job in jobs) {
+			userJobRepository.save(UserJob(
+				user = user,
+				jobName = job
+			))
+		}
+	}
+
+	private fun saveInterests(interests: List<String>, user: User) {
+		for (interest in interests) {
+			userInterestRepository.save(UserInterest(
+				user = user,
+				interestName = interest
+			))
+		}
 	}
 
 	private fun createAuthKey(): String {

@@ -2,7 +2,8 @@
 scalar Timestamp
 
 schema {
-	query: Query
+	query: Query,
+	mutation: Mutation
 }
 
 type Query {
@@ -73,6 +74,14 @@ type Query {
 }
 
 type Mutation {
+	"""
+	회원가입을 한다
+	"""
+	signUp(signUpInput: SignUpInput!): String!
+
+	"""
+	회원을 팔로우 한다
+	"""
 	createFollow(input: CreateFollowInput!): Boolean!
 }
 
