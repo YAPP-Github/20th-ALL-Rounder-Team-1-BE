@@ -3,6 +3,7 @@ package com.yapp.weekand.domain.follow.service
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.domain.follow.dto.FollowDto
 import com.yapp.weekand.domain.follow.entity.Follow
+import com.yapp.weekand.domain.follow.exception.FollowDuplicatedException
 import com.yapp.weekand.domain.follow.repository.FollowRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
@@ -33,6 +34,11 @@ class FollowService(
 		val targetUser = userRepository.findById(targetUserId)
 		if(targetUser.isEmpty) {
 			throw UserNotFoundException()
+		}
+
+		val existedFollow = followRepository.findByFollowerUserAndFolloweeUser(user, targetUser.get())
+		if(!existedFollow.isEmpty){
+			throw FollowDuplicatedException()
 		}
 
 		followRepository.save(
