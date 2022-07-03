@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 class FollowService(
 	private val followRepository: FollowRepository,
 	private val userRepository: UserRepository
@@ -30,6 +30,7 @@ class FollowService(
 			.map { FollowDto.Follows(id = it.id, nickname = it.nickname, goal = it.goal, profileFilename = it.profileFilename) }
 	}
 
+	@Transactional
 	fun createFollow(user: User, targetUserId: Long) {
 		val targetUser = userRepository.findById(targetUserId)
 		if(targetUser.isEmpty) {
