@@ -30,3 +30,7 @@ input PasswordInput {
 	newPassword: String!
 	oldPassword: String!
 }
+
+input IssueTempPasswordInput {
+	email: String!
+}
