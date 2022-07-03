@@ -14,3 +14,7 @@ type FollowUser{
 	profileUrl: String
 	goal: String
 }
+
+input CreateFollowInput {
+	targetUserId: ID!
+}

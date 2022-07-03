@@ -82,6 +82,10 @@ type Mutation {
 	비밀번호를 수정한다
 	"""
 	updatePassword(passwordInput: PasswordInput!): Boolean!
+	"""
+	회원을 팔로우 한다
+	"""
+	createFollow(input: CreateFollowInput!): Boolean!
 }
 
 type Weekand {
