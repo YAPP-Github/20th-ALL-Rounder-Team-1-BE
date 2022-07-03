@@ -27,7 +27,8 @@ enum class ErrorCode(
 	INVALID_FORMATTED_PASSWORD(HttpStatus.BAD_REQUEST, "3011", "올바른 비밀번호 형식이 아닙니다."),
 	INVALID_FORMATTED_EMAIL(HttpStatus.BAD_REQUEST, "3012", "올바른 이메일 형식이 아닙니다."),
 	INVALID_FORMATTED_NICKNAME(HttpStatus.BAD_REQUEST, "3013", "올바른 닉네임 형식이 아닙니다."),
-	NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "3013", "이미 등록된 닉네임입니다."),
+	NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "3014", "이미 등록된 닉네임입니다."),
+	PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "3015", "비밀번호가 일치하지 않습니다."),
 
 	//Schedule
 	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다"),

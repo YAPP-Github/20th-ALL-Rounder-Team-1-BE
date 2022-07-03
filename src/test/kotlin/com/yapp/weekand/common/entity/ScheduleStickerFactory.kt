@@ -9,7 +9,7 @@ class ScheduleStickerFactory {
 		fun scheduleStickerList(size: Int) = IntArray(size) { it + 1 }.map {
 			ScheduleSticker(
 				id = it.toLong(),
-				user = EntityFactory.testLoginUser(),
+				user = UserFactory.testLoginUser(),
 				scheduleRule = ScheduleRuleFactory.scheduleRule(),
 				name = ScheduleStickerName.CHEER_UP,
 				scheduleDate = LocalDate.now(),

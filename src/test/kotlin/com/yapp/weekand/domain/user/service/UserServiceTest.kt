@@ -24,8 +24,7 @@ internal class UserServiceTest {
 		// given
 		var user = User(email= "test@test.com",
 			nickname = "test",
-			password = "1234!",
-			marketingAgreed = true)
+			password = "1234!")
 
 		// when
 		userRepository.save(user)
@@ -42,8 +41,7 @@ internal class UserServiceTest {
 		var user = User(
 			email= "test@test.com",
 			nickname = "test",
-			password = "1234!",
-			marketingAgreed = true)
+			password = "1234!")
 
 		// when
 		val savedUser = userRepository.save(user)

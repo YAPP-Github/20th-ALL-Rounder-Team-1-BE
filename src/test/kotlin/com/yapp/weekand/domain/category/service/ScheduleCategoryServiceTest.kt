@@ -1,7 +1,7 @@
 package com.yapp.weekand.domain.category.service
 
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
-import com.yapp.weekand.common.entity.EntityFactory
+import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
@@ -33,7 +33,7 @@ internal class ScheduleCategoryServiceTest {
 
 	@Test
 	fun `일정 카테고리 목록을 조회해야 한다`() {
-		val givenUser = EntityFactory.testLoginUser()
+		val givenUser = UserFactory.testLoginUser()
 		val givenSort = ScheduleCategorySort.NAME_DESC
 		var givenPage = 1
 		var givenSize = 5
@@ -50,7 +50,7 @@ internal class ScheduleCategoryServiceTest {
 
 	@Test
 	fun `일정 카테고리 목록을 반환해야 한다`() {
-		val givenUser = EntityFactory.testLoginUser()
+		val givenUser = UserFactory.testLoginUser()
 		val givenSort = ScheduleCategorySort.NAME_DESC
 		var givenPage = 1
 		var givenSize = 5
