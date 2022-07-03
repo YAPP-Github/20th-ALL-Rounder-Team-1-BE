@@ -23,8 +23,9 @@ class UserResolver(
 
 	@DgsQuery
 	@PreAuthorize("isAuthenticated()")
-	fun user(@InputArgument id: String): UserGraphql? {
-		return userService.getCurrentUser().toGraphql()
+	fun user(): UserGraphql? {
+		val currentUser = userService.getCurrentUser()
+		return currentUser.toGraphql()
 	}
 
 	fun tmpUserListGen(count:Int): List<UserGraphql> = IntArray(count) { it + 1}.map {
