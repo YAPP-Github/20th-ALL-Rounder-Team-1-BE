@@ -31,5 +31,8 @@ enum class ErrorCode(
 
 	//Schedule
 	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다"),
-	SCHEDULE_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"4002", "해당 카테고리를 찾을 수 없습니다")
+	SCHEDULE_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"4002", "해당 카테고리를 찾을 수 없습니다"),
+
+	//Follow
+	FOLLOW_DUPLICATED(HttpStatus.BAD_REQUEST, "5001", "이미 등록된 팔로우 내역입니다."),
 }

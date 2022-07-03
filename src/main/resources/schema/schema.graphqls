@@ -78,6 +78,11 @@ type Mutation {
 	회원가입을 한다
 	"""
 	signUp(signUpInput: SignUpInput!): String!
+
+	"""
+	회원을 팔로우 한다
+	"""
+	createFollow(input: CreateFollowInput!): Boolean!
 }
 
 type Weekand {
