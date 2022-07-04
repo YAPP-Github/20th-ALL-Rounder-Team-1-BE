@@ -29,6 +29,16 @@ class EmailService (
         }
     }
 
+	fun sendTempPasswordEmail(email: String, tempPassword: String, title: String) {
+        val mimeMessage = createMessageForTempPassword(email, title, tempPassword)
+        try {
+            emailSender.send(mimeMessage)
+        } catch (e: Exception) {
+            Logger.info(e.message)
+            throw EmailSendFailException()
+        }
+    }
+
     private fun createMessage(email: String, title: String, content: String): MimeMessage {
         val mimeMessage = emailSender.createMimeMessage()
         mimeMessage.addRecipients(MimeMessage.RecipientType.TO, email)
@@ -38,9 +48,25 @@ class EmailService (
         return mimeMessage
     }
 
+	private fun createMessageForTempPassword(email: String, title: String, tempPassword: String): MimeMessage {
+        val mimeMessage = emailSender.createMimeMessage()
+        mimeMessage.addRecipients(MimeMessage.RecipientType.TO, email)
+        mimeMessage.setSubject("[Weekand] " + title)
+        mimeMessage.setText(setTempPasswordHtml(tempPassword, email), "utf-8", "html")
+        mimeMessage.setFrom(WEEKAND_EMAIL)
+        return mimeMessage
+    }
+
     private fun setHtml(content: String): String? {
         var context = Context()
         context.setVariable("code", content)
         return templateEngine.process("mail", context)
+    }
+
+	private fun setTempPasswordHtml(tempPassword: String, email: String): String? {
+        var context = Context()
+        context.setVariable("tempPassword", tempPassword)
+        context.setVariable("userEmail", email)
+        return templateEngine.process("temp_password_mail", context)
     }
 }
