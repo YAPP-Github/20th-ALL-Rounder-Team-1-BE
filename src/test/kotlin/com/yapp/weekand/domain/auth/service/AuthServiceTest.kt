@@ -6,7 +6,6 @@ import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.auth.exception.LoginFailException
 import com.yapp.weekand.common.jwt.JwtProvider
-import com.yapp.weekand.domain.auth.exception.InvalidPasswordException
 import com.yapp.weekand.domain.auth.exception.PasswordNotMatchException
 import com.yapp.weekand.domain.interest.repository.UserInterestRepository
 import com.yapp.weekand.domain.job.repository.UserJobRepository
