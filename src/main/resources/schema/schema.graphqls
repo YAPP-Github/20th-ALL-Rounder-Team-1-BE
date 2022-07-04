@@ -86,6 +86,10 @@ type Mutation {
 	카테고리를 추가한다
 	"""
 	createCategory(scheduleCategoryInput: ScheduleCategoryInput!): Boolean!
+	"""
+	회원을 팔로우 한다
+	"""
+	createFollow(input: CreateFollowInput!): Boolean!
 }
 
 type Weekand {
