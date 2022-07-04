@@ -28,3 +28,20 @@ jwt:
     refresh-token-header: Refresh-Token
 mail:
     authkey-expiry: 300000
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    s3:
+      bucket: ticket-together
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
