@@ -6,7 +6,7 @@ import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.auth.exception.LoginFailException
 import com.yapp.weekand.common.jwt.JwtProvider
-import com.yapp.weekand.domain.auth.exception.InvalidPasswordException
+import com.yapp.weekand.domain.auth.exception.PasswordNotMatchException
 import com.yapp.weekand.domain.interest.repository.UserInterestRepository
 import com.yapp.weekand.domain.job.repository.UserJobRepository
 import com.yapp.weekand.domain.user.repository.UserRepository
@@ -92,7 +92,7 @@ class AuthServiceTest {
 	fun `비밀번호 수정시 기존 비밀번호가 일치하지 않으면 예외 반환`() {
 		val user = UserFactory.testLoginUser()
 		val passwordInput = PasswordInput(oldPassword = "1234567a", newPassword = "test12345")
-		assertThrows<InvalidPasswordException> {
+		assertThrows<PasswordNotMatchException> {
 			authService.updatePassword(user, passwordInput)
 		}
 	}
