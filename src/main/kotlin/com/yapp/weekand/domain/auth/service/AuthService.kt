@@ -18,6 +18,7 @@ import com.yapp.weekand.domain.job.repository.UserJobRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
+import com.yapp.weekand.infra.email.replacement.TempPasswordEmailReplacement
 import com.yapp.weekand.infra.redis.RedisService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -85,7 +86,11 @@ class AuthService(
 
 		val tempPassword = createTempPassword()
 		redisService.setValueNoExpire("$TEMP_PASSWORD_PREFIX:$email", tempPassword)
-		emailService.sendTempPasswordEmail(email, tempPassword, "임시 비밀번호 안내")
+
+		val replacements = TempPasswordEmailReplacement(
+			mapOf("userEmail" to email, "tempPassword" to tempPassword)
+		)
+		emailService.sendTempPasswordEmail(email, tempPassword, replacements)
 	}
 
 	fun isValidAuthKey(request: ValidAuthKeyInput): Boolean {

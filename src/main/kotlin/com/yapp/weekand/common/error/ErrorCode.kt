@@ -36,4 +36,7 @@ enum class ErrorCode(
 
 	//Follow
 	FOLLOW_DUPLICATED(HttpStatus.BAD_REQUEST, "5001", "이미 등록된 팔로우 내역입니다."),
+
+	//Email
+	EMAIL_REPLACEMENT_INVALID(HttpStatus.BAD_REQUEST, "6001", "이메일 내용 형식이 올바르지 않습니다."),
 }
