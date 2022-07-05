@@ -59,6 +59,7 @@ dependencies {
 	implementation("com.coveo:spring-boot-parameter-store-integration:1.1.2")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 }
 
 tasks.withType<KotlinCompile> {

@@ -12,6 +12,7 @@ enum class ErrorCode(
 	//Common
 	REQUEST_ERROR(HttpStatus.BAD_REQUEST,"2000", "입력 값을 확인해주세요."),
 	WEEKAND_ERROR(HttpStatus.BAD_REQUEST, "2001", "현재 weekand 이용이 불가능 합니다"),
+	FILE_UPLOAD_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "2002", "파일 업로드에 실패하였습니다."),
 
 	//Auth
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND,"3001", "존재하지 않는 유저입니다."),
