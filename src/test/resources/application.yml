@@ -34,7 +34,7 @@ cloud:
       access-key: access-key
       secret-key: secret-key
     s3:
-      bucket: ticket-together
+      bucket: weekand
     region:
       static: ap-northeast-2
     stack:
