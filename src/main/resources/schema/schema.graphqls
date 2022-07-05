@@ -87,6 +87,10 @@ type Mutation {
 	"""
 	createCategory(scheduleCategoryInput: ScheduleCategoryInput!): Boolean!
 	"""
+	카테고리를 수정한다
+	"""
+	updateCategory(categoryId: ID!, scheduleCategoryInput: ScheduleCategoryInput!): Boolean!
+	"""
 	회원을 팔로우 한다
 	"""
 	createFollow(input: CreateFollowInput!): Boolean!

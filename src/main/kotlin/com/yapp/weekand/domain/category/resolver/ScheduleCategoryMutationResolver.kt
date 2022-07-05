@@ -15,5 +15,12 @@ class ScheduleCategoryMutationResolver(
 ) {
 	@DgsMutation
 	@PreAuthorize("isAuthenticated()")
-	fun createCategory(@InputArgument scheduleCategoryInput: ScheduleCategoryInput) = scheduleCategoryService.createCategory(scheduleCategoryInput, userService.getCurrentUser())
+	fun createCategory(@InputArgument scheduleCategoryInput: ScheduleCategoryInput) =
+		scheduleCategoryService.createCategory(scheduleCategoryInput, userService.getCurrentUser())
+
+	@DgsMutation
+	@PreAuthorize("isAuthenticated()")
+	fun updateCategory(@InputArgument categoryId: Long,
+					   @InputArgument scheduleCategoryInput: ScheduleCategoryInput) =
+		scheduleCategoryService.updateCategory(categoryId, scheduleCategoryInput, userService.getCurrentUser())
 }
