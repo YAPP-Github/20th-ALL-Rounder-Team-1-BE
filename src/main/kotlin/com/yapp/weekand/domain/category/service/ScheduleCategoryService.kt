@@ -4,6 +4,7 @@ import com.yapp.weekand.api.generated.types.ScheduleCategoryInput
 import com.yapp.weekand.api.generated.types.ScheduleCategory as ScheduleCategoryGraphql
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
 import com.yapp.weekand.api.generated.types.ScheduleInfo
+import com.yapp.weekand.domain.auth.exception.UnauthorizedAccessException
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryNotFoundException
 import com.yapp.weekand.domain.category.mapper.toGraphql
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
@@ -66,6 +67,19 @@ class ScheduleCategoryService(
 	@Transactional
 	fun createCategory(categoryInput: ScheduleCategoryInput, user: User): Boolean {
 		scheduleCategoryRepository.save(ScheduleCategory.of(categoryInput, user))
+		return true
+	}
+
+	@Transactional
+	fun updateCategory(categoryId: Long, categoryInput: ScheduleCategoryInput, user: User): Boolean {
+		val category = scheduleCategoryRepository.findByIdOrNull(categoryId)
+			?: throw ScheduleCategoryNotFoundException()
+
+		if (category.user != user) {
+			throw UnauthorizedAccessException()
+		}
+
+		category.updateCategory(categoryInput)
 		return true
 	}
 
