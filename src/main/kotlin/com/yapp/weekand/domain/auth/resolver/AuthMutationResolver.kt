@@ -4,6 +4,7 @@ import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.PasswordInput
+import com.yapp.weekand.api.generated.types.IssueTempPasswordInput
 import com.yapp.weekand.api.generated.types.SignUpInput
 import com.yapp.weekand.common.util.ValidationRegex.isRegexEmail
 import com.yapp.weekand.common.util.ValidationRegex.isRegexPassword
@@ -46,6 +47,12 @@ class AuthMutationResolver(
 			throw InvalidPasswordException()
 		}
 		authService.updatePassword(userService.getCurrentUser(), passwordInput)
+		return true
+	}
+
+	@DgsMutation
+	fun issueTempPassword(@InputArgument input: IssueTempPasswordInput): Boolean {
+		authService.sendTempPassword(input.email)
 		return true
 	}
 

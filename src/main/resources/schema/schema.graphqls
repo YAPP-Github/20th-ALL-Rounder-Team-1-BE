@@ -90,6 +90,11 @@ type Mutation {
 	회원을 팔로우 한다
 	"""
 	createFollow(input: CreateFollowInput!): Boolean!
+
+	"""
+	임시 비밀번호를 발급한다
+	"""
+	issueTempPassword(input: IssueTempPasswordInput!): Boolean!
 }
 
 type Weekand {

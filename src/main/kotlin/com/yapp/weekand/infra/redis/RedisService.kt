@@ -13,6 +13,11 @@ class RedisService (
 		values.set(key, value, Duration.ofMillis(time))
 	}
 
+	fun setValueNoExpire(key: String, value: String) {
+		val values = redisTemplate.opsForValue()
+		values.set(key, value)
+	}
+
 	fun getValue(key: String): String? {
 		val values = redisTemplate.opsForValue()
 		return values.get(key)

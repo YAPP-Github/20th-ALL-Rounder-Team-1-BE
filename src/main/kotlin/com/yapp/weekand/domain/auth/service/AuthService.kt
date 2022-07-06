@@ -6,6 +6,7 @@ import com.yapp.weekand.api.generated.types.ValidAuthKeyInput
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.common.util.Constants.Companion.AUTH_KEY_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.REFRESH_TOKEN_PREFIX
+import com.yapp.weekand.common.util.Constants.Companion.TEMP_PASSWORD_PREFIX
 import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.auth.dto.LoginResponse
 import com.yapp.weekand.domain.auth.dto.ReissueAccessTokenResponse
@@ -17,6 +18,8 @@ import com.yapp.weekand.domain.job.repository.UserJobRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
+import com.yapp.weekand.infra.email.replacement.AuthEmailReplacement
+import com.yapp.weekand.infra.email.replacement.TempPasswordEmailReplacement
 import com.yapp.weekand.infra.redis.RedisService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -26,7 +29,7 @@ import kotlin.random.Random
 
 @Service
 @Transactional(readOnly = true)
-class AuthService (
+class AuthService(
 	private val userRepository: UserRepository,
 	private val jwtProvider: JwtProvider,
 	private val redisService: RedisService,
@@ -40,6 +43,9 @@ class AuthService (
 
 	@Value("\${mail.authkey-expiry}")
 	private val authKeyExpiry: Long = 0
+
+	private val tempPasswordCharPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+	private val tempPasswordLength = 8;
 
 	fun login(loginRequest: LoginRequest): LoginResponse {
 		val user = userRepository.findByEmail(loginRequest.email)
@@ -73,11 +79,27 @@ class AuthService (
 		}
 		val authKey = createAuthKey()
 		redisService.setValue("$AUTH_KEY_PREFIX:$email", authKey, authKeyExpiry)
-		emailService.sendEmail(email, authKey, "인증번호 안내")
+
+		val replacement = AuthEmailReplacement(
+			mapOf("code" to authKey)
+		)
+		emailService.sendEmail(email, replacement)
+	}
+
+	fun sendTempPassword(email: String) {
+		userRepository.findByEmail(email) ?: throw UserNotFoundException()
+
+		val tempPassword = createTempPassword()
+		redisService.setValueNoExpire("$TEMP_PASSWORD_PREFIX:$email", tempPassword)
+
+		val replacements = TempPasswordEmailReplacement(
+			mapOf("userEmail" to email, "tempPassword" to tempPassword)
+		)
+		emailService.sendEmail(email, replacements)
 	}
 
 	fun isValidAuthKey(request: ValidAuthKeyInput): Boolean {
-		val authKey = redisService.getValue("$AUTH_KEY_PREFIX:"+request.email)
+		val authKey = redisService.getValue("$AUTH_KEY_PREFIX:" + request.email)
 			?: return false
 		if (authKey != request.authKey) {
 			return false
@@ -95,7 +117,7 @@ class AuthService (
 			throw NicknameDuplicatedException()
 		}
 
-		val user = User (
+		val user = User(
 			nickname = signUpInput.nickname,
 			email = signUpInput.email,
 			password = passwordEncoder.encode(signUpInput.password)
@@ -103,11 +125,11 @@ class AuthService (
 
 		userRepository.save(user)
 
-		if(signUpInput.interests != null) {
+		if (signUpInput.interests != null) {
 			saveInterests(signUpInput.interests, user)
 		}
 
-		if(signUpInput.jobs != null) {
+		if (signUpInput.jobs != null) {
 			saveJobs(signUpInput.jobs, user)
 		}
 	}
@@ -122,19 +144,23 @@ class AuthService (
 
 	private fun saveJobs(jobs: List<String>, user: User) {
 		for (job in jobs) {
-			userJobRepository.save(UserJob(
-				user = user,
-				jobName = job
-			))
+			userJobRepository.save(
+				UserJob(
+					user = user,
+					jobName = job
+				)
+			)
 		}
 	}
 
 	private fun saveInterests(interests: List<String>, user: User) {
 		for (interest in interests) {
-			userInterestRepository.save(UserInterest(
-				user = user,
-				interestName = interest
-			))
+			userInterestRepository.save(
+				UserInterest(
+					user = user,
+					interestName = interest
+				)
+			)
 		}
 	}
 
@@ -142,11 +168,18 @@ class AuthService (
 		val random = Random(System.currentTimeMillis())
 		var authKey = StringBuilder()
 		for (i: Int in 0..7) {
-			when(i) {
+			when (i) {
 				0, 1 -> authKey.append((random.nextInt(26) + 65).toChar())
 				else -> authKey.append(random.nextInt(10))
 			}
 		}
 		return authKey.toString()
+	}
+
+	private fun createTempPassword(): String {
+		return (1..tempPasswordLength)
+			.map { Random.nextInt(0, tempPasswordCharPool.size) }
+			.map(tempPasswordCharPool::get)
+			.joinToString("")
 	}
 }
