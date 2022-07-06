@@ -27,6 +27,12 @@ class ScheduleCategory(
 	@JoinColumn(name = "user_id")
 	var user: User,
 ) : BaseEntity() {
+	fun updateCategory(scheduleCategoryInput: ScheduleCategoryInput) {
+		this.name = scheduleCategoryInput.name
+		this.color = scheduleCategoryInput.color
+		this.openType = scheduleCategoryInput.openType
+	}
+
 	companion object {
 		fun of(categoryInput: ScheduleCategoryInput, user: User): ScheduleCategory {
 			return ScheduleCategory(
