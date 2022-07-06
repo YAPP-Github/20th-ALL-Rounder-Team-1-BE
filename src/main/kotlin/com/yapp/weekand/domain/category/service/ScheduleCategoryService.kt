@@ -75,7 +75,7 @@ class ScheduleCategoryService(
 		val category = scheduleCategoryRepository.findByIdOrNull(categoryId)
 			?: throw ScheduleCategoryNotFoundException()
 
-		if (category.user != user) {
+		if (category.user.id != user.id) {
 			throw UnauthorizedAccessException()
 		}
 
