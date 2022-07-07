@@ -1,5 +1,6 @@
 package com.yapp.weekand.domain.schedule.entity
 
+import com.yapp.weekand.api.generated.types.ScheduleInput
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.common.entity.BaseEntity
@@ -21,7 +22,7 @@ class ScheduleRule (
 	var dateRepeatEnd: LocalDateTime? = null,
 
 	@Column(length = 500)
-	var memo: String,
+	var memo: String?,
 
 	@Enumerated(EnumType.STRING)
 	var repeatType: RepeatType,
@@ -38,4 +39,20 @@ class ScheduleRule (
 
 	@OneToMany(mappedBy = "scheduleRule")
 	var scheduleStatus: MutableList<ScheduleStatus> = mutableListOf()
-) : BaseEntity()
+) : BaseEntity() {
+	companion object {
+		fun of (scheduleInput: ScheduleInput, scheduleCategory: ScheduleCategory, user: User): ScheduleRule {
+			return ScheduleRule(
+				name = scheduleInput.name,
+				dateStart = scheduleInput.dateTimeStart,
+				dateEnd = scheduleInput.dateTimeEnd,
+				dateRepeatEnd = scheduleInput.repeatEnd,
+				repeatType = scheduleInput.repeatType,
+				memo = scheduleInput.memo,
+				repeatSelectedValue = scheduleInput.repeatSelectedValue?.joinToString(","),
+				scheduleCategory = scheduleCategory,
+				user = user
+			)
+		}
+	}
+}
