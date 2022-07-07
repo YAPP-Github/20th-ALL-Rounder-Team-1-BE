@@ -1,5 +1,7 @@
 package com.yapp.weekand.common.entity
 
+import com.yapp.weekand.api.generated.types.ScheduleInput
+import com.yapp.weekand.api.generated.types.Week
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.schedule.entity.RepeatType
@@ -26,6 +28,23 @@ class ScheduleRuleFactory {
 					openType = ScheduleCategoryOpenType.ALL_OPEN,
 					user = UserFactory.testLoginUser(),
 				)
+			)
+		fun scheduleInput() =
+			ScheduleInput(
+				name = "스케줄",
+				categoryId = 1L.toString(),
+				dateTimeStart = LocalDateTime.now(),
+				dateTimeEnd = LocalDateTime.now().plusHours(2),
+				repeatType = RepeatType.WEEKLY,
+				repeatSelectedValue = listOf(Week.MONDAY, Week.TUESDAY)
+			)
+		fun scheduleWithoutValueInput() =
+			ScheduleInput(
+				name = "스케줄",
+				categoryId = 1L.toString(),
+				dateTimeStart = LocalDateTime.now(),
+				dateTimeEnd = LocalDateTime.now().plusHours(2),
+				repeatType = RepeatType.WEEKLY
 			)
 	}
 }
