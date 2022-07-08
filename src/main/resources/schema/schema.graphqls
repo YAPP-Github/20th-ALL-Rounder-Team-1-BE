@@ -102,6 +102,10 @@ type Mutation {
 	문의 내용을 전송한다
 	"""
 	inquiry(contents: String!): Boolean!
+	"""
+	유저 프로필을 수정한다
+	"""
+	updateUserProfile(input: UpdateUserProfileInput!): Boolean!
 }
 
 type Weekand {
