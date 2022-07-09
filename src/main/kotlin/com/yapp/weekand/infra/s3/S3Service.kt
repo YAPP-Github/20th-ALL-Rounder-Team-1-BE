@@ -1,10 +1,14 @@
 package com.yapp.weekand.infra.s3
 
+import com.amazonaws.HttpMethod
 import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.Headers
 import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.yapp.weekand.infra.s3.exception.FileUploadFailException
+import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -23,8 +27,10 @@ class S3Service(
 		objectMetadata.contentType = multipartFile.contentType
 		objectMetadata.contentLength = multipartFile.size
 		try {
-			amazonS3.putObject(PutObjectRequest(bucketName, fileName, multipartFile.inputStream, objectMetadata)
-				.withCannedAcl(CannedAccessControlList.PublicRead))
+			amazonS3.putObject(
+				PutObjectRequest(bucketName, fileName, multipartFile.inputStream, objectMetadata)
+					.withCannedAcl(CannedAccessControlList.PublicRead)
+			)
 		} catch (e: IOException) {
 			throw FileUploadFailException()
 		}
