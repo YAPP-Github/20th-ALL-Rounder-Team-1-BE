@@ -5,8 +5,10 @@ import com.yapp.weekand.api.generated.types.ScheduleStickerSummary
 import com.yapp.weekand.api.generated.types.ScheduleStickerUser
 import com.yapp.weekand.common.entity.ScheduleRuleFactory
 import com.yapp.weekand.common.entity.ScheduleStickerFactory
+import com.yapp.weekand.common.entity.UserFactory
 import com.yapp.weekand.domain.schedule.exception.ScheduleNotFoundException
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
+import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
 import com.yapp.weekand.domain.sticker.repository.ScheduleStickerRepository
 import com.yapp.weekand.domain.user.mapper.toGraphql
 import io.mockk.every
@@ -134,5 +136,52 @@ internal class ScheduleStickerServiceTest {
 		val result = scheduleStickerService.getScheduleStickerSummary(givenScheduleId, TEST_LOCAL_DATE_TIME)
 
 		Assertions.assertEquals(expected_result, result)
+	}
+
+	@Test
+	fun `스티커를 등록한다`() {
+		val givenUser = UserFactory.testLoginUser()
+		val scheduleStickerInput = ScheduleStickerFactory.scheduleStickerInput()
+		val schedule = ScheduleRuleFactory.scheduleRule()
+
+		every { scheduleRepository.findByIdOrNull(any()) } returns schedule
+		every { scheduleStickerRepository.findByUserAndScheduleRuleAndScheduleDate(any(), any(), any()) } returns null
+		every { scheduleStickerRepository.save(any()) } returns ScheduleStickerFactory.scheduleSticker(schedule, ScheduleStickerName.CHEER_UP)
+
+		scheduleStickerService.createScheduleSticker(scheduleStickerInput, givenUser)
+
+		verify(exactly = 1) {
+			scheduleStickerRepository.save(any())
+		}
+	}
+
+	@Test
+	fun `다른 스티커가 있을 시 삭제하고 등록한다`() {
+		val givenUser = UserFactory.testLoginUser()
+		val scheduleStickerInput = ScheduleStickerFactory.scheduleStickerInput()
+		val schedule = ScheduleRuleFactory.scheduleRule()
+		val oldScheduleSticker = ScheduleStickerFactory.scheduleSticker(schedule, ScheduleStickerName.COOL)
+
+		every { scheduleRepository.findByIdOrNull(any()) } returns schedule
+		every { scheduleStickerRepository.findByUserAndScheduleRuleAndScheduleDate(any(), any(), any()) } returns oldScheduleSticker
+		every { scheduleStickerRepository.save(any()) } returns ScheduleStickerFactory.scheduleSticker(schedule, ScheduleStickerName.CHEER_UP)
+
+		scheduleStickerService.createScheduleSticker(scheduleStickerInput, givenUser)
+
+		verify(exactly = 1) {
+			scheduleStickerRepository.delete(any())
+			scheduleStickerRepository.save(any())
+		}
+	}
+
+	@Test
+	fun `존재하지 않는 스케줄이라면 예외 발생`() {
+		val givenUser = UserFactory.testLoginUser()
+		val scheduleStickerInput = ScheduleStickerFactory.scheduleStickerInput()
+		every { scheduleRepository.findByIdOrNull(any()) } returns null
+
+		assertThrows<ScheduleNotFoundException> {
+			scheduleStickerService.createScheduleSticker(scheduleStickerInput, givenUser)
+		}
 	}
 }
