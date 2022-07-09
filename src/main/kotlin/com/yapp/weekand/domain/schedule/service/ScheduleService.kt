@@ -45,8 +45,8 @@ class ScheduleService (
 	}
 
 	@Transactional
-	fun skipSchedule(id: Long, skipDate: LocalDateTime, user: User) {
-		val schedule = scheduleRepository.findByIdOrNull(id)
+	fun skipSchedule(scheduleId: Long, skipDate: LocalDateTime, user: User) {
+		val schedule = scheduleRepository.findByIdOrNull(scheduleId)
 			?: throw ScheduleNotFoundException()
 
 		if (user.id != schedule.user.id) {
