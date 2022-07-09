@@ -11,6 +11,7 @@ import com.yapp.weekand.domain.schedule.exception.ScheduleInvalidDateException
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
+import java.time.LocalDateTime
 
 @DgsComponent
 class ScheduleMutationResolver (
@@ -29,6 +30,13 @@ class ScheduleMutationResolver (
 		}
 
 		scheduleService.createSchedule(input, userService.getCurrentUser())
+		return true
+	}
+
+	@DgsMutation
+	@PreAuthorize("isAuthenticated()")
+	fun skipSchedule(@InputArgument scheduleId: Long, @InputArgument skipDate: LocalDateTime): Boolean {
+		scheduleService.skipSchedule(scheduleId, skipDate, userService.getCurrentUser())
 		return true
 	}
 }
