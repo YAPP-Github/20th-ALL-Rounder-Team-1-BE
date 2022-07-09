@@ -43,9 +43,23 @@ class S3Service(
 		return category + CATEGORY_PREFIX + fileName + TIME_SEPARATOR + now + fileExtension
 	}
 
+	fun generatePresignedUrl(path: String): String {
+		val expiration = DateTime.now().plusMinutes(PRESIGNED_URL_EXPIRE_MINUTE)
+		val generatePresignedUrlRequest = GeneratePresignedUrlRequest(bucketName, path)
+			.withMethod(HttpMethod.PUT)
+			.withExpiration(expiration.toDate())
+
+		generatePresignedUrlRequest
+			.addRequestParameter(Headers.S3_CANNED_ACL, CannedAccessControlList.PublicRead.toString())
+
+		val url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest)
+		return url.toString()
+	}
+
 	companion object {
 		private const val CATEGORY_PREFIX = "/"
 		private const val TIME_SEPARATOR = "_"
 		private const val FILE_EXTENSION_SEPARATOR = "."
+		private const val PRESIGNED_URL_EXPIRE_MINUTE = 5
 	}
 }
