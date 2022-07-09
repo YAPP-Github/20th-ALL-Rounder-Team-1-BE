@@ -105,7 +105,7 @@ type Mutation {
 	"""
 	스케줄을 생성한다
 	"""
-	createSchedule(input: ScheduleInput): Boolean!
+	createSchedule(input: ScheduleInput!): Boolean!
 	"""
 	유저 프로필을 수정한다
 	"""
