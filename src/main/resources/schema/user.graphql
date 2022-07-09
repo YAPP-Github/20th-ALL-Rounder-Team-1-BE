@@ -21,3 +21,11 @@ enum SearchUserSort {
 	NAME_ASC
 	NAME_DESC
 }
+
+input UpdateUserProfileInput {
+	profileImageFilename: String!
+	nickname: String!
+	goal: String!
+	jobs: [String!]!
+	interests: [String!]!
+}

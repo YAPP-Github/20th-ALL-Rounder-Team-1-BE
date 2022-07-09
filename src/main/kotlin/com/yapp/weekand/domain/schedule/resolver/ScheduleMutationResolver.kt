@@ -4,14 +4,13 @@ import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.ScheduleInput
-import com.yapp.weekand.common.util.Logger
 import com.yapp.weekand.domain.schedule.entity.RepeatType
-import com.yapp.weekand.domain.schedule.exception.ScheduleCreateException
 import com.yapp.weekand.domain.schedule.exception.ScheduleInvalidDateException
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
 import java.time.LocalDateTime
+import com.yapp.weekand.domain.schedule.exception.ScheduleRepeatValueInvalidException
 
 @DgsComponent
 class ScheduleMutationResolver (
@@ -26,7 +25,7 @@ class ScheduleMutationResolver (
 		}
 
 		if (input.repeatType == RepeatType.WEEKLY && input.repeatSelectedValue == null) {
-			throw ScheduleCreateException()
+			throw ScheduleRepeatValueInvalidException()
 		}
 
 		scheduleService.createSchedule(input, userService.getCurrentUser())

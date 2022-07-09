@@ -30,6 +30,9 @@ enum class ErrorCode(
 	INVALID_FORMATTED_NICKNAME(HttpStatus.BAD_REQUEST, "3013", "올바른 닉네임 형식이 아닙니다."),
 	NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "3014", "이미 등록된 닉네임입니다."),
 	PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "3015", "비밀번호가 일치하지 않습니다."),
+	GOAL_MAX_LENGTH_EXCEED(HttpStatus.BAD_REQUEST, "3016", "한 줄 목표 최대 길이를 초과하였습니다."),
+	NICKNAME_UNDER_MIN_LENGTH(HttpStatus.BAD_REQUEST, "3017", "닉네임이 최소 길이 미만입니다."),
+	NICKNAME_MAX_LENGTH_EXCEED(HttpStatus.BAD_REQUEST, "3018", "닉네임 최대 길이를 초과하였습니다."),
 
 	//Schedule
 	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다"),

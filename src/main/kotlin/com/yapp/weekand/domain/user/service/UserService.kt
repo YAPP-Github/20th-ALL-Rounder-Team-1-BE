@@ -1,8 +1,15 @@
 package com.yapp.weekand.domain.user.service
 
+import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
 import com.yapp.weekand.common.jwt.JwtProvider
+import com.yapp.weekand.domain.auth.exception.NicknameDuplicatedException
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
+import com.yapp.weekand.domain.interest.service.InterestService
+import com.yapp.weekand.domain.job.service.JobService
 import com.yapp.weekand.domain.user.entity.User
+import com.yapp.weekand.domain.user.exception.GoalMaxLengthExceedException
+import com.yapp.weekand.domain.user.exception.NicknameMaxLengthExceedException
+import com.yapp.weekand.domain.user.exception.NicknameUnderMinLengthException
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
@@ -12,16 +19,18 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class UserService (
+class UserService(
 	private val userRepository: UserRepository,
 	private val jwtProvider: JwtProvider,
-	private val emailService: EmailService
-){
+	private val emailService: EmailService,
+	private val jobService: JobService,
+	private val interestService: InterestService,
+) {
 	private val helpEmail: String = "help@week-and.kr"
 
 	fun checkDuplicateNickname(nickname: String) = userRepository.existsUserByNickname(nickname)
 
-	fun findUserById(id: Long) = userRepository.findById(id).get()
+	fun findUserById(id: Long) = userRepository.findByIdOrNull(id)
 
 	fun getCurrentUser(): User {
 		val currentUserId = jwtProvider.getFromSecurityContextHolder().user.id
@@ -35,5 +44,44 @@ class UserService (
 			"${user.email} 님의 문의 접수입니다."
 		)
 		emailService.sendEmail(helpEmail, replacements)
+	}
+
+	@Transactional
+	fun updateUserProfile(userId: Long, input: UpdateUserProfileInput) {
+		if (input.goal.length > GOAL_MAX_LENGTH) {
+			throw GoalMaxLengthExceedException()
+		}
+
+		if(input.nickname.length > NICKNAME_MAX_LENGTH) {
+			throw NicknameMaxLengthExceedException()
+		}
+
+		if(input.nickname.length < NICKNAME_MIN_LENGTH) {
+			throw NicknameUnderMinLengthException()
+		}
+
+		val user = userRepository.findByIdOrNull(userId) ?: throw UserNotFoundException()
+
+		if (user.nickname != input.nickname && this.checkDuplicateNickname(input.nickname)) {
+			throw NicknameDuplicatedException()
+		}
+
+		user.profileFilename = input.profileImageFilename
+		user.nickname = input.nickname
+		user.goal = input.goal
+
+		userRepository.save(user)
+
+		jobService.deleteAllUserJob(user)
+		interestService.deleteAllUserInterest(user)
+
+		jobService.createUserJobList(user, input.jobs)
+		interestService.createUserInterestList(user, input.interests)
+	}
+
+	companion object {
+		const val GOAL_MAX_LENGTH = 20
+		const val NICKNAME_MAX_LENGTH = 12
+		const val NICKNAME_MIN_LENGTH = 2
 	}
 }
