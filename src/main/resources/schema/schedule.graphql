@@ -32,3 +32,24 @@ type ScheduleInfo {
 	memo: String
 	dateSkip: [String]
 }
+
+input ScheduleInput {
+	name: String!
+	categoryId: ID!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	repeatType: RepeatType!
+	repeatSelectedValue: [Week!]
+	repeatEnd: Timestamp
+	memo: String
+}
+
+enum Week {
+	MONDAY,
+	TUESDAY,
+	WEDNESDAY,
+	THURSDAY,
+	FRIDAY,
+	SATURDAY,
+	SUNDAY
+}
