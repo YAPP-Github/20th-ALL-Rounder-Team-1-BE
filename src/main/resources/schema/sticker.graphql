@@ -20,3 +20,9 @@ type ScheduleStickerSummary {
 	scheduleStickers: [ScheduleSticker!]!
 	scheduleStickerUsers: [ScheduleStickerUser!]!
 }
+
+input CreateScheduleStickerInput {
+	scheduleId: ID!
+	scheduleStickerName: ScheduleStickerName!
+	scheduleDate: Timestamp!
+}
