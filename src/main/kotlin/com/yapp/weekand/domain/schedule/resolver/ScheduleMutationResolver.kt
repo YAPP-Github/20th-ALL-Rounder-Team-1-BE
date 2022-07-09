@@ -6,10 +6,11 @@ import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.ScheduleInput
 import com.yapp.weekand.domain.schedule.entity.RepeatType
 import com.yapp.weekand.domain.schedule.exception.ScheduleInvalidDateException
-import com.yapp.weekand.domain.schedule.exception.ScheduleRepeatValueInvalidException
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
+import java.time.LocalDateTime
+import com.yapp.weekand.domain.schedule.exception.ScheduleRepeatValueInvalidException
 
 @DgsComponent
 class ScheduleMutationResolver (
@@ -28,6 +29,13 @@ class ScheduleMutationResolver (
 		}
 
 		scheduleService.createSchedule(input, userService.getCurrentUser())
+		return true
+	}
+
+	@DgsMutation
+	@PreAuthorize("isAuthenticated()")
+	fun skipSchedule(@InputArgument scheduleId: Long, @InputArgument skipDate: LocalDateTime): Boolean {
+		scheduleService.skipSchedule(scheduleId, skipDate, userService.getCurrentUser())
 		return true
 	}
 }

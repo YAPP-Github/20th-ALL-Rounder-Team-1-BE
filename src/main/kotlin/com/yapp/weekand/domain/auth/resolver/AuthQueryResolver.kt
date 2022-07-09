@@ -32,9 +32,9 @@ class AuthQueryResolver(
 	}
 
 	@DgsQuery
-	fun sendAuthKey(email: String): String {
+	fun sendAuthKey(email: String): Boolean {
 		authService.sendEmailAuthKey(email)
-		return "succeed"
+		return true
 	}
 
 	@DgsQuery

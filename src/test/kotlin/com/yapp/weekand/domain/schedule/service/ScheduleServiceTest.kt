@@ -9,6 +9,7 @@ import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
 import com.yapp.weekand.domain.category.service.ScheduleCategoryService
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
+import com.yapp.weekand.domain.schedule.repository.ScheduleStatusRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -33,6 +34,9 @@ class ScheduleServiceTest {
 
 	@MockK(relaxed = true)
 	lateinit var scheduleCategoryRepository: ScheduleCategoryRepository
+
+	@MockK(relaxed = true)
+	lateinit var scheduleStatusRepository: ScheduleStatusRepository
 
 	@Test
 	fun `일정을 추가한다`() {
