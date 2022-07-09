@@ -29,3 +29,12 @@ input UpdateUserProfileInput {
 	jobs: [String!]!
 	interests: [String!]!
 }
+
+input CreateUserProfileImageS3PresignedUrlInput {
+	extension: UserProfileImageExtensionType!
+}
+
+enum UserProfileImageExtensionType {
+	JPEG
+	PNG
+}
