@@ -42,5 +42,14 @@ class ScheduleCategory(
 				user = user
 			)
 		}
+
+		fun of(user: User): ScheduleCategory {
+			return ScheduleCategory(
+				name = "내 일정",
+				color = "#ff9292",
+				openType = ScheduleCategoryOpenType.CLOSED,
+				user = user
+			)
+		}
 	}
 }
