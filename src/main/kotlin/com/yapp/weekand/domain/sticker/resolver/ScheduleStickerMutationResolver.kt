@@ -15,7 +15,7 @@ class ScheduleStickerMutationResolver(
 ) {
 	@DgsMutation
 	@PreAuthorize("isAuthenticated()")
-	fun createScheduleSticker(@InputArgument input: CreateScheduleStickerInput): Boolean{
+	fun createScheduleSticker(@InputArgument input: CreateScheduleStickerInput): Boolean {
 		scheduleStickerService.createScheduleSticker(input, userService.getCurrentUser())
 		return true
 	}
