@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import java.time.LocalDateTime
 
 @DgsComponent
-class ScheduleStickerResolver(
+class ScheduleStickerQueryResolver(
 	private val scheduleStickerService: ScheduleStickerService
 ) {
 	@DgsQuery
