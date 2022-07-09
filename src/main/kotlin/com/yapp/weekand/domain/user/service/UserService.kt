@@ -1,6 +1,7 @@
 package com.yapp.weekand.domain.user.service
 
 import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
+import com.yapp.weekand.api.generated.types.UserProfileImageExtensionType
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.domain.auth.exception.NicknameDuplicatedException
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
@@ -13,6 +14,8 @@ import com.yapp.weekand.domain.user.exception.NicknameUnderMinLengthException
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
+import com.yapp.weekand.infra.s3.S3Service
+import org.joda.time.DateTime
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +28,7 @@ class UserService(
 	private val emailService: EmailService,
 	private val jobService: JobService,
 	private val interestService: InterestService,
+	private val s3Service: S3Service,
 ) {
 	private val helpEmail: String = "help@week-and.kr"
 
@@ -52,11 +56,11 @@ class UserService(
 			throw GoalMaxLengthExceedException()
 		}
 
-		if(input.nickname.length > NICKNAME_MAX_LENGTH) {
+		if (input.nickname.length > NICKNAME_MAX_LENGTH) {
 			throw NicknameMaxLengthExceedException()
 		}
 
-		if(input.nickname.length < NICKNAME_MIN_LENGTH) {
+		if (input.nickname.length < NICKNAME_MIN_LENGTH) {
 			throw NicknameUnderMinLengthException()
 		}
 
@@ -77,6 +81,15 @@ class UserService(
 
 		jobService.createUserJobList(user, input.jobs)
 		interestService.createUserInterestList(user, input.interests)
+	}
+
+	fun createUserProfileImageS3PresignedUrl(userId: Long, extension: UserProfileImageExtensionType): String {
+		val userProfileImageS3Path = "profile-images/${userId}"
+
+		val postfix = DateTime().toString()
+		val filename = "profile-${postfix}.${extension.toString().lowercase()}"
+
+		return s3Service.generatePresignedUrl("${userProfileImageS3Path}/${filename}")
 	}
 
 	companion object {
