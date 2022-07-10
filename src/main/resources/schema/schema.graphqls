@@ -114,6 +114,10 @@ type Mutation {
 	유저 프로필을 수정한다
 	"""
 	updateUserProfile(input: UpdateUserProfileInput!): Boolean!
+	"""
+	스티커를 추가한다
+	"""
+	createScheduleSticker(input: CreateScheduleStickerInput!): Boolean!
 }
 
 type Weekand {
