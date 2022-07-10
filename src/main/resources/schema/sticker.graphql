@@ -19,6 +19,7 @@ type ScheduleStickerSummary {
 	totalCount: Int!
 	scheduleStickers: [ScheduleSticker!]!
 	scheduleStickerUsers: [ScheduleStickerUser!]!
+	myScheduleSticker: ScheduleStickerUser
 }
 
 input CreateScheduleStickerInput {
