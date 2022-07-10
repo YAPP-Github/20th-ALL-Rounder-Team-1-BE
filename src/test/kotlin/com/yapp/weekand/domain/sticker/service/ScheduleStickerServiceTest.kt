@@ -11,6 +11,7 @@ import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
 import com.yapp.weekand.domain.sticker.repository.ScheduleStickerRepository
 import com.yapp.weekand.domain.user.mapper.toGraphql
+import com.yapp.weekand.domain.user.service.UserService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -36,6 +37,9 @@ internal class ScheduleStickerServiceTest {
 
 	@MockK(relaxed = true)
 	lateinit var scheduleRepository: ScheduleRepository
+
+	@MockK(relaxed = true)
+	lateinit var userService: UserService
 
 	@Test
 	fun `스케줄을 조회해야 한다`() {
