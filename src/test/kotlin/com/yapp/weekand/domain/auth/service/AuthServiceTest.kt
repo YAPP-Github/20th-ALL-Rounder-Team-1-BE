@@ -7,8 +7,9 @@ import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.auth.exception.LoginFailException
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.domain.auth.exception.PasswordNotMatchException
-import com.yapp.weekand.domain.interest.repository.UserInterestRepository
-import com.yapp.weekand.domain.job.repository.UserJobRepository
+import com.yapp.weekand.domain.category.service.ScheduleCategoryService
+import com.yapp.weekand.domain.interest.service.InterestService
+import com.yapp.weekand.domain.job.service.JobService
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.redis.RedisService
@@ -34,10 +35,13 @@ class AuthServiceTest {
 	lateinit var userRepository: UserRepository
 
 	@MockK(relaxed = true)
-	lateinit var userJobRepository: UserJobRepository
+	lateinit var jobService: JobService
 
 	@MockK(relaxed = true)
-	lateinit var userInterestRepository: UserInterestRepository
+	lateinit var interestService: InterestService
+
+	@MockK(relaxed = true)
+	lateinit var categoryService: ScheduleCategoryService
 
 	@MockK
 	lateinit var jwtProvider: JwtProvider

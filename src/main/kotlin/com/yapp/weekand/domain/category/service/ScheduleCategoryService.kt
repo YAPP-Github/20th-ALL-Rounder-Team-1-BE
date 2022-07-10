@@ -66,8 +66,17 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun createCategory(categoryInput: ScheduleCategoryInput, user: User): Boolean {
-		scheduleCategoryRepository.save(ScheduleCategory.of(categoryInput, user))
+		scheduleCategoryRepository.save(
+			ScheduleCategory.of(categoryInput, user)
+		)
 		return true
+	}
+
+	@Transactional
+	fun createDefaultCategory(user: User) {
+		scheduleCategoryRepository.save(
+			ScheduleCategory.of(user)
+		)
 	}
 
 	@Transactional

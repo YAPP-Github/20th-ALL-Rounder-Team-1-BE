@@ -11,10 +11,9 @@ import com.yapp.weekand.domain.auth.dto.LoginRequest
 import com.yapp.weekand.domain.auth.dto.LoginResponse
 import com.yapp.weekand.domain.auth.dto.ReissueAccessTokenResponse
 import com.yapp.weekand.domain.auth.exception.*
-import com.yapp.weekand.domain.interest.entity.UserInterest
-import com.yapp.weekand.domain.interest.repository.UserInterestRepository
-import com.yapp.weekand.domain.job.entity.UserJob
-import com.yapp.weekand.domain.job.repository.UserJobRepository
+import com.yapp.weekand.domain.category.service.ScheduleCategoryService
+import com.yapp.weekand.domain.interest.service.InterestService
+import com.yapp.weekand.domain.job.service.JobService
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
@@ -35,8 +34,9 @@ class AuthService(
 	private val redisService: RedisService,
 	private val passwordEncoder: PasswordEncoder,
 	private val emailService: EmailService,
-	private val userInterestRepository: UserInterestRepository,
-	private val userJobRepository: UserJobRepository
+	private val interestService: InterestService,
+	private val jobService: JobService,
+	private val categoryService: ScheduleCategoryService
 ) {
 	@Value("\${jwt.refresh-token-expiry}")
 	private val refreshTokenExpiry: Long = 0
@@ -124,13 +124,14 @@ class AuthService(
 		)
 
 		userRepository.save(user)
+		categoryService.createDefaultCategory(user)
 
 		if (signUpInput.interests != null) {
-			saveInterests(signUpInput.interests, user)
+			interestService.createUserInterestList(user, signUpInput.interests)
 		}
 
 		if (signUpInput.jobs != null) {
-			saveJobs(signUpInput.jobs, user)
+			jobService.createUserJobList(user, signUpInput.jobs)
 		}
 	}
 
@@ -140,28 +141,6 @@ class AuthService(
 			throw PasswordNotMatchException()
 		}
 		user.updatePassword(passwordEncoder.encode(passwordInput.newPassword))
-	}
-
-	private fun saveJobs(jobs: List<String>, user: User) {
-		for (job in jobs) {
-			userJobRepository.save(
-				UserJob(
-					user = user,
-					jobName = job
-				)
-			)
-		}
-	}
-
-	private fun saveInterests(interests: List<String>, user: User) {
-		for (interest in interests) {
-			userInterestRepository.save(
-				UserInterest(
-					user = user,
-					interestName = interest
-				)
-			)
-		}
 	}
 
 	private fun createAuthKey(): String {
