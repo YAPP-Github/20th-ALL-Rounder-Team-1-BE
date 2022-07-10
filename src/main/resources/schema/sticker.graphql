@@ -27,3 +27,8 @@ input CreateScheduleStickerInput {
 	scheduleStickerName: ScheduleStickerName!
 	scheduleDate: Timestamp!
 }
+
+input DeleteScheduleStickerInput {
+	scheduleId: ID!
+	scheduleDate: Timestamp!
+}

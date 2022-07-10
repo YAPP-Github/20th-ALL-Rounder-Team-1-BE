@@ -118,6 +118,10 @@ type Mutation {
 	스티커를 추가한다
 	"""
 	createScheduleSticker(input: CreateScheduleStickerInput!): Boolean!
+	"""
+	스티커를 삭제한다
+	"""
+	deleteScheduleSticker(input: DeleteScheduleStickerInput!): Boolean!
 }
 
 type Weekand {
