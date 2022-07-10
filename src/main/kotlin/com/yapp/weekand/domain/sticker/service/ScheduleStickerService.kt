@@ -1,14 +1,12 @@
 package com.yapp.weekand.domain.sticker.service
 
 import com.yapp.weekand.api.generated.types.*
-import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.domain.schedule.exception.ScheduleNotFoundException
 import com.yapp.weekand.domain.sticker.entity.ScheduleSticker
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.sticker.repository.ScheduleStickerRepository
 import com.yapp.weekand.domain.user.mapper.toGraphql
-import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -74,5 +72,14 @@ class ScheduleStickerService(
 				scheduleDate = input.scheduleDate.toLocalDate()
 			)
 		)
+	}
+
+	@Transactional
+	fun deleteScheduleSticker(input: DeleteScheduleStickerInput) {
+		val schedule = scheduleRepository.findByIdOrNull(input.scheduleId.toLong())
+			?: throw ScheduleNotFoundException()
+		val user = userService.getCurrentUser()
+
+		scheduleStickerRepository.deleteByUserAndScheduleRuleAndScheduleDate(user, schedule, input.scheduleDate.toLocalDate())
 	}
 }
