@@ -5,6 +5,7 @@ import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.CreateUserProfileImageS3PresignedUrlInput
 import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
+import com.yapp.weekand.api.generated.types.UserProfileImageS3PresignedUrl
 import com.yapp.weekand.domain.user.service.UserService
 
 @DgsComponent
@@ -25,7 +26,7 @@ class UserMutationResolver(
 	}
 
 	@DgsMutation
-	fun createUserProfileImageS3PresignedUrl(@InputArgument input: CreateUserProfileImageS3PresignedUrlInput): String {
+	fun createUserProfileImageS3PresignedUrl(@InputArgument input: CreateUserProfileImageS3PresignedUrlInput): UserProfileImageS3PresignedUrl {
 		return userService.createUserProfileImageS3PresignedUrl(userService.getCurrentUser().id, input.extension)
 	}
 }

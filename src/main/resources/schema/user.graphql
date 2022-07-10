@@ -38,3 +38,8 @@ enum UserProfileImageExtensionType {
 	JPEG
 	PNG
 }
+
+type UserProfileImageS3PresignedUrl {
+	url: String!
+	filename: String!
+}

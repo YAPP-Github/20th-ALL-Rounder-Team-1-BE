@@ -2,6 +2,7 @@ package com.yapp.weekand.domain.user.service
 
 import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
 import com.yapp.weekand.api.generated.types.UserProfileImageExtensionType
+import com.yapp.weekand.api.generated.types.UserProfileImageS3PresignedUrl
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.domain.auth.exception.NicknameDuplicatedException
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
@@ -15,7 +16,7 @@ import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
 import com.yapp.weekand.infra.s3.S3Service
-import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -83,13 +84,17 @@ class UserService(
 		interestService.createUserInterestList(user, input.interests)
 	}
 
-	fun createUserProfileImageS3PresignedUrl(userId: Long, extension: UserProfileImageExtensionType): String {
+	fun createUserProfileImageS3PresignedUrl(
+		userId: Long,
+		extension: UserProfileImageExtensionType
+	): UserProfileImageS3PresignedUrl {
 		val userProfileImageS3Path = "profile-images/${userId}"
 
-		val postfix = DateTime().toString()
+		val postfix = LocalDateTime.now().toString("yyyy-MM-dd'T'HHmmss")
 		val filename = "profile-${postfix}.${extension.toString().lowercase()}"
 
-		return s3Service.generatePresignedUrl("${userProfileImageS3Path}/${filename}")
+		val sigendUrl = s3Service.generatePresignedUrl("${userProfileImageS3Path}/${filename}")
+		return UserProfileImageS3PresignedUrl(sigendUrl, filename)
 	}
 
 	companion object {

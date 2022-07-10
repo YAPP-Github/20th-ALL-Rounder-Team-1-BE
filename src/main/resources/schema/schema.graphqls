@@ -121,7 +121,7 @@ type Mutation {
 	"""
 	프로필 이미지 업로드를 위한 signed url 을 생성한다
 	"""
-	createUserProfileImageS3PresignedUrl(input: CreateUserProfileImageS3PresignedUrlInput!): String!
+	createUserProfileImageS3PresignedUrl(input: CreateUserProfileImageS3PresignedUrlInput!): UserProfileImageS3PresignedUrl!
 }
 
 type Weekand {
