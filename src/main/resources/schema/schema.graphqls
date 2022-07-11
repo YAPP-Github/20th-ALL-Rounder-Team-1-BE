@@ -122,6 +122,10 @@ type Mutation {
 	프로필 이미지 업로드를 위한 signed url 을 생성한다
 	"""
 	createUserProfileImageS3PresignedUrl(input: CreateUserProfileImageS3PresignedUrlInput!): UserProfileImageS3PresignedUrl!
+	"""
+	스티커를 삭제한다
+	"""
+	deleteScheduleSticker(input: DeleteScheduleStickerInput!): Boolean!
 }
 
 type Weekand {
