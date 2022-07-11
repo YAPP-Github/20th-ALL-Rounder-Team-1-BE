@@ -4,6 +4,7 @@ import com.yapp.weekand.api.generated.types.PasswordInput
 import com.yapp.weekand.api.generated.types.SignUpInput
 import com.yapp.weekand.api.generated.types.ValidAuthKeyInput
 import com.yapp.weekand.common.jwt.JwtProvider
+import com.yapp.weekand.common.jwt.exception.InvalidRefreshTokenException
 import com.yapp.weekand.common.util.Constants.Companion.AUTH_KEY_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.REFRESH_TOKEN_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.TEMP_PASSWORD_PREFIX
@@ -67,7 +68,7 @@ class AuthService(
 
 	fun reissueAccessToken(refreshToken: String): ReissueAccessTokenResponse {
 		val email: String = redisService.getValue("$REFRESH_TOKEN_PREFIX:$refreshToken")
-			?: throw InvalidTokenException()
+			?: throw InvalidRefreshTokenException()
 
 		userRepository.findByEmail(email) ?: throw UserNotFoundException()
 		return ReissueAccessTokenResponse(jwtProvider.createAccessToken(email))
