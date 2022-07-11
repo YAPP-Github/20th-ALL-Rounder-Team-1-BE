@@ -5,10 +5,10 @@ import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.NotificationList
 import com.yapp.weekand.api.generated.types.PaginationInfo
+import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.notification.service.NotificationService
 import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.data.domain.PageRequest
-import org.springframework.security.access.prepost.PreAuthorize
 
 @DgsComponent
 class NotificationResolver (
@@ -16,7 +16,7 @@ class NotificationResolver (
 	private val userService: UserService
 ) {
 	@DgsQuery
-	@PreAuthorize("isAuthenticated()")
+	@JwtAuth
 	fun notifications(@InputArgument page: Int, @InputArgument size: Int): NotificationList {
 		val notifications = notificationService.getNotifications(userService.getCurrentUser(), PageRequest.of(page, size))
 		return NotificationList(paginationInfo = PaginationInfo(notifications.hasNext()), notifications = notifications.content)

@@ -6,6 +6,7 @@ import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.PasswordInput
 import com.yapp.weekand.api.generated.types.IssueTempPasswordInput
 import com.yapp.weekand.api.generated.types.SignUpInput
+import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.common.util.ValidationRegex.isRegexEmail
 import com.yapp.weekand.common.util.ValidationRegex.isRegexPassword
 import com.yapp.weekand.domain.auth.exception.InvalidEmailException
@@ -42,6 +43,7 @@ class AuthMutationResolver(
 	}
 
 	@DgsMutation
+	@JwtAuth
 	fun updatePassword(@InputArgument passwordInput: PasswordInput): Boolean {
 		if(!isRegexPassword(passwordInput.newPassword)) {
 			throw InvalidPasswordException()

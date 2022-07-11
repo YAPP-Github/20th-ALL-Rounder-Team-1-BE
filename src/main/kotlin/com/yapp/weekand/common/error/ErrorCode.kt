@@ -17,7 +17,7 @@ enum class ErrorCode(
 	//Auth
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND,"3001", "존재하지 않는 유저입니다."),
 	EXPIRED_JWT(HttpStatus.FORBIDDEN,"3002", "유효기간이 만료된 JWT입니다."),
-	INVALID_JWT(HttpStatus.FORBIDDEN,"3003", "유효하지 않은 JWT입니다."),
+	INVALID_JWT(HttpStatus.FORBIDDEN,"3003", "접근이 거부되었습니다."),
 	INVALID_REFRESH_JWT(HttpStatus.FORBIDDEN,"3004", "유효하지 않은 리프레시 토큰입니다."),
 	EMPTY_JWT(HttpStatus.FORBIDDEN,"3005", "JWT를 입력해주세요."),
 	INVALID_USER(HttpStatus.UNAUTHORIZED,"3006","권한이 없는 유저의 접근입니다."),
