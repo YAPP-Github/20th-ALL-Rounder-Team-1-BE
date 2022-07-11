@@ -7,9 +7,9 @@ import com.yapp.weekand.api.generated.types.PaginationInfo
 import com.yapp.weekand.api.generated.types.ScheduleCategoryList
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
 import com.yapp.weekand.api.generated.types.SearchScheduleList
+import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.category.service.ScheduleCategoryService
 import com.yapp.weekand.domain.user.service.UserService
-import org.springframework.security.access.prepost.PreAuthorize
 
 @DgsComponent
 class ScheduleCategoryQueryResolver(
@@ -17,7 +17,7 @@ class ScheduleCategoryQueryResolver(
 	private val userService: UserService
 ) {
 	@DgsQuery
-	@PreAuthorize("isAuthenticated()")
+	@JwtAuth
 	fun scheduleCategories(
 		@InputArgument sort: ScheduleCategorySort,
 		@InputArgument page: Int,
@@ -32,7 +32,7 @@ class ScheduleCategoryQueryResolver(
 	}
 
 	@DgsQuery
-	@PreAuthorize("isAuthenticated()")
+	@JwtAuth
 	fun searchSchedules (
 		@InputArgument sort: ScheduleCategorySort,
 		@InputArgument page: Int,
