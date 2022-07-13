@@ -62,7 +62,7 @@ type Query {
 	"""
 	회원을 검색한다
 	"""
-	searchUsers(searchQuery: String, job: String, interest: String, sort: SearchUserSort): SearchUserList!
+	searchUsers(searchQuery: String, jobs: [String!], interests: [String!], sort: SearchUserSort): SearchUserList!
 	"""
 	메인 화면에 표시될 일정 목록을 반환한다
 	"""

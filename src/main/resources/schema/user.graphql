@@ -16,10 +16,10 @@ type SearchUserList {
 }
 
 enum SearchUserSort {
-	POPULAR
+	DATE_CREATED_DESC
 	FOLLOWER_COUNT_DESC
-	NAME_ASC
-	NAME_DESC
+	NICKNAME_ASC
+	NICKNAME_DESC
 }
 
 input UpdateUserProfileInput {
