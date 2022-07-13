@@ -11,6 +11,7 @@ import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
+import com.yapp.weekand.domain.category.exception.ScheduleCategoryUnderMinSizeException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
@@ -92,6 +93,24 @@ class ScheduleCategoryService(
 		return true
 	}
 
+	@Transactional
+	fun deleteCategory(categoryId: Long, user: User) {
+		if (user.scheduleRules.size < MIN_CATEGORY_SIZE) {
+			throw ScheduleCategoryUnderMinSizeException()
+		}
+
+		val category = scheduleCategoryRepository.findByIdOrNull(categoryId)
+			?: throw ScheduleCategoryNotFoundException()
+
+		if (user.id != category.user.id) {
+			throw UnauthorizedAccessException()
+		}
+
+		val schedules = scheduleRepository.findByScheduleCategory(category)
+		scheduleRepository.deleteAllInBatch(schedules)
+		scheduleCategoryRepository.delete(category)
+	}
+
 	private fun getSort(sort: ScheduleCategorySort): Sort {
 		val scheduleCategorySort: Sort = when (sort) {
 			ScheduleCategorySort.DATE_CREATED_ASC -> Sort.by("dateCreated").ascending()
@@ -100,5 +119,9 @@ class ScheduleCategoryService(
 			ScheduleCategorySort.NAME_DESC -> Sort.by("name").descending()
 		}
 		return scheduleCategorySort
+	}
+
+	companion object {
+		private const val MIN_CATEGORY_SIZE = 2
 	}
 }

@@ -1,5 +1,6 @@
 package com.yapp.weekand.domain.schedule.repository
 
+import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -16,4 +17,6 @@ interface ScheduleRepository : JpaRepository<ScheduleRule, Long> {
 
 	@Query("SELECT r FROM ScheduleRule r join fetch r.scheduleCategory left join fetch r.scheduleStatus where r.id = :id")
 	fun findByScheduleId(@Param("id") scheduleId: Long): ScheduleRule?
+
+	fun findByScheduleCategory(scheduleCategory: ScheduleCategory): List<ScheduleRule>
 }

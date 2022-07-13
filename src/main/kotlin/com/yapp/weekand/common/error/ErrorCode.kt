@@ -41,6 +41,7 @@ enum class ErrorCode(
 	SCHEDULE_INVALID_CREATE(HttpStatus.BAD_REQUEST, "4004", "반복 요일을 입력해주세요."),
 	SCHEDULE_DUPLICATED_STATUS(HttpStatus.BAD_REQUEST, "4005", "이미 상태가 등록된 스케줄입니다."),
 	SCHEDULE_INVALID_SKIP_DATE(HttpStatus.BAD_REQUEST, "4006", "스킵 날짜를 확인해주세요."),
+	SCHEDULE_UNDER_MIN_SIZE(HttpStatus.BAD_REQUEST, "4007", "최소 2개 이상의 카테고리가 존재할 시 삭제 가능합니다."),
 
 	//Follow
 	FOLLOW_DUPLICATED(HttpStatus.BAD_REQUEST, "5001", "이미 등록된 팔로우 내역입니다."),
