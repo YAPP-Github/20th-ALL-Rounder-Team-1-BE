@@ -107,6 +107,10 @@ type Mutation {
 	"""
 	createSchedule(input: ScheduleInput!): Boolean!
 	"""
+	스케줄을 수정한다
+	"""
+	updateSchedule(input: UpdateScheduleInput!): Boolean!
+	"""
 	특정 스케줄을 삭제한다
 	"""
 	skipSchedule(scheduleId: ID!, skipDate: Timestamp!): Boolean!

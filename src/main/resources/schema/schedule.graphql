@@ -21,6 +21,14 @@ enum ScheduleStatus {
 	UNDETERMINED
 }
 
+enum RepeatType {
+	DAILY
+	WEEKLY
+	MONTHLY
+	YEARLY
+	ONCE
+}
+
 type ScheduleInfo {
 	id: ID!
 	name: String!
@@ -34,6 +42,18 @@ type ScheduleInfo {
 }
 
 input ScheduleInput {
+	name: String!
+	categoryId: ID!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	repeatType: RepeatType!
+	repeatSelectedValue: [Week!]
+	repeatEnd: Timestamp
+	memo: String
+}
+
+input UpdateScheduleInput {
+	id: ID!
 	name: String!
 	categoryId: ID!
 	dateTimeStart: Timestamp!
