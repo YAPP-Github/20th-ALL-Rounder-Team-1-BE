@@ -9,6 +9,7 @@ import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.user.mapper.toGraphql
 import com.yapp.weekand.domain.user.service.UserService
+import org.springframework.data.domain.PageRequest
 import com.yapp.weekand.api.generated.types.User as UserGraphql
 
 @DgsComponent
@@ -33,11 +34,14 @@ class UserQueryResolver(
 		@InputArgument searchQuery: String?,
 		@InputArgument jobs: List<String>?,
 		@InputArgument interests: List<String>?,
-		@InputArgument sort: SearchUserSort?
+		@InputArgument sort: SearchUserSort?,
+		@InputArgument page: Int,
+		@InputArgument size: Int,
 	): SearchUserList {
+		val users = userService.searchUsers(searchQuery, jobs, interests, sort, PageRequest.of(page, size))
 		return SearchUserList(
-			paginationInfo = PaginationInfo(hasNext = false),
-			users = userService.searchUsers(searchQuery, jobs, interests, sort).map { it.toGraphql() },
+			paginationInfo = PaginationInfo(hasNext = users.hasNext()),
+			users = users.content.map { it.toGraphql() },
 		)
 	}
 }

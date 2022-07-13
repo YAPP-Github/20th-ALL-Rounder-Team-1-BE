@@ -13,11 +13,13 @@ import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.exception.GoalMaxLengthExceedException
 import com.yapp.weekand.domain.user.exception.NicknameMaxLengthExceedException
 import com.yapp.weekand.domain.user.exception.NicknameUnderMinLengthException
+import com.yapp.weekand.domain.user.repository.SearchUserListCondition
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
 import com.yapp.weekand.infra.s3.S3Service
 import org.joda.time.LocalDateTime
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -38,8 +40,21 @@ class UserService(
 
 	fun findUserById(id: Long) = userRepository.findByIdOrNull(id)
 
-	fun searchUsers(searchQuery: String?, jobs: List<String>?, interests: List<String>?, sort: SearchUserSort?) =
-		userRepository.searchUserList(searchQuery, jobs, interests, sort)
+	fun searchUsers(
+		searchQuery: String?,
+		jobs: List<String>?,
+		interests: List<String>?,
+		sort: SearchUserSort?,
+		pageable: Pageable
+	) =
+		userRepository.searchUserListWithPaging(
+			SearchUserListCondition(
+				nickNameOrGoalQuery = searchQuery,
+				jobs = jobs,
+				interests = interests,
+				sort = sort
+			), pageable
+		)
 
 	fun getCurrentUser(): User {
 		val currentUserId = jwtProvider.getFromSecurityContextHolder().user.id

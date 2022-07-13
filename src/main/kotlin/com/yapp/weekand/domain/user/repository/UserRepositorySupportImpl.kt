@@ -1,43 +1,50 @@
 package com.yapp.weekand.domain.user.repository
 
+import com.querydsl.jpa.impl.JPAQuery
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.domain.interest.entity.QUserInterest
 import com.yapp.weekand.domain.job.entity.QUserJob
 import com.yapp.weekand.domain.user.entity.QUser
 import com.yapp.weekand.domain.user.entity.User
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+
+data class SearchUserListCondition(
+	val nickNameOrGoalQuery: String?,
+	val jobs: List<String>?,
+	val interests: List<String>?,
+	val sort: SearchUserSort?
+)
 
 class UserRepositorySupportImpl(
 	private val queryFactory: JPAQueryFactory,
 ) : UserRepositorySupport, QuerydslRepositorySupport(User::class.java) {
-	override fun searchUserList(
-		nickNameOrGoalQuery: String?,
-		jobs: List<String>?,
-		interests: List<String>?,
-		sort: SearchUserSort?
-	): List<User> {
+
+	private fun buildSearchUserListQuery(condition: SearchUserListCondition): JPAQuery<User> {
 		val qUser = QUser.user
 		val query = queryFactory.selectFrom(qUser)
 
-		val nickNameOrGoalQueryTrim = nickNameOrGoalQuery?.trim()
+		val nickNameOrGoalQueryTrim = condition.nickNameOrGoalQuery?.trim()
 		if (nickNameOrGoalQueryTrim != null && nickNameOrGoalQueryTrim.isNotEmpty()) {
 			query.where(
 				qUser.nickname.like("%${nickNameOrGoalQueryTrim}%").or(qUser.goal.like("%${nickNameOrGoalQueryTrim}%"))
 			)
 		}
 
-		if (!jobs.isNullOrEmpty()) {
+		if (!condition.jobs.isNullOrEmpty()) {
 			val qJob = QUserJob.userJob
-			query.join(qUser.jobs, qJob).where(qJob.jobName.`in`(jobs))
+			query.join(qUser.jobs, qJob).where(qJob.jobName.`in`(condition.jobs))
 		}
 
-		if (!interests.isNullOrEmpty()) {
+		if (!condition.interests.isNullOrEmpty()) {
 			val qInterest = QUserInterest.userInterest
-			query.join(qUser.interests, qInterest).where(qInterest.interestName.`in`(interests))
+			query.join(qUser.interests, qInterest).where(qInterest.interestName.`in`(condition.interests))
 		}
 
-		when (sort) {
+		when (condition.sort) {
 			SearchUserSort.DATE_CREATED_DESC -> query.orderBy(qUser.dateCreated.desc())
 			SearchUserSort.NICKNAME_ASC -> query.orderBy(qUser.nickname.asc())
 			SearchUserSort.NICKNAME_DESC -> query.orderBy(qUser.nickname.desc())
@@ -45,6 +52,22 @@ class UserRepositorySupportImpl(
 			else -> query.orderBy(qUser.dateCreated.desc())
 		}
 
-		return query.fetch()
+		return query
+	}
+
+	override fun searchUserListWithPaging(
+		condition: SearchUserListCondition,
+		pageable: Pageable,
+	): Page<User> {
+		val content = buildSearchUserListQuery(condition)
+			.offset(pageable.offset)
+			.limit(pageable.pageSize.toLong())
+			.fetch()
+
+		val totalCount = buildSearchUserListQuery(condition)
+			.fetch()
+			.size
+
+		return PageImpl(content, pageable, totalCount.toLong())
 	}
 }

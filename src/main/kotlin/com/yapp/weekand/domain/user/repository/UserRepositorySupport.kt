@@ -1,13 +1,12 @@
 package com.yapp.weekand.domain.user.repository
 
-import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.domain.user.entity.User
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 
 interface UserRepositorySupport {
-	fun searchUserList(
-		nickNameOrGoalQuery: String?,
-		job: List<String>?,
-		interest: List<String>?,
-		sort: SearchUserSort?
-	): List<User>
+	fun searchUserListWithPaging(
+		condition: SearchUserListCondition,
+		pageable: Pageable
+	): Page<User>
 }
