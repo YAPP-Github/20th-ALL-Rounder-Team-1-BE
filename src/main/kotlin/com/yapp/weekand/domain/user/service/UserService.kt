@@ -1,5 +1,6 @@
 package com.yapp.weekand.domain.user.service
 
+import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
 import com.yapp.weekand.api.generated.types.UserProfileImageExtensionType
 import com.yapp.weekand.api.generated.types.UserProfileImageS3PresignedUrl
@@ -36,6 +37,9 @@ class UserService(
 	fun checkDuplicateNickname(nickname: String) = userRepository.existsUserByNickname(nickname)
 
 	fun findUserById(id: Long) = userRepository.findByIdOrNull(id)
+
+	fun searchUsers(searchQuery: String?, jobs: List<String>?, interests: List<String>?, sort: SearchUserSort?) =
+		userRepository.searchUserList(searchQuery, jobs, interests, sort)
 
 	fun getCurrentUser(): User {
 		val currentUserId = jwtProvider.getFromSecurityContextHolder().user.id

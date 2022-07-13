@@ -9,7 +9,6 @@ import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.user.mapper.toGraphql
 import com.yapp.weekand.domain.user.service.UserService
-import java.util.Random
 import com.yapp.weekand.api.generated.types.User as UserGraphql
 
 @DgsComponent
@@ -28,25 +27,17 @@ class UserQueryResolver(
 		return currentUser.toGraphql()
 	}
 
-	fun tmpUserListGen(count:Int): List<UserGraphql> = IntArray(count) { it + 1}.map {
-		UserGraphql(
-			id = it.toString(),
-			email = "user_${it}_email@email.com",
-			nickname = "user_${it}",
-			profileUrl = "https://user_${it}_profile_image.png",
-			goal = "유저 ${it} 의 목표 입니다~",
-			jobs = listOf("student", "nurse"),
-			interests = listOf("취미1", "취미2"),
-			followerCount = Random().nextInt() % 1000,
-			followeeCount = Random().nextInt() % 1000,
-		)
-	}
 	@DgsQuery
 	@JwtAuth
-	fun searchUsers(@InputArgument searchQuery: String?, job: String?, interest: String?, sort: SearchUserSort?): SearchUserList {
+	fun searchUsers(
+		@InputArgument searchQuery: String?,
+		@InputArgument jobs: List<String>?,
+		@InputArgument interests: List<String>?,
+		@InputArgument sort: SearchUserSort?
+	): SearchUserList {
 		return SearchUserList(
 			paginationInfo = PaginationInfo(hasNext = false),
-			users = tmpUserListGen(20),
+			users = userService.searchUsers(searchQuery, jobs, interests, sort).map { it.toGraphql() },
 		)
 	}
 }
