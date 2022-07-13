@@ -129,7 +129,7 @@ type Mutation {
 	"""
 	스케줄을 삭제한다
 	"""
-	deleteSchedule(input: DeleteScheduleInput): Boolean!
+	deleteSchedule(input: DeleteScheduleInput!): Boolean!
 }
 
 type Weekand {
