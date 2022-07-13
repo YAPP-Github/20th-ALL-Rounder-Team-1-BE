@@ -62,4 +62,16 @@ class ScheduleService (
 		}
 		scheduleStatusRepository.save(ScheduleStatus.skipSchedule(skipDate.toLocalDate(), schedule))
 	}
+
+	@Transactional
+	fun deleteSchedule(scheduleId: Long, user: User) {
+		val schedule = scheduleRepository.findByIdOrNull(scheduleId)
+			?: throw ScheduleNotFoundException()
+
+		if (user.id != schedule.user.id) {
+			throw UnauthorizedAccessException()
+		}
+
+		scheduleRepository.delete(schedule)
+	}
 }
