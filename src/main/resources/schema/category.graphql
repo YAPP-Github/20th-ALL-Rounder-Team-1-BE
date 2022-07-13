@@ -41,3 +41,7 @@ input ScheduleCategoryInput {
 	color: String!
 	openType: ScheduleCategoryOpenType!
 }
+
+input DeleteScheduleCategoryInput {
+	scheduleCategoryId: ID!
+}
