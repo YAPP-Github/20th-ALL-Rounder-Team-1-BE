@@ -53,3 +53,7 @@ enum Week {
 	SATURDAY,
 	SUNDAY
 }
+
+input DeleteScheduleInput{
+	scheduleId: ID!
+}
