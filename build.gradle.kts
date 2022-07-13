@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("plugin.allopen") version "1.6.21"
     kotlin("plugin.noarg") version "1.6.21"
+	kotlin("kapt") version "1.3.61"
 }
 
 allOpen {
@@ -38,6 +39,8 @@ repositories {
     mavenCentral()
 }
 
+val querydslVersion = "5.0.0"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -61,6 +64,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+
+	implementation("com.querydsl:querydsl-jpa:$querydslVersion")
+	kapt("com.querydsl:querydsl-apt:$querydslVersion:jpa")
+	kapt("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<KotlinCompile> {
@@ -90,4 +97,9 @@ tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
 		"RepeatType" to "com.yapp.weekand.domain.schedule.entity.RepeatType",
 		"ScheduleStatus" to "com.yapp.weekand.domain.schedule.entity.Status"
 	)
+}
+
+//querydsl
+kotlin.sourceSets.main {
+	setBuildDir("$buildDir")
 }
