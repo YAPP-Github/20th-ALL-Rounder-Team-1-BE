@@ -9,11 +9,11 @@ import com.yapp.weekand.domain.auth.exception.NicknameDuplicatedException
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.domain.interest.service.InterestService
 import com.yapp.weekand.domain.job.service.JobService
+import com.yapp.weekand.domain.user.dto.SearchUserListCondition
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.exception.GoalMaxLengthExceedException
 import com.yapp.weekand.domain.user.exception.NicknameMaxLengthExceedException
 import com.yapp.weekand.domain.user.exception.NicknameUnderMinLengthException
-import com.yapp.weekand.domain.user.repository.SearchUserListCondition
 import com.yapp.weekand.domain.user.repository.UserRepository
 import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
