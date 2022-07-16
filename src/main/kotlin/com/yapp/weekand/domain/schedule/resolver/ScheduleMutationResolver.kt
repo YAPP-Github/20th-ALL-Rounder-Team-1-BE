@@ -3,6 +3,7 @@ package com.yapp.weekand.domain.schedule.resolver
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import com.yapp.weekand.api.generated.types.DeleteScheduleInput
 import com.yapp.weekand.api.generated.types.ScheduleInput
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.schedule.entity.RepeatType
@@ -36,6 +37,13 @@ class ScheduleMutationResolver (
 	@JwtAuth
 	fun skipSchedule(@InputArgument scheduleId: Long, @InputArgument skipDate: LocalDateTime): Boolean {
 		scheduleService.skipSchedule(scheduleId, skipDate, userService.getCurrentUser())
+		return true
+	}
+
+	@DgsMutation
+	@JwtAuth
+	fun deleteSchedule(@InputArgument input: DeleteScheduleInput): Boolean {
+		scheduleService.deleteSchedule(input.scheduleId.toLong(), userService.getCurrentUser())
 		return true
 	}
 }
