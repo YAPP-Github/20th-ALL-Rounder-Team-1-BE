@@ -54,6 +54,7 @@ input ScheduleInput {
 
 input UpdateScheduleInput {
 	id: ID!
+	requestDateTime: Timestamp!
 	name: String!
 	categoryId: ID!
 	dateTimeStart: Timestamp!

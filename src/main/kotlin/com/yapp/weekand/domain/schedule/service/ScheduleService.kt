@@ -99,7 +99,7 @@ class ScheduleService(
 					), category, user
 				)
 			)
-			existedSchedule.dateRepeatEnd = input.dateTimeStart
+			existedSchedule.dateRepeatEnd = input.requestDateTime.minusDays(1)
 		} else {
 			scheduleRepository.save(ScheduleRule.of(input, category, user))
 		}
