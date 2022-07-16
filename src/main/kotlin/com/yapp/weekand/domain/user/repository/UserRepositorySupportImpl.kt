@@ -5,19 +5,13 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.domain.interest.entity.QUserInterest
 import com.yapp.weekand.domain.job.entity.QUserJob
+import com.yapp.weekand.domain.user.dto.SearchUserListCondition
 import com.yapp.weekand.domain.user.entity.QUser
 import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
-
-data class SearchUserListCondition(
-	val nickNameOrGoalQuery: String?,
-	val jobs: List<String>?,
-	val interests: List<String>?,
-	val sort: SearchUserSort?
-)
 
 class UserRepositorySupportImpl(
 	private val queryFactory: JPAQueryFactory,
