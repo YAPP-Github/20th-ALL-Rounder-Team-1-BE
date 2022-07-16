@@ -2,9 +2,11 @@ package com.yapp.weekand.domain.schedule.service
 
 import com.yapp.weekand.api.generated.types.ScheduleInfo
 import com.yapp.weekand.api.generated.types.ScheduleInput
+import com.yapp.weekand.api.generated.types.UpdateScheduleInput
 import com.yapp.weekand.domain.auth.exception.UnauthorizedAccessException
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryNotFoundException
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
+import com.yapp.weekand.domain.schedule.entity.RepeatType
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.domain.schedule.entity.ScheduleStatus
 import com.yapp.weekand.domain.schedule.exception.ScheduleDuplicatedStatusException
@@ -21,7 +23,7 @@ import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
-class ScheduleService (
+class ScheduleService(
 	private val scheduleRepository: ScheduleRepository,
 	private val scheduleCategoryRepository: ScheduleCategoryRepository,
 	private val scheduleStatusRepository: ScheduleStatusRepository
@@ -73,5 +75,53 @@ class ScheduleService (
 		}
 
 		scheduleRepository.delete(schedule)
+	}
+
+	@Transactional
+	fun updateSchedule(input: UpdateScheduleInput, user: User) {
+		val existedSchedule = scheduleRepository.findByIdOrNull(input.id.toLong()) ?: throw ScheduleNotFoundException()
+
+		val category = scheduleCategoryRepository.findByIdOrNull(input.categoryId.toLong())
+			?: throw ScheduleCategoryNotFoundException()
+
+		if (checkRequiredNewSchedule(input, existedSchedule)) {
+			scheduleRepository.save(
+				ScheduleRule.of(
+					ScheduleInput(
+						name = input.name,
+						categoryId = input.categoryId,
+						dateTimeStart = input.dateTimeStart,
+						dateTimeEnd = input.dateTimeEnd,
+						repeatEnd = input.repeatEnd,
+						repeatType = input.repeatType,
+						memo = input.memo,
+						repeatSelectedValue = if (input.repeatType == RepeatType.WEEKLY) input.repeatSelectedValue else listOf()
+					), category, user
+				)
+			)
+			existedSchedule.dateRepeatEnd = input.dateTimeStart
+		} else {
+			scheduleRepository.save(ScheduleRule.of(input, category, user))
+		}
+	}
+
+	private fun checkRequiredNewSchedule(updateInput: UpdateScheduleInput, existedSchedule: ScheduleRule): Boolean {
+		if (updateInput.dateTimeStart != existedSchedule.dateStart) {
+			return true
+		}
+		if (updateInput.dateTimeEnd != existedSchedule.dateEnd) {
+			return true
+		}
+		if (updateInput.repeatType != existedSchedule.repeatType) {
+			return true
+		}
+
+		val existedRepeatSelectedValue = existedSchedule.repeatSelectedValue?.split(",")?.sorted()
+		val inputRepeatSelectedValue = updateInput.repeatSelectedValue?.map { it.toString() }?.sorted()
+		if (existedRepeatSelectedValue != inputRepeatSelectedValue) {
+			return true
+		}
+
+		return false
 	}
 }
