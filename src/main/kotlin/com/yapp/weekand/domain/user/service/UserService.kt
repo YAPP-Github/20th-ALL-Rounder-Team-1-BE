@@ -1,5 +1,6 @@
 package com.yapp.weekand.domain.user.service
 
+import com.yapp.weekand.api.generated.types.SearchUserSort
 import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
 import com.yapp.weekand.api.generated.types.UserProfileImageExtensionType
 import com.yapp.weekand.api.generated.types.UserProfileImageS3PresignedUrl
@@ -8,6 +9,7 @@ import com.yapp.weekand.domain.auth.exception.NicknameDuplicatedException
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.domain.interest.service.InterestService
 import com.yapp.weekand.domain.job.service.JobService
+import com.yapp.weekand.domain.user.dto.SearchUserListCondition
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.exception.GoalMaxLengthExceedException
 import com.yapp.weekand.domain.user.exception.NicknameMaxLengthExceedException
@@ -17,6 +19,7 @@ import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
 import com.yapp.weekand.infra.s3.S3Service
 import org.joda.time.LocalDateTime
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -36,6 +39,22 @@ class UserService(
 	fun checkDuplicateNickname(nickname: String) = userRepository.existsUserByNickname(nickname)
 
 	fun findUserById(id: Long) = userRepository.findByIdOrNull(id)
+
+	fun searchUsers(
+		searchQuery: String?,
+		jobs: List<String>?,
+		interests: List<String>?,
+		sort: SearchUserSort?,
+		pageable: Pageable
+	) =
+		userRepository.searchUserListWithPaging(
+			SearchUserListCondition(
+				nickNameOrGoalQuery = searchQuery,
+				jobs = jobs,
+				interests = interests,
+				sort = sort
+			), pageable
+		)
 
 	fun getCurrentUser(): User {
 		val currentUserId = jwtProvider.getFromSecurityContextHolder().user.id
