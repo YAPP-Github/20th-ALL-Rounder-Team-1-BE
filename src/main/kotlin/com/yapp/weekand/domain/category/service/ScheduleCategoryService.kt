@@ -11,6 +11,7 @@ import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
+import com.yapp.weekand.domain.category.exception.ScheduleCategoryDuplicatedNameException
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryUnderMinSizeException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
@@ -67,6 +68,10 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun createCategory(categoryInput: ScheduleCategoryInput, user: User): Boolean {
+		if (scheduleCategoryRepository.existsByName(categoryInput.name)) {
+			throw ScheduleCategoryDuplicatedNameException()
+		}
+
 		scheduleCategoryRepository.save(
 			ScheduleCategory.of(categoryInput, user)
 		)
@@ -82,6 +87,10 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun updateCategory(categoryId: Long, categoryInput: ScheduleCategoryInput, user: User): Boolean {
+		if (scheduleCategoryRepository.existsByName(categoryInput.name)) {
+			throw ScheduleCategoryDuplicatedNameException()
+		}
+
 		val category = scheduleCategoryRepository.findByIdOrNull(categoryId)
 			?: throw ScheduleCategoryNotFoundException()
 
