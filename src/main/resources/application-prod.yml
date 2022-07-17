@@ -1,37 +1,38 @@
 spring:
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://database-1.ccbd1uk8wp0e.ap-northeast-2.rds.amazonaws.com:3306/weekand-dev
-        username: admin
-        password: ${/weekand/mysql/password}
-    mail:
-        username: helpteam@week-and.kr
-        password: ${/weekand/email/password}
-        properties:
-            mail:
-                smtp:
-                    ssl:
-                        enable: true
-                        required: true
-                    auth: true
-    jpa:
-        hibernate:
-            ddl-auto: none
-        properties:
-            hibernate:
-                format_sql: true
-        show-sql: true
-    redis:
-        host: ${/weekand/redis/host}
-        port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.ccbd1uk8wp0e.ap-northeast-2.rds.amazonaws.com:3306/weekand-dev
+    username: admin
+    password: ${/weekand/mysql/password}
+  mail:
+    username: helpteam@week-and.kr
+    password: ${/weekand/email/password}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+            required: true
+          auth: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  redis:
+    host: ${/weekand/redis/host}
+    port: 6379
 jwt:
-    secret: ${/weekand/jwt/secret}
-    access-token-expiry: 1800000
-    refresh-token-expiry: 2592000000
-    access-token-header: Access-Token
-    refresh-token-header: Refresh-Token
+  secret: ${/weekand/jwt/secret}
+  access-token-expiry: 1800000
+  refresh-token-expiry: 2592000000
+  access-token-header: Access-Token
+  refresh-token-header: Refresh-Token
 mail:
-    authkey-expiry: 300000
+  # 30 min
+  authkey-expiry: 1800000
 cloud:
   aws:
     credentials:
@@ -51,4 +52,4 @@ logging:
           EC2MetadataUtils: error
 
 awsParameterStorePropertySource:
-    enabled: true
+  enabled: true
