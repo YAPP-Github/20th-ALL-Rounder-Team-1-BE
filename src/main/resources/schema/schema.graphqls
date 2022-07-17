@@ -181,7 +181,7 @@ type Mutation {
 	3001: 존재하지 않는 유저입니다.
 	3014: 이미 등록된 닉네임입니다.
 	"""
-	updateUserProfile(input: UpdateUserProfileInput!): Boolean!
+	updateUserProfile(input: UpdateUserProfileInput!): User!
 	"""
 	스티커를 추가한다
 	[error]
