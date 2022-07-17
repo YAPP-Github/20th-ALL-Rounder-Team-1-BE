@@ -25,4 +25,10 @@ class JobService(
 			)
 		}
 	}
+
+	@Transactional
+	fun deleteJobByUser(user: User) {
+		val jobs = jobRepository.findByUser(user)
+		jobRepository.deleteAllInBatch(jobs)
+	}
 }

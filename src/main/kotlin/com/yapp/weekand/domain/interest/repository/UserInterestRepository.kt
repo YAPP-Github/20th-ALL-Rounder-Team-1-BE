@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserInterestRepository : JpaRepository<UserInterest, Long> {
 	fun deleteAllByUser(user: User)
+
+	fun findByUser(user: User): List<UserInterest>
 }

@@ -2,6 +2,7 @@ package com.yapp.weekand.domain.schedule.repository
 
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
+import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -19,4 +20,6 @@ interface ScheduleRepository : JpaRepository<ScheduleRule, Long> {
 	fun findByScheduleId(@Param("id") scheduleId: Long): ScheduleRule?
 
 	fun findByScheduleCategory(scheduleCategory: ScheduleCategory): List<ScheduleRule>
+
+	fun findByUser(user: User): List<ScheduleRule>
 }

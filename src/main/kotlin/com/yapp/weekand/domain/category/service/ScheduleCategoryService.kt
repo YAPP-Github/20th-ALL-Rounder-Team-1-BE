@@ -130,6 +130,12 @@ class ScheduleCategoryService(
 		return scheduleCategorySort
 	}
 
+	@Transactional
+	fun deleteCategoryByUser(user: User) {
+		val scheduleCategories = scheduleCategoryRepository.findByUser(user)
+		scheduleCategoryRepository.deleteAllInBatch(scheduleCategories)
+	}
+
 	companion object {
 		private const val MIN_CATEGORY_SIZE = 2
 	}
