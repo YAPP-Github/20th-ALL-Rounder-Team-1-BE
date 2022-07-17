@@ -8,11 +8,12 @@ import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
 import com.yapp.weekand.api.generated.types.UserProfileImageS3PresignedUrl
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.user.service.UserService
+import com.yapp.weekand.domain.user.service.UserWithdrawalService
 
 @DgsComponent
 class UserMutationResolver(
 	private val userService: UserService,
-
+	private val userWithdrawalService: UserWithdrawalService,
 	) {
 	@DgsMutation
 	@JwtAuth
@@ -32,5 +33,12 @@ class UserMutationResolver(
 	@JwtAuth
 	fun createUserProfileImageS3PresignedUrl(@InputArgument input: CreateUserProfileImageS3PresignedUrlInput): UserProfileImageS3PresignedUrl {
 		return userService.createUserProfileImageS3PresignedUrl(userService.getCurrentUser().id, input.extension)
+	}
+
+	@DgsMutation
+	@JwtAuth
+	fun deleteUser(): Boolean {
+		userWithdrawalService.withDrawUser(userService.getCurrentUser().id)
+		return true
 	}
 }
