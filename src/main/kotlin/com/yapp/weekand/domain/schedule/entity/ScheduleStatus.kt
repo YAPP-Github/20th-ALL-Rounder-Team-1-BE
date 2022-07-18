@@ -20,9 +20,9 @@ class ScheduleStatus (
 	var scheduleRule: ScheduleRule
 ) : BaseEntity() {
 	companion object {
-		fun skipSchedule(skipDate: LocalDate, scheduleRule: ScheduleRule): ScheduleStatus{
+		fun of(status: Status, skipDate: LocalDate, scheduleRule: ScheduleRule): ScheduleStatus {
 			return ScheduleStatus(
-				status = Status.SKIP,
+				status = status,
 				dateYmd = skipDate,
 				scheduleRule = scheduleRule
 			)
