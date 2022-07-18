@@ -9,7 +9,7 @@ import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.data.domain.PageRequest
 
 @DgsComponent
-class FollowResolver (
+class FollowQueryResolver (
 	private val followService: FollowService,
 	private val userService: UserService
 ) {

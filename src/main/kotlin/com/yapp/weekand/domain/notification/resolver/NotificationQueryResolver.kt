@@ -11,7 +11,7 @@ import com.yapp.weekand.domain.user.service.UserService
 import org.springframework.data.domain.PageRequest
 
 @DgsComponent
-class NotificationResolver (
+class NotificationQueryResolver (
 	private val notificationService: NotificationService,
 	private val userService: UserService
 ) {

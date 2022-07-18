@@ -35,8 +35,8 @@ enum class ErrorCode(
 	NICKNAME_MAX_LENGTH_EXCEED(HttpStatus.BAD_REQUEST, "3018", "닉네임 최대 길이를 초과하였습니다."),
 
 	//Schedule
-	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다"),
-	SCHEDULE_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"4002", "해당 카테고리를 찾을 수 없습니다"),
+	SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND,"4001", "해당 스케줄을 찾을 수 없습니다."),
+	SCHEDULE_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"4002", "해당 카테고리를 찾을 수 없습니다."),
 	SCHEDULE_INVALID_DATE(HttpStatus.BAD_REQUEST, "4003", "시작 일시와 종료 일시를 확인해주세요."),
 	SCHEDULE_INVALID_CREATE(HttpStatus.BAD_REQUEST, "4004", "반복 요일을 입력해주세요."),
 	SCHEDULE_DUPLICATED_STATUS(HttpStatus.BAD_REQUEST, "4005", "이미 상태가 등록된 스케줄입니다."),
