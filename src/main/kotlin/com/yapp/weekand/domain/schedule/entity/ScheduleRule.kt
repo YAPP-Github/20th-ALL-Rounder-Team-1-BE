@@ -1,6 +1,7 @@
 package com.yapp.weekand.domain.schedule.entity
 
 import com.yapp.weekand.api.generated.types.ScheduleInput
+import com.yapp.weekand.api.generated.types.UpdateScheduleInput
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.common.entity.BaseEntity
@@ -43,6 +44,21 @@ class ScheduleRule (
 	companion object {
 		fun of (scheduleInput: ScheduleInput, scheduleCategory: ScheduleCategory, user: User): ScheduleRule {
 			return ScheduleRule(
+				name = scheduleInput.name,
+				dateStart = scheduleInput.dateTimeStart,
+				dateEnd = scheduleInput.dateTimeEnd,
+				dateRepeatEnd = scheduleInput.repeatEnd,
+				repeatType = scheduleInput.repeatType,
+				memo = scheduleInput.memo,
+				repeatSelectedValue = scheduleInput.repeatSelectedValue?.joinToString(","),
+				scheduleCategory = scheduleCategory,
+				user = user
+			)
+		}
+
+		fun of (scheduleInput: UpdateScheduleInput, scheduleCategory: ScheduleCategory, user: User): ScheduleRule {
+			return ScheduleRule(
+				id = scheduleInput.id.toLong(),
 				name = scheduleInput.name,
 				dateStart = scheduleInput.dateTimeStart,
 				dateEnd = scheduleInput.dateTimeEnd,
