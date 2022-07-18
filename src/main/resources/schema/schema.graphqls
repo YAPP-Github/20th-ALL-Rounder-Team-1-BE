@@ -217,6 +217,10 @@ type Mutation {
 	회원 탈퇴 한다
 	"""
 	deleteUser: Boolean!
+	"""
+	로그아웃을 한다
+	"""
+	logout: Boolean!
 }
 
 type Weekand {
@@ -226,4 +230,3 @@ type Weekand {
 type PaginationInfo {
 	hasNext: Boolean!
 }
-
