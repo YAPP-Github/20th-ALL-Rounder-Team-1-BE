@@ -8,5 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ScheduleCategoryRepository: JpaRepository<ScheduleCategory, Long> {
 	fun findByUser(user: User, pageable: Pageable): Slice<ScheduleCategory>
+
+	fun findByUser(user: User): List<ScheduleCategory>
+
 	fun existsByName(name: String): Boolean
 }

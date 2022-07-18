@@ -16,4 +16,10 @@ class NotificationService (
 	fun getNotifications(user: User, pageable: Pageable): Slice<Notification> =
 		notificationRepository.findByUserOrderByDateCreatedDesc(user, pageable)
 			.map{ Notification(id= it.id.toString(), message = it.message, type = it.type)}
+
+	@Transactional
+	fun deleteNotificationByUser(user: User) {
+		val notifications = notificationRepository.findByUser(user)
+		notificationRepository.deleteAllInBatch(notifications)
+	}
 }

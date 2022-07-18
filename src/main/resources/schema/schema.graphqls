@@ -213,6 +213,10 @@ type Mutation {
 	3006: 권한이 없는 유저의 접근입니다.
 	"""
 	deleteCategory(input: DeleteScheduleCategoryInput!): Boolean!
+	"""
+	회원 탈퇴 한다
+	"""
+	deleteUser: Boolean!
 }
 
 type Weekand {

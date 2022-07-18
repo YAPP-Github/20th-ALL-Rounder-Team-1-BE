@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface NotificationRepository: JpaRepository<Notification, Long> {
 	fun findByUserOrderByDateCreatedDesc(user: User, pageable: Pageable): Slice<Notification>
+
+	fun findByUser(user: User): List<Notification>
 }

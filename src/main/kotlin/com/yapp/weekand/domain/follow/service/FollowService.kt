@@ -49,4 +49,9 @@ class FollowService(
 			)
 		)
 	}
+	@Transactional
+	fun deleteFollowByUser(user: User) {
+		val follows =  followRepository.findByFollowerUserOrFolloweeUser(user, user)
+		followRepository.deleteAllInBatch(follows)
+	}
 }

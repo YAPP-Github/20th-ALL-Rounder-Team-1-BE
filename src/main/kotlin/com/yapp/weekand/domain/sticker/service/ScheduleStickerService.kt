@@ -82,4 +82,10 @@ class ScheduleStickerService(
 
 		scheduleStickerRepository.deleteByUserAndScheduleRuleAndScheduleDate(user, schedule, input.scheduleDate.toLocalDate())
 	}
+
+	@Transactional
+	fun deleteScheduleStickerByUser(user: User) {
+		val scheduleSticker = scheduleStickerRepository.findByUser(user)
+		scheduleStickerRepository.deleteAllInBatch(scheduleSticker)
+	}
 }

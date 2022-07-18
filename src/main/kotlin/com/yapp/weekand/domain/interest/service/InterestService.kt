@@ -25,4 +25,10 @@ class InterestService(
 			)
 		}
 	}
+
+	@Transactional
+	fun deleteInterestByUser(user: User) {
+		val interests = interestRepository.findByUser(user)
+		interestRepository.deleteAllInBatch(interests)
+	}
 }

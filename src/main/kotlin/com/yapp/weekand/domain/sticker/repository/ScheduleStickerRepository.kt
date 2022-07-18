@@ -8,6 +8,10 @@ import java.time.LocalDate
 
 interface ScheduleStickerRepository : JpaRepository<ScheduleSticker, Long> {
 	fun findByScheduleRuleAndScheduleDateOrderByDateCreatedDesc(scheduleRule: ScheduleRule, scheduleDate: LocalDate): List<ScheduleSticker>
+
 	fun findByUserAndScheduleRuleAndScheduleDate(user: User, scheduleRule: ScheduleRule, scheduleDate: LocalDate): ScheduleSticker?
+
 	fun deleteByUserAndScheduleRuleAndScheduleDate(user: User, scheduleRule: ScheduleRule, scheduleDate: LocalDate)
+
+	fun findByUser(user: User): List<ScheduleSticker>
 }

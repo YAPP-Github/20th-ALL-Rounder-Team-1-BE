@@ -124,4 +124,11 @@ class ScheduleService(
 
 		return false
 	}
+
+	@Transactional
+	fun deleteScheduleByUser(user: User) {
+		val schedules = scheduleRepository.findByUser(user)
+		scheduleRepository.deleteAllInBatch(schedules)
+		scheduleStatusRepository.deleteAllInBatch(schedules.flatMap { it.scheduleStatus })
+	}
 }
