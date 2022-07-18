@@ -5,8 +5,10 @@ import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.CreateUserProfileImageS3PresignedUrlInput
 import com.yapp.weekand.api.generated.types.UpdateUserProfileInput
+import com.yapp.weekand.api.generated.types.User
 import com.yapp.weekand.api.generated.types.UserProfileImageS3PresignedUrl
 import com.yapp.weekand.common.jwt.aop.JwtAuth
+import com.yapp.weekand.domain.user.mapper.toGraphql
 import com.yapp.weekand.domain.user.service.UserService
 import com.yapp.weekand.domain.user.service.UserWithdrawalService
 
@@ -24,9 +26,10 @@ class UserMutationResolver(
 
 	@DgsMutation
 	@JwtAuth
-	fun updateUserProfile(@InputArgument input: UpdateUserProfileInput): Boolean {
-		userService.updateUserProfile(userService.getCurrentUser().id, input)
-		return true
+	fun updateUserProfile(@InputArgument input: UpdateUserProfileInput): User {
+		val userId = userService.getCurrentUser().id
+		userService.updateUserProfile(userId, input)
+		return userService.findUserById(userId)!!.toGraphql()
 	}
 
 	@DgsMutation

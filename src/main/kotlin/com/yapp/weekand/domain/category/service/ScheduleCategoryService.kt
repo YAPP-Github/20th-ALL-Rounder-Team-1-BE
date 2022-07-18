@@ -26,6 +26,7 @@ class ScheduleCategoryService(
 	private val scheduleCategoryRepository: ScheduleCategoryRepository,
 	private val scheduleRepository: ScheduleRepository
 ) {
+	fun findScheduleCategoryById(id: Long) = scheduleCategoryRepository.findById(id).get()
 	fun getScheduleCategories(user: User, sort: ScheduleCategorySort, page: Int, size: Int): Slice<ScheduleCategoryGraphql> {
 		val scheduleCategorySort: Sort = getSort(sort)
 
