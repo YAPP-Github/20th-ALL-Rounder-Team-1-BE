@@ -3,11 +3,10 @@ package com.yapp.weekand.domain.schedule.resolver
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
-import com.yapp.weekand.api.generated.types.DeleteScheduleInput
-import com.yapp.weekand.api.generated.types.ScheduleInput
-import com.yapp.weekand.api.generated.types.UpdateScheduleInput
+import com.yapp.weekand.api.generated.types.*
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.schedule.entity.RepeatType
+import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.exception.ScheduleInvalidDateException
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.user.service.UserService
@@ -63,4 +62,17 @@ class ScheduleMutationResolver(
 		return true
 	}
 
+	@DgsMutation
+	@JwtAuth
+	fun completeSchedule(@InputArgument input: ScheduleStateInput): Boolean {
+		scheduleService.updateScheduleStatus(input, userService.getCurrentUser(), Status.COMPLETED)
+		return true
+	}
+
+	@DgsMutation
+	@JwtAuth
+	fun incompleteSchedule(@InputArgument input: ScheduleStateInput): Boolean {
+		scheduleService.updateScheduleStatus(input, userService.getCurrentUser(), Status.UNCOMPLETED)
+		return true
+	}
 }
