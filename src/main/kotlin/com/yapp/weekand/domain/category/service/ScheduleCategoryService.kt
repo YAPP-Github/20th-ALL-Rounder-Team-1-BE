@@ -105,7 +105,7 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun deleteCategory(categoryId: Long, user: User) {
-		if (user.scheduleRules.size < MIN_CATEGORY_SIZE) {
+		if (user.schedulecategories.size < MIN_CATEGORY_SIZE) {
 			throw ScheduleCategoryUnderMinSizeException()
 		}
 
