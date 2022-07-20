@@ -16,7 +16,7 @@ type Schedule {
 
 enum ScheduleStatus {
 	COMPLETED
-	UNCOMPLETED
+	INCOMPLETED
 	SKIP
 	UNDETERMINED
 }

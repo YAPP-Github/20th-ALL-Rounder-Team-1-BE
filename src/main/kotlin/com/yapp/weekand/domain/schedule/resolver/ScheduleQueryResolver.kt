@@ -24,7 +24,7 @@ class ScheduleQueryResolver(
 		Schedule(
 			id = it.toString(),
 			name = "user_${it}",
-			status = listOf(Status.UNDETERMINED, Status.COMPLETED, Status.UNCOMPLETED)[it % 3],
+			status = listOf(Status.UNDETERMINED, Status.COMPLETED, Status.INCOMPLETED)[it % 3],
 			category = ScheduleCategory(
 				id = it.toString(),
 				name = "카테고리_${it}",

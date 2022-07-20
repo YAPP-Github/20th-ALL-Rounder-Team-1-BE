@@ -72,7 +72,7 @@ class ScheduleMutationResolver(
 	@DgsMutation
 	@JwtAuth
 	fun incompleteSchedule(@InputArgument input: ScheduleStateInput): Boolean {
-		scheduleService.updateScheduleStatus(input, userService.getCurrentUser(), Status.UNCOMPLETED)
+		scheduleService.updateScheduleStatus(input, userService.getCurrentUser(), Status.INCOMPLETED)
 		return true
 	}
 }
