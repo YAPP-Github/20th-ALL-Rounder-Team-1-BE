@@ -11,7 +11,9 @@ interface FollowRepository: JpaRepository<Follow, Long> {
 
 	fun findByFollowerUserOrderByDateCreatedDesc(user: User, pageable: Pageable): Slice<Follow>
 
-	fun findByFollowerUserAndFolloweeUser(followerUser: User, followeeUser: User): Slice<Follow>
+	fun existsByFollowerUserAndFolloweeUser(followerUser: User, followeeUser: User): Boolean
 
 	fun findByFollowerUserOrFolloweeUser(followerUser: User, followeeUser: User): List<Follow>
+
+	fun findByFollowerUserAndFolloweeUser(followerUser: User, followeeUser: User): Follow?
 }

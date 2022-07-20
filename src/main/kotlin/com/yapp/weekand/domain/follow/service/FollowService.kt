@@ -4,11 +4,13 @@ import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.domain.follow.dto.FollowDto
 import com.yapp.weekand.domain.follow.entity.Follow
 import com.yapp.weekand.domain.follow.exception.FollowDuplicatedException
+import com.yapp.weekand.domain.follow.exception.FollowNotFoundException
 import com.yapp.weekand.domain.follow.repository.FollowRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -37,8 +39,8 @@ class FollowService(
 			throw UserNotFoundException()
 		}
 
-		val existedFollow = followRepository.findByFollowerUserAndFolloweeUser(user, targetUser.get())
-		if(!existedFollow.isEmpty){
+		val existedFollow = followRepository.existsByFollowerUserAndFolloweeUser(user, targetUser.get())
+		if(existedFollow){
 			throw FollowDuplicatedException()
 		}
 
@@ -53,5 +55,16 @@ class FollowService(
 	fun deleteFollowByUser(user: User) {
 		val follows =  followRepository.findByFollowerUserOrFolloweeUser(user, user)
 		followRepository.deleteAllInBatch(follows)
+	}
+
+	@Transactional
+	fun deleteFollower(user: User, targetUserId: Long) { //나를 팔로우하는 친구 삭제
+		val targetUser = userRepository.findByIdOrNull(targetUserId)
+			?: throw UserNotFoundException()
+
+		val follow = followRepository.findByFollowerUserAndFolloweeUser(targetUser, user)
+			?: throw FollowNotFoundException()
+
+		followRepository.delete(follow)
 	}
 }
