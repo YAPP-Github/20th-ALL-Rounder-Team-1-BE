@@ -10,7 +10,6 @@ import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.exception.ScheduleInvalidDateException
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.user.service.UserService
-import java.time.LocalDateTime
 import com.yapp.weekand.domain.schedule.exception.ScheduleRepeatValueInvalidException
 
 @DgsComponent
@@ -50,8 +49,8 @@ class ScheduleMutationResolver(
 
 	@DgsMutation
 	@JwtAuth
-	fun skipSchedule(@InputArgument scheduleId: Long, @InputArgument skipDate: LocalDateTime): Boolean {
-		scheduleService.skipSchedule(scheduleId, skipDate, userService.getCurrentUser())
+	fun skipSchedule(@InputArgument input: ScheduleStateInput): Boolean {
+		scheduleService.updateScheduleStatus(input, userService.getCurrentUser(), Status.SKIP)
 		return true
 	}
 
