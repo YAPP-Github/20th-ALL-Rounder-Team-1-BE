@@ -88,12 +88,12 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun updateCategory(categoryId: Long, categoryInput: ScheduleCategoryInput, user: User): Boolean {
-		if (scheduleCategoryRepository.existsByName(categoryInput.name)) {
-			throw ScheduleCategoryDuplicatedNameException()
-		}
-
 		val category = scheduleCategoryRepository.findByIdOrNull(categoryId)
 			?: throw ScheduleCategoryNotFoundException()
+
+		if (categoryInput.name != category.name && scheduleCategoryRepository.existsByName(categoryInput.name)) {
+			throw ScheduleCategoryDuplicatedNameException()
+		}
 
 		if (category.user.id != user.id) {
 			throw UnauthorizedAccessException()
@@ -105,7 +105,7 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun deleteCategory(categoryId: Long, user: User) {
-		if (user.scheduleRules.size < MIN_CATEGORY_SIZE) {
+		if (user.schedulecategories.size < MIN_CATEGORY_SIZE) {
 			throw ScheduleCategoryUnderMinSizeException()
 		}
 

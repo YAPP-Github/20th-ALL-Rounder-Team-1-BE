@@ -6,6 +6,7 @@ import com.yapp.weekand.domain.job.entity.UserJob
 import com.yapp.weekand.domain.notification.entity.Notification
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.common.entity.BaseEntity
+import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import javax.persistence.*
 
 @Entity
@@ -41,6 +42,9 @@ class User (
 
     @OneToMany(mappedBy = "user")
     var notifications: MutableList<Notification> = mutableListOf(),
+
+	@OneToMany(mappedBy = "user")
+	var schedulecategories: MutableList<ScheduleCategory> = mutableListOf(),
 
     @OneToMany(mappedBy = "followerUser")
     var followerList: MutableList<Follow> = mutableListOf(),
