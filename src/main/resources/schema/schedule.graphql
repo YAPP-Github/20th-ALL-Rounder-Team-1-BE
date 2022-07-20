@@ -16,7 +16,7 @@ type Schedule {
 
 enum ScheduleStatus {
 	COMPLETED
-	UNCOMPLETED
+	INCOMPLETED
 	SKIP
 	UNDETERMINED
 }
@@ -75,6 +75,11 @@ enum Week {
 	SUNDAY
 }
 
-input DeleteScheduleInput{
+input DeleteScheduleInput {
 	scheduleId: ID!
+}
+
+input ScheduleStateInput {
+	scheduleId: ID!
+	updateDate: Timestamp!
 }

@@ -7,4 +7,6 @@ import java.time.LocalDate
 
 interface ScheduleStatusRepository : JpaRepository<ScheduleStatus, Long> {
 	fun existsByDateYmdAndScheduleRule(date: LocalDate, scheduleRule: ScheduleRule): Boolean
+
+	fun deleteByDateYmdAndScheduleRule(date: LocalDate, scheduleRule: ScheduleRule)
 }

@@ -44,6 +44,7 @@ enum class ErrorCode(
 	SCHEDULE_INVALID_SKIP_DATE(HttpStatus.BAD_REQUEST, "4006", "스킵 날짜를 확인해주세요."),
 	SCHEDULE_CATEGORY_DUPLICATED_NAME(HttpStatus.BAD_REQUEST, "4007", "해당 카테고리명은 이미 사용중입니다."),
 	SCHEDULE_UNDER_MIN_SIZE(HttpStatus.BAD_REQUEST, "4008", "최소 2개 이상의 카테고리가 존재할 시 삭제 가능합니다."),
+	SCHEDULE_INVALID_STATE_DATE(HttpStatus.BAD_REQUEST, "4009", "상태 추가할 날짜를 확인해주세요."),
 
 	//Follow
 	FOLLOW_DUPLICATED(HttpStatus.BAD_REQUEST, "5001", "이미 등록된 팔로우 내역입니다."),
