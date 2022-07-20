@@ -1,11 +1,14 @@
 package com.yapp.weekand.domain.auth.resolver
 
 import com.netflix.graphql.dgs.DgsComponent
+import com.netflix.graphql.dgs.DgsDataFetchingEnvironment
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import com.netflix.graphql.dgs.internal.DgsWebMvcRequestData
 import com.yapp.weekand.api.generated.types.PasswordInput
 import com.yapp.weekand.api.generated.types.IssueTempPasswordInput
 import com.yapp.weekand.api.generated.types.SignUpInput
+import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.common.util.ValidationRegex.isRegexEmail
 import com.yapp.weekand.common.util.ValidationRegex.isRegexPassword
@@ -15,11 +18,13 @@ import com.yapp.weekand.domain.auth.exception.InvalidPasswordException
 import com.yapp.weekand.domain.auth.exception.SignUpFailException
 import com.yapp.weekand.domain.auth.service.AuthService
 import com.yapp.weekand.domain.user.service.UserService
+import org.springframework.web.context.request.ServletWebRequest
 
 @DgsComponent
 class AuthMutationResolver(
 	private val authService: AuthService,
-	private val userService: UserService
+	private val userService: UserService,
+	private val jwtProvider: JwtProvider
 ) {
 	@DgsMutation
 	fun signUp(@InputArgument signUpInput: SignUpInput): Boolean {
@@ -55,6 +60,17 @@ class AuthMutationResolver(
 	@DgsMutation
 	fun issueTempPassword(@InputArgument input: IssueTempPasswordInput): Boolean {
 		authService.sendTempPassword(input.email)
+		return true
+	}
+
+	@DgsMutation
+	@JwtAuth
+	fun logout(dfe: DgsDataFetchingEnvironment): Boolean {
+		val requestData: DgsWebMvcRequestData = dfe.getDgsContext().requestData as (DgsWebMvcRequestData)
+		val webRequest = requestData.webRequest as (ServletWebRequest)
+		val accessToken = jwtProvider.resolveAccessToken(webRequest.request)
+		val refreshToken = jwtProvider.resolveRefreshToken(webRequest.request)
+		authService.logout(accessToken, refreshToken)
 		return true
 	}
 

@@ -5,6 +5,7 @@ import com.yapp.weekand.api.generated.types.SignUpInput
 import com.yapp.weekand.api.generated.types.ValidAuthKeyInput
 import com.yapp.weekand.common.jwt.JwtProvider
 import com.yapp.weekand.common.jwt.exception.InvalidRefreshTokenException
+import com.yapp.weekand.common.util.Constants.Companion.ACCESS_TOKEN_LOGOUT_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.AUTH_KEY_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.REFRESH_TOKEN_PREFIX
 import com.yapp.weekand.common.util.Constants.Companion.TEMP_PASSWORD_PREFIX
@@ -41,6 +42,9 @@ class AuthService(
 ) {
 	@Value("\${jwt.refresh-token-expiry}")
 	private val refreshTokenExpiry: Long = 0
+
+	@Value("\${jwt.access-token-expiry}")
+	private val accessTokenExpiry: Long = 0
 
 	@Value("\${mail.authkey-expiry}")
 	private val authKeyExpiry: Long = 0
@@ -142,6 +146,14 @@ class AuthService(
 			throw PasswordNotMatchException()
 		}
 		user.updatePassword(passwordEncoder.encode(passwordInput.newPassword))
+	}
+
+	@Transactional
+	fun logout(accessToken :String, refreshToken: String) {
+		if (redisService.getValue("$REFRESH_TOKEN_PREFIX:$refreshToken") != null) {
+			redisService.deleteValue("$REFRESH_TOKEN_PREFIX:$refreshToken")
+		}
+		redisService.setValue("$ACCESS_TOKEN_LOGOUT_PREFIX:$accessToken", "Logout", accessTokenExpiry)
 	}
 
 	private fun createAuthKey(): String {
