@@ -4,6 +4,7 @@ import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
 import com.yapp.weekand.api.generated.types.CreateFollowInput
+import com.yapp.weekand.api.generated.types.DeleteFollowInput
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.follow.service.FollowService
 import com.yapp.weekand.domain.user.service.UserService
@@ -17,6 +18,13 @@ class FollowMutationResolver(
 	@JwtAuth
 	fun createFollow(@InputArgument input: CreateFollowInput): Boolean {
 		followService.createFollow(userService.getCurrentUser(), input.targetUserId.toLong())
-		return true;
+		return true
+	}
+
+	@DgsMutation
+	@JwtAuth
+	fun deleteFollower(@InputArgument input: DeleteFollowInput): Boolean {
+		followService.deleteFollower(userService.getCurrentUser(), input.targetUserId.toLong())
+		return true
 	}
 }

@@ -18,3 +18,7 @@ type FollowUser{
 input CreateFollowInput {
 	targetUserId: ID!
 }
+
+input DeleteFollowInput {
+	targetUserId: ID!
+}
