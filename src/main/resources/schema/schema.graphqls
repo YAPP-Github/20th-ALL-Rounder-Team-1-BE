@@ -243,6 +243,13 @@ type Mutation {
 	5002: 팔로우 관계가 아닙니다.
 	"""
 	deleteFollower(input: DeleteFollowInput!): Boolean!
+	"""
+	내가 팔로우하는 유저를 삭제한다
+	[error]
+	3001: 존재하지 않는 유저입니다.
+	5002: 팔로우 관계가 아닙니다.
+	"""
+	deleteFollowee(input: DeleteFollowInput!): Boolean!
 }
 
 type Weekand {

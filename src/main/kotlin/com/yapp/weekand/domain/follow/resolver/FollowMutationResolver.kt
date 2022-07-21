@@ -27,4 +27,11 @@ class FollowMutationResolver(
 		followService.deleteFollower(userService.getCurrentUser(), input.targetUserId.toLong())
 		return true
 	}
+
+	@DgsMutation
+	@JwtAuth
+	fun deleteFollowee(@InputArgument input: DeleteFollowInput): Boolean {
+		followService.deleteFollowee(userService.getCurrentUser(), input.targetUserId.toLong())
+		return true
+	}
 }

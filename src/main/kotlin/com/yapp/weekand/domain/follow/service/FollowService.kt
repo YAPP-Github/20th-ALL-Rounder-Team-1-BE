@@ -58,11 +58,22 @@ class FollowService(
 	}
 
 	@Transactional
-	fun deleteFollower(user: User, targetUserId: Long) { //나를 팔로우하는 친구 삭제
+	fun deleteFollower(user: User, targetUserId: Long) {
 		val targetUser = userRepository.findByIdOrNull(targetUserId)
 			?: throw UserNotFoundException()
 
 		val follow = followRepository.findByFollowerUserAndFolloweeUser(targetUser, user)
+			?: throw FollowNotFoundException()
+
+		followRepository.delete(follow)
+	}
+
+	@Transactional
+	fun deleteFollowee(user: User, targetUserId: Long) {
+		val targetUser = userRepository.findByIdOrNull(targetUserId)
+			?: throw UserNotFoundException()
+
+		val follow = followRepository.findByFollowerUserAndFolloweeUser(user, targetUser)
 			?: throw FollowNotFoundException()
 
 		followRepository.delete(follow)
