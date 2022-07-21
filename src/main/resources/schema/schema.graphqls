@@ -73,7 +73,7 @@ type Query {
 	[error]
 	4002: 해당 카테고리를 찾을 수 없습니다.
 	"""
-	searchSchedules(sort: ScheduleCategorySort!, page: Int!, size: Int!, searchQuery: String, categoryId: Int!): SearchScheduleList!
+	searchSchedules(sort: ScheduleCategorySort!, page: Int!, size: Int!, searchQuery: String, categoryId: ID!): SearchScheduleList!
 	"""
 	회원을 검색한다
 	"""
