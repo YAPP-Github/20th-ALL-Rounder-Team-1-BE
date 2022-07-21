@@ -11,8 +11,6 @@ import com.yapp.weekand.domain.schedule.entity.RepeatType
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.domain.schedule.entity.ScheduleStatus
 import com.yapp.weekand.domain.schedule.entity.Status
-import com.yapp.weekand.domain.schedule.exception.ScheduleDuplicatedStatusException
-import com.yapp.weekand.domain.schedule.exception.ScheduleInvalidSkipDateException
 import com.yapp.weekand.domain.schedule.exception.ScheduleNotFoundException
 import com.yapp.weekand.domain.schedule.exception.ScheduleStatusInvalidDateException
 import com.yapp.weekand.domain.schedule.mapper.toGraphql
@@ -22,7 +20,6 @@ import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -50,25 +47,6 @@ class ScheduleService(
 	}
 
 	@Transactional
-	fun skipSchedule(scheduleId: Long, skipDate: LocalDateTime, user: User) {
-		val schedule = scheduleRepository.findByIdOrNull(scheduleId)
-			?: throw ScheduleNotFoundException()
-
-		if (user.id != schedule.user.id) {
-			throw UnauthorizedAccessException()
-		}
-
-		if (schedule.dateRepeatEnd != null && skipDate > schedule.dateRepeatEnd) {
-			throw ScheduleInvalidSkipDateException()
-		}
-
-		if (scheduleStatusRepository.existsByDateYmdAndScheduleRule(skipDate.toLocalDate(), schedule)) {
-			throw ScheduleDuplicatedStatusException()
-		}
-		scheduleStatusRepository.save(ScheduleStatus.of(Status.SKIP, skipDate.toLocalDate(), schedule))
-	}
-
-	@Transactional
 	fun updateScheduleStatus(input: ScheduleStateInput, user: User, status: Status) {
 		val schedule = scheduleRepository.findByIdOrNull(input.scheduleId.toLong())
 			?: throw ScheduleNotFoundException()
@@ -77,12 +55,12 @@ class ScheduleService(
 			throw UnauthorizedAccessException()
 		}
 
-		if (schedule.dateRepeatEnd != null && input.updateDate > schedule.dateRepeatEnd) {
+		if (schedule.dateRepeatEnd != null && input.date > schedule.dateRepeatEnd) {
 			throw ScheduleStatusInvalidDateException()
 		}
 
-		scheduleStatusRepository.deleteByDateYmdAndScheduleRule(input.updateDate.toLocalDate(), schedule)
-		scheduleStatusRepository.save(ScheduleStatus.of(status, input.updateDate.toLocalDate(), schedule))
+		scheduleStatusRepository.deleteByDateYmdAndScheduleRule(input.date.toLocalDate(), schedule)
+		scheduleStatusRepository.save(ScheduleStatus.of(status, input.date.toLocalDate(), schedule))
 	}
 
 	@Transactional

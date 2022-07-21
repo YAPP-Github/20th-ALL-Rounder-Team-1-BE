@@ -168,10 +168,9 @@ type Mutation {
 	[error]
 	4001: 해당 스케줄을 찾을 수 없습니다.
 	3006: 권한이 없는 유저의 접근입니다.
-	4006: 스킵 날짜를 확인해주세요.
-	4005: 이미 상태가 등록된 스케줄입니다.
+	4009: 상태 추가할 날짜를 확인해주세요.
 	"""
-	skipSchedule(scheduleId: ID!, skipDate: Timestamp!): Boolean!
+	skipSchedule(input: ScheduleStateInput!): Boolean!
 	"""
 	유저 프로필을 수정한다
 	[error]
