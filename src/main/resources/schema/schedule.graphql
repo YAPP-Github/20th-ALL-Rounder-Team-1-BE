@@ -81,5 +81,5 @@ input DeleteScheduleInput {
 
 input ScheduleStateInput {
 	scheduleId: ID!
-	updateDate: Timestamp!
+	date: Timestamp!
 }
