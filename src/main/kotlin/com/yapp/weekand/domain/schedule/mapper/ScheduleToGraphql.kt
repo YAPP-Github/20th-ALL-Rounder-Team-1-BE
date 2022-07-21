@@ -17,5 +17,5 @@ fun ScheduleRule.toGraphql() =
 		memo = memo,
 		dateSkip = scheduleStatus
 			.filter { it.status == Status.SKIP }
-			.map { it.dateYmd.toString() }
+			.map { it.dateYmd.atStartOfDay() }
 	)

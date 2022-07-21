@@ -38,7 +38,7 @@ type ScheduleInfo {
 	repeatType: RepeatType!
 	repeatSelectedValue: String
 	memo: String
-	dateSkip: [String]
+	dateSkip: [Timestamp]
 }
 
 input ScheduleInput {
