@@ -41,6 +41,10 @@ class ScheduleRule (
 	@OneToMany(mappedBy = "scheduleRule")
 	var scheduleStatus: MutableList<ScheduleStatus> = mutableListOf()
 ) : BaseEntity() {
+	fun updateDateRepeatEnd(dateRepeatEnd: LocalDateTime) {
+		this.dateRepeatEnd = dateRepeatEnd
+	}
+
 	companion object {
 		fun of (scheduleInput: ScheduleInput, scheduleCategory: ScheduleCategory, user: User): ScheduleRule {
 			return ScheduleRule(
