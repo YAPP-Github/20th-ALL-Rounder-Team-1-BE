@@ -23,9 +23,13 @@ class UserQueryResolver(
 
 	@DgsQuery
 	@JwtAuth
-	fun user(): UserGraphql? {
-		val currentUser = userService.getCurrentUser()
-		return currentUser.toGraphql()
+	fun user(@InputArgument id: String?): UserGraphql? {
+		if (id == null) {
+			val currentUser = userService.getCurrentUser()
+			return currentUser.toGraphql()
+		}
+		val targetUser = userService.findUserById(id.toLong())
+		return targetUser?.toGraphql()
 	}
 
 	@DgsQuery
