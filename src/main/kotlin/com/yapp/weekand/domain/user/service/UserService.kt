@@ -19,6 +19,7 @@ import com.yapp.weekand.infra.email.EmailService
 import com.yapp.weekand.infra.email.replacement.InquiryEmailReplacement
 import com.yapp.weekand.infra.s3.S3Service
 import org.joda.time.LocalDateTime
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -34,7 +35,8 @@ class UserService(
 	private val interestService: InterestService,
 	private val s3Service: S3Service,
 ) {
-	private val helpEmail: String = "help@week-and.kr"
+	@Value("\${spring.mail.username}")
+	private lateinit var WEEKAND_EMAIL: String
 
 	fun checkDuplicateNickname(nickname: String) = userRepository.existsUserByNickname(nickname)
 
@@ -67,7 +69,7 @@ class UserService(
 			mapOf("userEmail" to user.email, "contents" to contents),
 			"${user.email} 님의 문의 접수입니다."
 		)
-		emailService.sendEmail(helpEmail, replacements)
+		emailService.sendEmail(WEEKAND_EMAIL, replacements)
 	}
 
 	@Transactional

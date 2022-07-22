@@ -5,7 +5,7 @@ spring:
     username: admin
     password: ${/weekand/mysql/password}
   mail:
-    username: helpteam@week-and.kr
+    username: ${/weekand/email/username}
     password: ${/weekand/email/password}
     properties:
       mail:
