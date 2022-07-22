@@ -56,7 +56,7 @@ class AuthService(
 		val user = userRepository.findByEmail(loginRequest.email)
 			?: throw LoginFailException()
 
-		if (!passwordEncoder.matches(loginRequest.password, user.password)) {
+		if (!validateUserPassword(user, loginRequest.password)) {
 			throw LoginFailException()
 		}
 
@@ -68,6 +68,20 @@ class AuthService(
 			accessToken = accessToken,
 			refreshToken = refreshToken
 		)
+	}
+
+	fun validateUserPassword(user: User, passwordInput: String): Boolean {
+		val userTempPassword = redisService.getValue("$TEMP_PASSWORD_PREFIX:${user.email}")
+
+		if (passwordEncoder.matches(passwordInput, user.password)) {
+			return true
+		}
+
+		if (userTempPassword != null && passwordInput == userTempPassword) {
+			return true
+		}
+
+		return false
 	}
 
 	fun reissueAccessToken(refreshToken: String): ReissueAccessTokenResponse {
@@ -149,7 +163,7 @@ class AuthService(
 	}
 
 	@Transactional
-	fun logout(accessToken :String, refreshToken: String) {
+	fun logout(accessToken: String, refreshToken: String) {
 		if (redisService.getValue("$REFRESH_TOKEN_PREFIX:$refreshToken") != null) {
 			redisService.deleteValue("$REFRESH_TOKEN_PREFIX:$refreshToken")
 		}
