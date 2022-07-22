@@ -92,7 +92,7 @@ class UserService(
 			throw NicknameDuplicatedException()
 		}
 
-		user.profileFilename = input.profileImageFilename
+		user.profileImageFilename = input.profileImageFilename
 		user.nickname = input.nickname
 		user.goal = input.goal
 
