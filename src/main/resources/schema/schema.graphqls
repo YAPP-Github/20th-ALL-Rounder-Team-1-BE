@@ -16,11 +16,12 @@ type Query {
 	"""
 	checkDuplicateNickname(nickname: String!): Boolean!
 	"""
-	현재 로그인 된 회원 상세 정보를 가져온다
+	조건에 맞는 회원 상세 정보를 가져온다
+	id 인자를 입력하지 않으면, 현재 로그인 된 회원 상세 정보를 가져온다
 	[error]
 	3001: 존재하지 않는 유저입니다.
 	"""
-	user: User
+	user(id: ID): User
 	"""
 	팔로우 하고 있는 유저 목록을 가져온다
 	"""
