@@ -14,4 +14,5 @@ fun User.toGraphql() =
 		followeeCount = followerCount,
 		jobs = jobs.map { it.jobName },
 		interests = interests.map { it.interestName },
+		followed = false
 	)

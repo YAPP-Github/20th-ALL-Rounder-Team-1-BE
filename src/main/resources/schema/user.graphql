@@ -8,6 +8,7 @@ type User {
 	followeeCount: Int!
 	jobs: [String!]!
 	interests: [String!]!
+	followed: Boolean!
 }
 
 type SearchUserList {
