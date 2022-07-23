@@ -105,6 +105,17 @@ class UserService(
 		interestService.createUserInterestList(user, input.interests)
 	}
 
+	fun getUserProfileImageUrl(userId: Long): String {
+		val defaultProfileImageUrl = "${USER_PROFILE_IMAGE_URL_PREFIX}/default.png"
+
+		val user = findUserById(userId) ?: return defaultProfileImageUrl
+
+		if (user.profileImageFilename == null) {
+			return defaultProfileImageUrl
+		}
+		return "${USER_PROFILE_IMAGE_URL_PREFIX}/${user.id}/${user.profileImageFilename}"
+	}
+
 	fun createUserProfileImageS3PresignedUrl(
 		userId: Long,
 		extension: UserProfileImageExtensionType
@@ -122,5 +133,6 @@ class UserService(
 		const val GOAL_MAX_LENGTH = 20
 		const val NICKNAME_MAX_LENGTH = 12
 		const val NICKNAME_MIN_LENGTH = 2
+		const val USER_PROFILE_IMAGE_URL_PREFIX = "https://weekand.s3.ap-northeast-2.amazonaws.com/profile-images"
 	}
 }
