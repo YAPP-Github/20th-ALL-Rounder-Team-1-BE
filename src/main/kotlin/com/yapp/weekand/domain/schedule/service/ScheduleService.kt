@@ -73,7 +73,7 @@ class ScheduleService(
 	}
 
 	@Transactional
-	fun deleteScheduleFromDate(input: DeleteScheduleFromNowInput, user: User) {
+	fun deleteScheduleFromDate(input: DeleteScheduleFromDateInput, user: User) {
 		val schedule = scheduleRepository.findByIdOrNull(input.scheduleId.toLong())
 			?: throw ScheduleNotFoundException()
 
