@@ -1,9 +1,6 @@
 package com.yapp.weekand.domain.schedule.service
 
-import com.yapp.weekand.api.generated.types.ScheduleInfo
-import com.yapp.weekand.api.generated.types.ScheduleInput
-import com.yapp.weekand.api.generated.types.ScheduleStateInput
-import com.yapp.weekand.api.generated.types.UpdateScheduleInput
+import com.yapp.weekand.api.generated.types.*
 import com.yapp.weekand.domain.auth.exception.UnauthorizedAccessException
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryNotFoundException
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
@@ -73,6 +70,18 @@ class ScheduleService(
 		}
 
 		scheduleRepository.delete(schedule)
+	}
+
+	@Transactional
+	fun deleteScheduleFromDate(input: DeleteScheduleFromDateInput, user: User) {
+		val schedule = scheduleRepository.findByIdOrNull(input.scheduleId.toLong())
+			?: throw ScheduleNotFoundException()
+
+		if (user.id != schedule.user.id) {
+			throw UnauthorizedAccessException()
+		}
+
+		schedule.updateDateRepeatEnd(input.date)
 	}
 
 	@Transactional

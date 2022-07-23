@@ -63,6 +63,13 @@ class ScheduleMutationResolver(
 
 	@DgsMutation
 	@JwtAuth
+	fun deleteScheduleFromDate(@InputArgument input: DeleteScheduleFromDateInput): Boolean {
+		scheduleService.deleteScheduleFromDate(input, userService.getCurrentUser())
+		return true
+	}
+
+	@DgsMutation
+	@JwtAuth
 	fun completeSchedule(@InputArgument input: ScheduleStateInput): Boolean {
 		scheduleService.updateScheduleStatus(input, userService.getCurrentUser(), Status.COMPLETED)
 		return true

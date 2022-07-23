@@ -83,3 +83,8 @@ input ScheduleStateInput {
 	scheduleId: ID!
 	date: Timestamp!
 }
+
+input DeleteScheduleFromDateInput {
+	scheduleId: ID!
+	date: Timestamp!
+}
