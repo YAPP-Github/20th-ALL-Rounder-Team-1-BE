@@ -2,7 +2,7 @@ type User {
 	id: ID!
 	email: String!
 	nickname: String!
-	profileUrl: String!
+	profileImageUrl: String!
 	goal: String
 	followerCount: Int!
 	followeeCount: Int!

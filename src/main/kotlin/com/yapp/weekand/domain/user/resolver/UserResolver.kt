@@ -18,4 +18,10 @@ class UserResolver(
 		val targetUser = dfe.getSource<UserGraphql>()
 		return followService.isFollowed(currentUser, targetUser.id.toLong())
 	}
+
+	@DgsData(parentType = "User")
+	fun profileImageUrl(dfe: DgsDataFetchingEnvironment): String {
+		val targetUser = dfe.getSource<UserGraphql>()
+		return userService.getUserProfileImageUrl(targetUser.id.toLong())
+	}
 }

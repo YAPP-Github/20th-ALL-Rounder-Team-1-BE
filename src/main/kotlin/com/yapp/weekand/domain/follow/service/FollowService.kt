@@ -28,7 +28,7 @@ class FollowService(
 					id = it.id,
 					nickname = it.nickname,
 					goal = it.goal,
-					profileFilename = it.profileFilename
+					profileFilename = it.profileImageFilename
 				)
 			}
 	}
@@ -41,7 +41,7 @@ class FollowService(
 					id = it.id,
 					nickname = it.nickname,
 					goal = it.goal,
-					profileFilename = it.profileFilename
+					profileFilename = it.profileImageFilename
 				)
 			}
 	}

@@ -10,47 +10,47 @@ import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import javax.persistence.*
 
 @Entity
-class User (
-    @Id
+class User(
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    var id: Long = 0L,
+	@Column(name = "user_id")
+	var id: Long = 0L,
 
-    @Column(nullable = false)
-    var email: String,
+	@Column(nullable = false)
+	var email: String,
 
-    @Column(nullable = false)
-    var nickname: String,
+	@Column(nullable = false)
+	var nickname: String,
 
-    @Column(nullable = false)
-    var password: String,
+	@Column(nullable = false)
+	var password: String,
 
-    var goal: String = "",
+	var goal: String = "",
 
-    var followerCount: Int = 0,
+	var followerCount: Int = 0,
 
-    var profileFilename: String? = null,
+	var profileImageFilename: String? = null,
 
-    @OneToMany(mappedBy = "user")
-    var interests: MutableList<UserInterest> = mutableListOf(),
+	@OneToMany(mappedBy = "user")
+	var interests: MutableList<UserInterest> = mutableListOf(),
 
-    @OneToMany(mappedBy = "user")
-    var jobs: MutableList<UserJob> = mutableListOf(),
+	@OneToMany(mappedBy = "user")
+	var jobs: MutableList<UserJob> = mutableListOf(),
 
-    @OneToMany(mappedBy = "user")
-    var scheduleRules: MutableList<ScheduleRule> = mutableListOf(),
+	@OneToMany(mappedBy = "user")
+	var scheduleRules: MutableList<ScheduleRule> = mutableListOf(),
 
-    @OneToMany(mappedBy = "user")
-    var notifications: MutableList<Notification> = mutableListOf(),
+	@OneToMany(mappedBy = "user")
+	var notifications: MutableList<Notification> = mutableListOf(),
 
 	@OneToMany(mappedBy = "user")
 	var schedulecategories: MutableList<ScheduleCategory> = mutableListOf(),
 
-    @OneToMany(mappedBy = "followerUser")
-    var followerList: MutableList<Follow> = mutableListOf(),
+	@OneToMany(mappedBy = "followerUser")
+	var followerList: MutableList<Follow> = mutableListOf(),
 
-    @OneToMany(mappedBy = "followeeUser")
-    var followeeList: MutableList<Follow> = mutableListOf()
+	@OneToMany(mappedBy = "followeeUser")
+	var followeeList: MutableList<Follow> = mutableListOf()
 ) : BaseEntity() {
 	fun updatePassword(password: String) {
 		this.password = password
