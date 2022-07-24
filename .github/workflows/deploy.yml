@@ -12,7 +12,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -49,3 +48,13 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "##########(이미지 배포 완료)##########"
+
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: [ self-hosted, label-development ]
+    steps:
+      - name: Docker run
+        run: |
+          docker stop $ECR_REPOSITORY && docker rm $ECR_REPOSITORY && docker rmi $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker run -d -p 8080:8080 --name $ECR_REPOSITORY --restart always $ECR_REGISTRY/$ECR_REPOSITORY:latest
