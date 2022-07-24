@@ -48,12 +48,10 @@ class FollowService(
 
 	@Transactional
 	fun createFollow(user: User, targetUserId: Long) {
-		val targetUser = userRepository.findById(targetUserId)
-		if (targetUser.isEmpty) {
-			throw UserNotFoundException()
-		}
+		val targetUser = userRepository.findByIdOrNull(targetUserId)
+			?: throw UserNotFoundException()
 
-		val existedFollow = followRepository.existsByFollowerUserAndFolloweeUser(user, targetUser.get())
+		val existedFollow = followRepository.existsByFollowerUserAndFolloweeUser(user, targetUser)
 		if (existedFollow) {
 			throw FollowDuplicatedException()
 		}
@@ -61,9 +59,10 @@ class FollowService(
 		followRepository.save(
 			Follow(
 				followerUser = user,
-				followeeUser = targetUser.get(),
+				followeeUser = targetUser,
 			)
 		)
+		targetUser.plusFollowerCount()
 	}
 
 	@Transactional
@@ -81,6 +80,7 @@ class FollowService(
 			?: throw FollowNotFoundException()
 
 		followRepository.delete(follow)
+		user.minusFollowerCount()
 	}
 
 	@Transactional
@@ -92,6 +92,7 @@ class FollowService(
 			?: throw FollowNotFoundException()
 
 		followRepository.delete(follow)
+		targetUser.minusFollowerCount()
 	}
 
 	fun isFollowed(user: User, targetUserId: Long): Boolean {

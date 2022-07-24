@@ -55,4 +55,12 @@ class User(
 	fun updatePassword(password: String) {
 		this.password = password
 	}
+
+	fun plusFollowerCount() {
+		this.followerCount += 1
+	}
+
+	fun minusFollowerCount() {
+		this.followerCount -= 1
+	}
 }
