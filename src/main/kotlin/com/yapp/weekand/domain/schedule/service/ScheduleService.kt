@@ -10,13 +10,14 @@ import com.yapp.weekand.domain.schedule.entity.ScheduleStatus
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.exception.ScheduleNotFoundException
 import com.yapp.weekand.domain.schedule.exception.ScheduleStatusInvalidDateException
-import com.yapp.weekand.domain.schedule.mapper.toGraphql
+import com.yapp.weekand.domain.schedule.mapper.toScheduleRuleGraphql
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.schedule.repository.ScheduleStatusRepository
 import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.yapp.weekand.api.generated.types.ScheduleRule as ScheduleRuleGraphql
 
 @Service
 @Transactional(readOnly = true)
@@ -25,10 +26,10 @@ class ScheduleService(
 	private val scheduleCategoryRepository: ScheduleCategoryRepository,
 	private val scheduleStatusRepository: ScheduleStatusRepository
 ) {
-	fun getSchedule(scheduleId: Long): ScheduleInfo {
+	fun getScheduleRule(scheduleId: Long): ScheduleRuleGraphql {
 		val schedule = scheduleRepository.findByScheduleId(scheduleId)
 			?: throw ScheduleNotFoundException()
-		return schedule.toGraphql()
+		return schedule.toScheduleRuleGraphql()
 	}
 
 	@Transactional

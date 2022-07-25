@@ -49,5 +49,5 @@ class ScheduleQueryResolver(
 
 	@DgsQuery
 	@JwtAuth
-	fun schedule(@InputArgument scheduleId: Long) = scheduleService.getSchedule(scheduleId)
+	fun scheduleRule(@InputArgument scheduleId: Long) = scheduleService.getScheduleRule(scheduleId)
 }

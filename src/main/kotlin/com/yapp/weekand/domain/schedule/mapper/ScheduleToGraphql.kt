@@ -1,11 +1,11 @@
 package com.yapp.weekand.domain.schedule.mapper
 
 import com.yapp.weekand.domain.category.mapper.toGraphql
-import com.yapp.weekand.api.generated.types.ScheduleInfo as ScheduleGraphql
+import com.yapp.weekand.api.generated.types.ScheduleRule as ScheduleGraphql
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.domain.schedule.entity.Status
 
-fun ScheduleRule.toGraphql() =
+fun ScheduleRule.toScheduleRuleGraphql() =
 	ScheduleGraphql(
 		id = id.toString(),
 		name = name,
@@ -14,8 +14,5 @@ fun ScheduleRule.toGraphql() =
 		dateTimeEnd = dateEnd,
 		repeatType = repeatType,
 		repeatSelectedValue = repeatSelectedValue,
-		memo = memo,
-		dateSkip = scheduleStatus
-			.filter { it.status == Status.SKIP }
-			.map { it.dateYmd.atStartOfDay() }
+		memo = memo
 	)

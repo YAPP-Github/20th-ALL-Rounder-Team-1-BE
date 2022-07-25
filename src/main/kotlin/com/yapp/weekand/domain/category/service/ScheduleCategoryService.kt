@@ -3,16 +3,16 @@ package com.yapp.weekand.domain.category.service
 import com.yapp.weekand.api.generated.types.ScheduleCategoryInput
 import com.yapp.weekand.api.generated.types.ScheduleCategory as ScheduleCategoryGraphql
 import com.yapp.weekand.api.generated.types.ScheduleCategorySort
-import com.yapp.weekand.api.generated.types.ScheduleInfo
+import com.yapp.weekand.api.generated.types.ScheduleRule
 import com.yapp.weekand.domain.auth.exception.UnauthorizedAccessException
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryNotFoundException
-import com.yapp.weekand.domain.category.mapper.toGraphql
 import com.yapp.weekand.domain.category.repository.ScheduleCategoryRepository
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.category.entity.ScheduleCategory
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryDuplicatedNameException
 import com.yapp.weekand.domain.category.exception.ScheduleCategoryUnderMinSizeException
+import com.yapp.weekand.domain.schedule.mapper.toScheduleRuleGraphql
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
@@ -41,7 +41,7 @@ class ScheduleCategoryService(
 			}
 	}
 
-	fun searchSchedules(sort: ScheduleCategorySort, page: Int, size: Int, searchQuery: String?, categoryId: Long): Slice<ScheduleInfo> {
+	fun searchSchedules(sort: ScheduleCategorySort, page: Int, size: Int, searchQuery: String?, categoryId: Long): Slice<ScheduleRule> {
 		scheduleCategoryRepository.findByIdOrNull(categoryId)
 			?: throw ScheduleCategoryNotFoundException()
 
@@ -54,16 +54,7 @@ class ScheduleCategoryService(
 			}
 
 		return findScheduleRules.map {
-				ScheduleInfo(
-					id = it.id.toString(),
-					name = it.name,
-					category = it.scheduleCategory.toGraphql(),
-					dateTimeStart = it.dateStart,
-					dateTimeEnd = it.dateEnd,
-					repeatType = it.repeatType,
-					repeatSelectedValue = it.repeatSelectedValue,
-					memo = it.memo
-				)
+				it.toScheduleRuleGraphql()
 			}
 	}
 
