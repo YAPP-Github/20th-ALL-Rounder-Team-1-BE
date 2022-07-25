@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class ScheduleRepositorySupportImpl(
@@ -20,7 +21,7 @@ class ScheduleRepositorySupportImpl(
 		val query = queryFactory.selectFrom(qScheduleRule)
 
 		val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-		val targetDate = LocalDateTime.parse(dateYmd, formatter)
+		val targetDate = LocalDate.parse(dateYmd, formatter)
 
 		val targetDateDayOfWeek = when (targetDate.dayOfWeek) {
 			DayOfWeek.MONDAY -> Week.MONDAY
@@ -34,15 +35,15 @@ class ScheduleRepositorySupportImpl(
 
 		val scheduleRules = query
 			.where(qScheduleRule.user.id.eq(userId))
-			.where(qScheduleRule.dateStart.loe(targetDate))
+			.where(qScheduleRule.dateStart.loe(targetDate.atTime(LocalTime.MAX)))
 			.where(
-				qScheduleRule.dateRepeatEnd.isNull.or(qScheduleRule.dateRepeatEnd.goe(targetDate))
+				qScheduleRule.dateRepeatEnd.isNull.or(qScheduleRule.dateRepeatEnd.goe(targetDate.atTime(LocalTime.MIN)))
 			)
 			.fetch()
 
 		val NoneWeeklyRules = scheduleRules
 			.filter { it.repeatType != RepeatType.WEEKLY }
-			.map { filterNoneWeeklyRules(it, targetDate.toLocalDate()) }
+			.map { filterNoneWeeklyRules(it, targetDate) }
 			.mapNotNull { it }
 			.filter { rule -> filterSkipSchedule(rule) }
 
