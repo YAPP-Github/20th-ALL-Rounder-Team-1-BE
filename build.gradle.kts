@@ -64,6 +64,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.2")
 
 	implementation("com.querydsl:querydsl-jpa:$querydslVersion")
 	kapt("com.querydsl:querydsl-apt:$querydslVersion:jpa")
