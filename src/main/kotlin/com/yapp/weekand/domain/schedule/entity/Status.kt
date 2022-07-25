@@ -4,5 +4,6 @@ enum class Status {
     COMPLETED,
 	INCOMPLETED,
 	SKIP,
-	UNDETERMINED
+	UNDETERMINED,
+	NOT_YET
 }
