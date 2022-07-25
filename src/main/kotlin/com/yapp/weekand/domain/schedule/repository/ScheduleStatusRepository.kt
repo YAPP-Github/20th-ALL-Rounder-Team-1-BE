@@ -9,4 +9,6 @@ interface ScheduleStatusRepository : JpaRepository<ScheduleStatus, Long> {
 	fun existsByDateYmdAndScheduleRule(date: LocalDate, scheduleRule: ScheduleRule): Boolean
 
 	fun deleteByDateYmdAndScheduleRule(date: LocalDate, scheduleRule: ScheduleRule)
+
+	fun findByDateYmdAndScheduleRuleId(date: LocalDate, scheduleRuleId: Long): ScheduleStatus?
 }

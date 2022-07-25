@@ -19,6 +19,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import java.time.LocalDateTime
 import com.yapp.weekand.api.generated.types.ScheduleRule as ScheduleRuleGraphql
 
 @Service
@@ -46,6 +47,13 @@ class ScheduleService(
 			dateTimeEnd = date.atTime(endTime)
 		)
 	}
+
+	fun getScheduleStatus(scheduleId: Long, date: LocalDateTime): Status {
+		val scheduleStatus = scheduleStatusRepository.findByDateYmdAndScheduleRuleId(date.toLocalDate(), scheduleId)
+			?: return Status.UNDETERMINED
+		return scheduleStatus.status
+	}
+
 
 	@Transactional
 	fun createSchedule(schedule: ScheduleInput, user: User) {
