@@ -41,6 +41,19 @@ type ScheduleRule {
 	memo: String
 }
 
+type ScheduleInfo {
+	id: ID!
+	name: String!
+	category: ScheduleCategory!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	dateSkip: [Timestamp!]
+	repeatType: RepeatType!
+	repeatSelectedValue: String
+	memo: String
+	status: ScheduleStatus!
+}
+
 input ScheduleInput {
 	name: String!
 	categoryId: ID!
