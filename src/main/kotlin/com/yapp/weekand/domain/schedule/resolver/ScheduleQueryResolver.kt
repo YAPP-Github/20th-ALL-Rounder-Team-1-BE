@@ -9,16 +9,19 @@ import com.yapp.weekand.api.generated.types.ScheduleCategory
 import com.yapp.weekand.api.generated.types.ScheduleList
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
+import com.yapp.weekand.domain.schedule.entity.ScheduleRule
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
+import com.yapp.weekand.domain.user.service.UserService
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.abs
 
 @DgsComponent
 class ScheduleQueryResolver(
-	private val scheduleService: ScheduleService
+	private val scheduleService: ScheduleService,
+	private val userService: UserService
 ) {
 	fun tmpScheduleListGen(count: Int): List<Schedule> = IntArray(count) { it + 1 }.map {
 		Schedule(
@@ -40,11 +43,12 @@ class ScheduleQueryResolver(
 
 	@DgsQuery
 	@JwtAuth
-	fun schedules(@InputArgument date: LocalDateTime): ScheduleList {
-		return ScheduleList(
-			paginationInfo = PaginationInfo(hasNext = false),
-			schedules = tmpScheduleListGen(30),
-		)
+	fun schedules(@InputArgument date: LocalDateTime, @InputArgument userId: String?): List<ScheduleRule> {
+		if (userId == null) {
+			return scheduleService.getUserSchedulesByDate(date, userService.getCurrentUser().id)
+		} else {
+			return scheduleService.getUserSchedulesByDate(date, userId.toLong())
+		}
 	}
 
 	@DgsQuery
