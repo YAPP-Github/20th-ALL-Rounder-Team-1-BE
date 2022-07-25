@@ -3,15 +3,13 @@ package com.yapp.weekand.domain.schedule.resolver
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
-import com.yapp.weekand.api.generated.types.PaginationInfo
-import com.yapp.weekand.api.generated.types.Schedule
-import com.yapp.weekand.api.generated.types.ScheduleCategory
-import com.yapp.weekand.api.generated.types.ScheduleList
+import com.yapp.weekand.api.generated.types.*
 import com.yapp.weekand.common.jwt.aop.JwtAuth
 import com.yapp.weekand.domain.category.entity.ScheduleCategoryOpenType
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.service.ScheduleService
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
+import graphql.execution.DataFetcherResult
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.abs
@@ -50,4 +48,18 @@ class ScheduleQueryResolver(
 	@DgsQuery
 	@JwtAuth
 	fun scheduleRule(@InputArgument scheduleId: Long) = scheduleService.getScheduleRule(scheduleId)
+
+	@DgsQuery
+	@JwtAuth
+	fun schedule(
+		@InputArgument scheduleId: Long,
+		@InputArgument date: LocalDateTime
+	): DataFetcherResult<ScheduleInfo> {
+		val schedule = scheduleService.getSchedule(scheduleId, date.toLocalDate())
+		val args = mapOf("date" to date)
+		return DataFetcherResult.newResult<ScheduleInfo>()
+			.data(schedule)
+			.localContext(args)
+			.build()
+	}
 }
