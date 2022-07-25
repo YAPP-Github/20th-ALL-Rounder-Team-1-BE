@@ -17,6 +17,8 @@ import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Service
 @Transactional(readOnly = true)
@@ -137,5 +139,10 @@ class ScheduleService(
 		val schedules = scheduleRepository.findByUser(user)
 		scheduleRepository.deleteAllInBatch(schedules)
 		scheduleStatusRepository.deleteAllInBatch(schedules.flatMap { it.scheduleStatus })
+	}
+
+	fun getUserSchedulesByDate(date: LocalDateTime, userId: Long): List<ScheduleRule> {
+		val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+		return scheduleRepository.getUserSchedulesByDate(date.format(formatter), userId)
 	}
 }
