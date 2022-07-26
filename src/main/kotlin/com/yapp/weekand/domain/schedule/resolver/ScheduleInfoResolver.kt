@@ -9,7 +9,7 @@ import com.yapp.weekand.domain.schedule.service.ScheduleService
 import java.time.LocalDateTime
 
 @DgsComponent
-class ScheduleResolver(
+class ScheduleInfoResolver(
 	private val scheduleService: ScheduleService
 ) {
 	@DgsData(parentType = "ScheduleInfo")
