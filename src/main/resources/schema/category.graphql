@@ -19,7 +19,7 @@ enum ScheduleCategorySort {
 
 type SearchScheduleList {
 	paginationInfo: PaginationInfo!
-	schedules: [ScheduleInfo!]!
+	schedules: [ScheduleRule!]!
 }
 
 enum ScheduleCategoryOpenType {

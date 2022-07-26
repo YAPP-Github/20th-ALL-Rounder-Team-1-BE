@@ -10,13 +10,17 @@ import com.yapp.weekand.domain.schedule.entity.ScheduleStatus
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.schedule.exception.ScheduleNotFoundException
 import com.yapp.weekand.domain.schedule.exception.ScheduleStatusInvalidDateException
-import com.yapp.weekand.domain.schedule.mapper.toGraphql
+import com.yapp.weekand.domain.schedule.mapper.toScheduleInfoGraphql
+import com.yapp.weekand.domain.schedule.mapper.toScheduleRuleGraphql
 import com.yapp.weekand.domain.schedule.repository.ScheduleRepository
 import com.yapp.weekand.domain.schedule.repository.ScheduleStatusRepository
 import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.time.LocalDateTime
+import com.yapp.weekand.api.generated.types.ScheduleRule as ScheduleRuleGraphql
 
 @Service
 @Transactional(readOnly = true)
@@ -25,11 +29,31 @@ class ScheduleService(
 	private val scheduleCategoryRepository: ScheduleCategoryRepository,
 	private val scheduleStatusRepository: ScheduleStatusRepository
 ) {
-	fun getSchedule(scheduleId: Long): ScheduleInfo {
+	fun getScheduleRule(scheduleId: Long): ScheduleRuleGraphql {
 		val schedule = scheduleRepository.findByScheduleId(scheduleId)
 			?: throw ScheduleNotFoundException()
-		return schedule.toGraphql()
+		return schedule.toScheduleRuleGraphql()
 	}
+
+	fun getSchedule(scheduleId: Long, date: LocalDate): ScheduleInfo {
+		val schedule = scheduleRepository.findByScheduleId(scheduleId)
+			?: throw ScheduleNotFoundException()
+
+		val startTime = schedule.dateStart.toLocalTime()
+		val endTime = schedule.dateEnd.toLocalTime()
+
+		return schedule.toScheduleInfoGraphql(
+			dateTimeStart = date.atTime(startTime),
+			dateTimeEnd = date.atTime(endTime)
+		)
+	}
+
+	fun getScheduleStatus(scheduleId: Long, date: LocalDateTime): Status {
+		val scheduleStatus = scheduleStatusRepository.findByDateYmdAndScheduleRuleId(date.toLocalDate(), scheduleId)
+			?: return Status.UNDETERMINED
+		return scheduleStatus.status
+	}
+
 
 	@Transactional
 	fun createSchedule(schedule: ScheduleInput, user: User) {
