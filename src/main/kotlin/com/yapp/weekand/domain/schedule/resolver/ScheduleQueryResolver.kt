@@ -23,31 +23,13 @@ class ScheduleQueryResolver(
 	private val scheduleService: ScheduleService,
 	private val userService: UserService
 ) {
-	fun tmpScheduleListGen(count: Int): List<Schedule> = IntArray(count) { it + 1 }.map {
-		Schedule(
-			id = it.toString(),
-			name = "user_${it}",
-			status = listOf(Status.UNDETERMINED, Status.COMPLETED, Status.INCOMPLETED)[it % 3],
-			category = ScheduleCategory(
-				id = it.toString(),
-				name = "카테고리_${it}",
-				color = "red",
-				openType = ScheduleCategoryOpenType.ALL_OPEN,
-			),
-			dateTimeStart = LocalDateTime.now(),
-			dateTimeEnd = LocalDateTime.now(),
-			stickerCount = abs(Random().nextInt() % 100),
-			stickerNames = listOf(ScheduleStickerName.CHEER_UP, ScheduleStickerName.COOL),
-		)
-	}
-
 	@DgsQuery
 	@JwtAuth
 	fun schedules(@InputArgument date: LocalDateTime, @InputArgument userId: String?): List<ScheduleRule> {
-		if (userId == null) {
-			return scheduleService.getUserSchedulesByDate(date, userService.getCurrentUser().id)
+		return if (userId == null) {
+			scheduleService.getUserSchedulesByDate(date, userService.getCurrentUser().id)
 		} else {
-			return scheduleService.getUserSchedulesByDate(date, userId.toLong())
+			scheduleService.getUserSchedulesByDate(date, userId.toLong())
 		}
 	}
 
