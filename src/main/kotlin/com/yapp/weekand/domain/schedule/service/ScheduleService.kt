@@ -147,8 +147,9 @@ class ScheduleService(
 			return true
 		}
 
-		val existedRepeatSelectedValue = existedSchedule.repeatSelectedValue?.split(",")?.sorted()
-		val inputRepeatSelectedValue = updateInput.repeatSelectedValue?.map { it.toString() }?.sorted()
+		val existedRepeatSelectedValue =
+			existedSchedule.repeatSelectedValue.split(",").filter { it.isNotEmpty() }.sorted()
+		val inputRepeatSelectedValue = updateInput.repeatSelectedValue.map { it.toString() }.sorted()
 		if (existedRepeatSelectedValue != inputRepeatSelectedValue) {
 			return true
 		}

@@ -28,7 +28,7 @@ class ScheduleRule (
 	@Enumerated(EnumType.STRING)
 	var repeatType: RepeatType,
 
-	var repeatSelectedValue: String? = null,
+	var repeatSelectedValue: String,
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -54,7 +54,7 @@ class ScheduleRule (
 				dateRepeatEnd = scheduleInput.repeatEnd,
 				repeatType = scheduleInput.repeatType,
 				memo = scheduleInput.memo,
-				repeatSelectedValue = scheduleInput.repeatSelectedValue?.joinToString(","),
+				repeatSelectedValue = scheduleInput.repeatSelectedValue.joinToString(","),
 				scheduleCategory = scheduleCategory,
 				user = user
 			)
@@ -69,7 +69,7 @@ class ScheduleRule (
 				dateRepeatEnd = scheduleInput.repeatEnd,
 				repeatType = scheduleInput.repeatType,
 				memo = scheduleInput.memo,
-				repeatSelectedValue = scheduleInput.repeatSelectedValue?.joinToString(","),
+				repeatSelectedValue = scheduleInput.repeatSelectedValue.joinToString(","),
 				scheduleCategory = scheduleCategory,
 				user = user
 			)
