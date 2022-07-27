@@ -19,6 +19,7 @@ enum ScheduleStatus {
 	INCOMPLETED
 	SKIP
 	UNDETERMINED
+	NOT_YET
 }
 
 enum RepeatType {
@@ -29,7 +30,7 @@ enum RepeatType {
 	ONCE
 }
 
-type ScheduleInfo {
+type ScheduleRule {
 	id: ID!
 	name: String!
 	category: ScheduleCategory!
@@ -37,8 +38,21 @@ type ScheduleInfo {
 	dateTimeEnd: Timestamp!
 	repeatType: RepeatType!
 	repeatSelectedValue: String
+	repeatEnd: Timestamp
 	memo: String
+}
+
+type ScheduleInfo {
+	id: ID!
+	name: String!
+	category: ScheduleCategory!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
 	dateSkip: [Timestamp!]
+	repeatType: RepeatType!
+	repeatSelectedValue: String
+	memo: String
+	status: ScheduleStatus!
 }
 
 input ScheduleInput {
@@ -47,7 +61,7 @@ input ScheduleInput {
 	dateTimeStart: Timestamp!
 	dateTimeEnd: Timestamp!
 	repeatType: RepeatType!
-	repeatSelectedValue: [Week!]
+	repeatSelectedValue: [Week!]!
 	repeatEnd: Timestamp
 	memo: String
 }
@@ -60,7 +74,7 @@ input UpdateScheduleInput {
 	dateTimeStart: Timestamp!
 	dateTimeEnd: Timestamp!
 	repeatType: RepeatType!
-	repeatSelectedValue: [Week!]
+	repeatSelectedValue: [Week!]!
 	repeatEnd: Timestamp
 	memo: String
 }

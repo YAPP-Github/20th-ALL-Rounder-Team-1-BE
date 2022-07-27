@@ -85,11 +85,17 @@ type Query {
 	"""
 	schedules(date: Timestamp!, userId: ID): ScheduleList!
 	"""
+	일정 수정 시, 일정 상세 정보를 반환한다
+	[error]
+	4001: 해당 스케줄을 찾을 수 없습니다.
+	"""
+	scheduleRule(scheduleId: ID!): ScheduleRule!
+	"""
 	일정 상세 정보를 반환한다
 	[error]
 	4001: 해당 스케줄을 찾을 수 없습니다.
 	"""
-	schedule(scheduleId: ID!): ScheduleInfo!
+	schedule(scheduleId: ID!, date: Timestamp!): ScheduleInfo!
 }
 
 type Mutation {
