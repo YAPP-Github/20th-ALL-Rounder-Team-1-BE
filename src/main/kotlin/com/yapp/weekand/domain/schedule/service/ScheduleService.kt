@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
 import com.yapp.weekand.api.generated.types.ScheduleRule as ScheduleRuleGraphql
+import java.time.format.DateTimeFormatter
 
 @Service
 @Transactional(readOnly = true)
@@ -162,5 +163,10 @@ class ScheduleService(
 		val schedules = scheduleRepository.findByUser(user)
 		scheduleRepository.deleteAllInBatch(schedules)
 		scheduleStatusRepository.deleteAllInBatch(schedules.flatMap { it.scheduleStatus })
+	}
+
+	fun getUserSchedulesByDate(date: LocalDateTime, userId: Long): List<ScheduleRule> {
+		val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+		return scheduleRepository.getUserSchedulesByDate(date.format(formatter), userId)
 	}
 }

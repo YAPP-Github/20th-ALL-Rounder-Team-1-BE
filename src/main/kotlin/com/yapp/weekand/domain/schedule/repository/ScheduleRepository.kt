@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
-interface ScheduleRepository : JpaRepository<ScheduleRule, Long> {
+interface ScheduleRepository : JpaRepository<ScheduleRule, Long>, ScheduleRepositorySupport {
 	@Query("SELECT r FROM ScheduleRule r JOIN FETCH r.scheduleCategory WHERE r.scheduleCategory.id = :id AND r.name LIKE CONCAT('%', :searchQuery, '%')")
 	fun searchScheduleRules(pageable: Pageable, @Param("searchQuery") searchQuery: String?, @Param("id") scheduleId: Long): Slice<ScheduleRule>
 
