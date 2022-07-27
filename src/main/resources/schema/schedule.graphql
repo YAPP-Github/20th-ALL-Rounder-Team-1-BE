@@ -37,7 +37,7 @@ type ScheduleRule {
 	dateTimeStart: Timestamp!
 	dateTimeEnd: Timestamp!
 	repeatType: RepeatType!
-	repeatSelectedValue: String
+	repeatSelectedValue: [Week!]!
 	repeatEnd: Timestamp
 	memo: String
 }
@@ -48,10 +48,11 @@ type ScheduleInfo {
 	category: ScheduleCategory!
 	dateTimeStart: Timestamp!
 	dateTimeEnd: Timestamp!
-	dateSkip: [Timestamp!]
 	repeatType: RepeatType!
-	repeatSelectedValue: String
+	repeatSelectedValue: [Week!]!
+	repeatEnd: Timestamp
 	memo: String
+	dateSkip: [Timestamp!]
 	status: ScheduleStatus!
 }
 
