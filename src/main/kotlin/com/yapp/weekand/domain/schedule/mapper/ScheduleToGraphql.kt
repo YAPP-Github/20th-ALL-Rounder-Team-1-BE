@@ -14,6 +14,7 @@ fun ScheduleRule.toScheduleRuleGraphql() =
 		category = scheduleCategory.toGraphql(),
 		dateTimeStart = dateStart,
 		dateTimeEnd = dateEnd,
+		repeatEnd = dateRepeatEnd,
 		repeatType = repeatType,
 		repeatSelectedValue = repeatSelectedValue,
 		memo = memo

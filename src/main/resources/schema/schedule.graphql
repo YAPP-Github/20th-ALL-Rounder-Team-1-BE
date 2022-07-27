@@ -38,6 +38,7 @@ type ScheduleRule {
 	dateTimeEnd: Timestamp!
 	repeatType: RepeatType!
 	repeatSelectedValue: String
+	repeatEnd: Timestamp
 	memo: String
 }
 
