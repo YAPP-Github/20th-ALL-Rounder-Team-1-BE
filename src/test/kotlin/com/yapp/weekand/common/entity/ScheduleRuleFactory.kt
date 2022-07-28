@@ -19,7 +19,7 @@ class ScheduleRuleFactory {
 				dateRepeatEnd = LocalDateTime.now(),
 				memo = "나의 스케줄 메모 입니다",
 				repeatType = RepeatType.ONCE,
-				repeatSelectedValue = null,
+				repeatSelectedValue = "",
 				user = UserFactory.testLoginUser(),
 				scheduleCategory = ScheduleCategory(
 					id = 11L,
@@ -44,7 +44,8 @@ class ScheduleRuleFactory {
 				categoryId = 1L.toString(),
 				dateTimeStart = LocalDateTime.now(),
 				dateTimeEnd = LocalDateTime.now().plusHours(2),
-				repeatType = RepeatType.WEEKLY
+				repeatType = RepeatType.WEEKLY,
+				repeatSelectedValue = listOf(Week.MONDAY, Week.TUESDAY)
 			)
 	}
 }
