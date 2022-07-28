@@ -9,9 +9,9 @@ type FolloweeList {
 }
 
 type FollowUser{
-	id: ID
-	nickname: String
-	profileUrl: String
+	id: ID!
+	nickname: String!
+	profileImageUrl: String!
 	goal: String
 }
 

@@ -23,13 +23,15 @@ type Query {
 	"""
 	user(id: ID): User
 	"""
-	팔로우 하고 있는 유저 목록을 가져온다
+	인자로 넘어온 회원의 팔로워 목록을 가져온다
+	userId 인자를 주어지지 않으면, 현재 로그인 된 회원을 팔로우 하고 있는 유저 목록을 가져온다
 	"""
-	followers(page: Int!, size: Int!): FollowerList!
+	followers(page: Int!, size: Int!, userId: ID): FollowerList!
 	"""
-	자신을 팔로우 하고 있는 유저 목록을 가져온다
+	인자로 넘어온 회원의 팔로잉 목록을 가져온다
+	userId 인자를 주어지지 않으면, 현재 로그인 된 회원이 팔로우 하고 있는 유저 목록을 가져온다
 	"""
-	followees(page: Int!, size: Int!): FolloweeList!
+	followees(page: Int!, size: Int!, userId: ID): FolloweeList!
 	"""
 	알림 목록을 가져온다
 	"""
