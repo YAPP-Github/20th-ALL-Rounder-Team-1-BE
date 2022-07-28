@@ -1,10 +1,11 @@
 package com.yapp.weekand.domain.follow.service
 
+import com.yapp.weekand.api.generated.types.FollowUser
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
-import com.yapp.weekand.domain.follow.dto.FollowDto
 import com.yapp.weekand.domain.follow.entity.Follow
 import com.yapp.weekand.domain.follow.exception.FollowDuplicatedException
 import com.yapp.weekand.domain.follow.exception.FollowNotFoundException
+import com.yapp.weekand.domain.follow.mapper.toFollowUserGraphql
 import com.yapp.weekand.domain.follow.repository.FollowRepository
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
@@ -20,29 +21,25 @@ class FollowService(
 	private val followRepository: FollowRepository,
 	private val userRepository: UserRepository
 ) {
-	fun getFollowers(user: User, pageable: Pageable): Slice<FollowDto.Follows> {
+	fun getFollowers(userId: Long, pageable: Pageable): Slice<FollowUser> {
+		val user: User = userRepository.findByIdOrNull(userId)
+			?: throw UserNotFoundException()
+
 		return followRepository.findByFolloweeUserOrderByDateCreatedDesc(user, pageable)
 			.map(Follow::followerUser)
 			.map {
-				FollowDto.Follows(
-					id = it.id,
-					nickname = it.nickname,
-					goal = it.goal,
-					profileFilename = it.profileImageFilename
-				)
+				it.toFollowUserGraphql()
 			}
 	}
 
-	fun getFollowees(user: User, pageable: Pageable): Slice<FollowDto.Follows> {
+	fun getFollowees(userId: Long, pageable: Pageable): Slice<FollowUser> {
+		val user: User = userRepository.findByIdOrNull(userId)
+			?: throw UserNotFoundException()
+
 		return followRepository.findByFollowerUserOrderByDateCreatedDesc(user, pageable)
 			.map(Follow::followeeUser)
 			.map {
-				FollowDto.Follows(
-					id = it.id,
-					nickname = it.nickname,
-					goal = it.goal,
-					profileFilename = it.profileImageFilename
-				)
+				it.toFollowUserGraphql()
 			}
 	}
 
