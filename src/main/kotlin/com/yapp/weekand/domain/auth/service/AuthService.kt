@@ -139,7 +139,8 @@ class AuthService(
 		val user = User(
 			nickname = signUpInput.nickname,
 			email = signUpInput.email,
-			password = passwordEncoder.encode(signUpInput.password)
+			password = passwordEncoder.encode(signUpInput.password),
+			goal = "we can do, weekand!"
 		)
 
 		userRepository.save(user)
