@@ -24,4 +24,10 @@ class UserResolver(
 		val targetUser = dfe.getSource<UserGraphql>()
 		return userService.getUserProfileImageUrl(targetUser.id.toLong())
 	}
+
+	@DgsData(parentType = "User")
+	fun followeeCount(dfe: DgsDataFetchingEnvironment): Int {
+		val targetUser = dfe.getSource<UserGraphql>()
+		return followService.getFolloweeCount(targetUser.id.toLong())
+	}
 }

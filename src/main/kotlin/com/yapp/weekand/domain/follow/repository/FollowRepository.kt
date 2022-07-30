@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface FollowRepository: JpaRepository<Follow, Long> {
+interface FollowRepository : JpaRepository<Follow, Long> {
 	fun findByFolloweeUserOrderByDateCreatedDesc(user: User, pageable: Pageable): Slice<Follow>
 
 	fun findByFollowerUserOrderByDateCreatedDesc(user: User, pageable: Pageable): Slice<Follow>
@@ -16,4 +16,6 @@ interface FollowRepository: JpaRepository<Follow, Long> {
 	fun findByFollowerUserOrFolloweeUser(followerUser: User, followeeUser: User): List<Follow>
 
 	fun findByFollowerUserAndFolloweeUser(followerUser: User, followeeUser: User): Follow?
+
+	fun countByFollowerUser(followerUser: User): Int
 }
