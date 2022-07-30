@@ -92,8 +92,8 @@ class ScheduleRepositorySupportImpl(
 			RepeatType.ONCE -> date.plusYears(2000)
 		}
 
-	private fun convertToWeek(dayOfWeek: DayOfWeek): Week {
-		val targetDateDayOfWeek = when (dayOfWeek) {
+	private fun convertToWeek(dayOfWeek: DayOfWeek) =
+		when (dayOfWeek) {
 			DayOfWeek.MONDAY -> Week.MONDAY
 			DayOfWeek.TUESDAY -> Week.TUESDAY
 			DayOfWeek.WEDNESDAY -> Week.WEDNESDAY
@@ -102,6 +102,4 @@ class ScheduleRepositorySupportImpl(
 			DayOfWeek.SATURDAY -> Week.SATURDAY
 			DayOfWeek.SUNDAY -> Week.SUNDAY
 		}
-		return targetDateDayOfWeek
-	}
 }
