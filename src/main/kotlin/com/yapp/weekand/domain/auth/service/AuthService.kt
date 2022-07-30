@@ -71,13 +71,7 @@ class AuthService(
 	}
 
 	fun validateUserPassword(user: User, passwordInput: String): Boolean {
-		val userTempPassword = redisService.getValue("$TEMP_PASSWORD_PREFIX:${user.email}")
-
 		if (passwordEncoder.matches(passwordInput, user.password)) {
-			return true
-		}
-
-		if (userTempPassword != null && passwordInput == userTempPassword) {
 			return true
 		}
 
@@ -104,9 +98,9 @@ class AuthService(
 		)
 		emailService.sendEmail(email, replacement)
 	}
-
+	@Transactional
 	fun sendTempPassword(email: String) {
-		userRepository.findByEmail(email) ?: throw UserNotFoundException()
+		val user = userRepository.findByEmail(email) ?: throw UserNotFoundException()
 
 		val tempPassword = createTempPassword()
 		redisService.setValueNoExpire("$TEMP_PASSWORD_PREFIX:$email", tempPassword)
@@ -115,6 +109,8 @@ class AuthService(
 			mapOf("userEmail" to email, "tempPassword" to tempPassword)
 		)
 		emailService.sendEmail(email, replacements)
+
+		user.updatePassword(passwordEncoder.encode(tempPassword))
 	}
 
 	fun isValidAuthKey(request: ValidAuthKeyInput): Boolean {
