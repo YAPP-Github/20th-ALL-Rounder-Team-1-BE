@@ -103,4 +103,10 @@ class FollowService(
 
 		return followRepository.existsByFollowerUserAndFolloweeUser(followerUser = user, followeeUser = targetUser)
 	}
+
+	fun getFolloweeCount(targetUserId: Long): Int {
+		val targetUser = userRepository.findByIdOrNull(targetUserId) ?: return 0
+
+		return followRepository.countByFollowerUser(targetUser)
+	}
 }
