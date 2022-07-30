@@ -75,7 +75,12 @@ type Query {
 	[error]
 	- 4001: 해당 스케줄을 찾을 수 없습니다.
 	"""
-	scheduleStickerSummary(scheduleId: ID!, selectedDate: Timestamp!): ScheduleStickerSummary!
+	scheduleStickerSummary(
+		"조회하려는 일정 ID"
+		scheduleId: ID!,
+		"조회하려는 일정의 특정 일자"
+		selectedDate: Timestamp!
+	): ScheduleStickerSummary!
 	"""
 	일정을 검색한다
 
@@ -86,12 +91,24 @@ type Query {
 	"""
 	회원을 검색한다
 	"""
-	searchUsers(searchQuery: String, jobs: [String!], interests: [String!], sort: SearchUserSort, page: Int!, size: Int!): SearchUserList!
+	searchUsers(
+		"닉네임, 한 줄 목표 검색어 쿼리"
+		searchQuery: String,
+		jobs: [String!],
+		interests: [String!],
+		sort: SearchUserSort,
+		page: Int!,
+		size: Int!): SearchUserList!
 	"""
 	메인 화면에 표시될 일정 목록을 반환한다
 	userId 인자가 주어지지 않으면, 현재 로그인 된 회원의 일정 목록을 반환한다
 	"""
-	schedules(date: Timestamp!, userId: ID): ScheduleList!
+	schedules(
+		"조회하려는 특정 일자"
+		date: Timestamp!,
+		"조회하려는 회원 ID"
+		userId: ID
+	): ScheduleList!
 	"""
 	일정 수정 시, 일정 상세 정보를 반환한다
 
@@ -104,7 +121,12 @@ type Query {
 	[error]
 	- 4001: 해당 스케줄을 찾을 수 없습니다.
 	"""
-	schedule(scheduleId: ID!, date: Timestamp!): ScheduleInfo!
+	schedule(
+		"조회하려는 일정 ID"
+		scheduleId: ID!,
+		"조회하려는 일정의 특정 일자"
+		date: Timestamp!
+	): ScheduleInfo!
 }
 
 type Mutation {
