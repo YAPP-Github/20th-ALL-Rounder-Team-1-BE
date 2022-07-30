@@ -19,10 +19,11 @@ class ScheduleQueryResolver(
 	@DgsQuery
 	@JwtAuth
 	fun schedules(@InputArgument date: LocalDateTime, @InputArgument userId: String?): List<ScheduleRule> {
+		val currentUserId = userService.getCurrentUser().id
 		return if (userId == null) {
-			scheduleService.getUserSchedulesByDate(date, userService.getCurrentUser().id)
+			scheduleService.getUserSchedulesByDate(date, currentUserId, currentUserId)
 		} else {
-			scheduleService.getUserSchedulesByDate(date, userId.toLong())
+			scheduleService.getUserSchedulesByDate(date, userId.toLong(), currentUserId)
 		}
 	}
 

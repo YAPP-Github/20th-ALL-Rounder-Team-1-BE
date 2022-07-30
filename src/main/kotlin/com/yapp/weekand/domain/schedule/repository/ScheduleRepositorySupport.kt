@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface ScheduleRepositorySupport {
-	fun getUserSchedulesByDate(dateYmd: String, userId: Long): List<ScheduleRule>
+	fun getUserSchedulesByDate(dateYmd: String, userId: Long, currentUserId: Long): List<ScheduleRule>
 }

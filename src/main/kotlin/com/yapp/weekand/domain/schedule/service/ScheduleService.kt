@@ -170,8 +170,8 @@ class ScheduleService(
 		scheduleStatusRepository.deleteAllInBatch(schedules.flatMap { it.scheduleStatus })
 	}
 
-	fun getUserSchedulesByDate(date: LocalDateTime, userId: Long): List<ScheduleRule> {
+	fun getUserSchedulesByDate(date: LocalDateTime, userId: Long, currentUserId: Long): List<ScheduleRule> {
 		val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-		return scheduleRepository.getUserSchedulesByDate(date.format(formatter), userId)
+		return scheduleRepository.getUserSchedulesByDate(date.format(formatter), userId, currentUserId)
 	}
 }
