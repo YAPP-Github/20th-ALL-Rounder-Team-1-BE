@@ -85,12 +85,12 @@ class ScheduleRepositorySupportImpl(
 
 	private fun addDateByRepeatType(date: LocalDateTime, repeatType: RepeatType) =
 		when (repeatType) {
-		RepeatType.DAILY -> date.plusDays(1)
-		RepeatType.WEEKLY -> date.plusWeeks(1)
-		RepeatType.MONTHLY -> date.plusMonths(1)
-		RepeatType.YEARLY -> date.plusYears(1)
-		RepeatType.ONCE -> date.plusYears(2000)
-	}
+			RepeatType.DAILY -> date.plusDays(1)
+			RepeatType.WEEKLY -> date.plusWeeks(1)
+			RepeatType.MONTHLY -> date.plusMonths(1)
+			RepeatType.YEARLY -> date.plusYears(1)
+			RepeatType.ONCE -> date.plusYears(2000)
+		}
 
 	private fun convertToWeek(dayOfWeek: DayOfWeek): Week {
 		val targetDateDayOfWeek = when (dayOfWeek) {
