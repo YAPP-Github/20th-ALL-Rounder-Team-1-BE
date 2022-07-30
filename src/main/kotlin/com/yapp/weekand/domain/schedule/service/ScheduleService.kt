@@ -116,6 +116,11 @@ class ScheduleService(
 		val category = scheduleCategoryRepository.findByIdOrNull(input.categoryId.toLong())
 			?: throw ScheduleCategoryNotFoundException()
 
+		if(existedSchedule.repeatType === RepeatType.ONCE) {
+			scheduleRepository.save(ScheduleRule.of(input, category, user))
+			return
+		}
+
 		if (checkRequiredNewSchedule(input, existedSchedule)) {
 			scheduleRepository.save(
 				ScheduleRule.of(
