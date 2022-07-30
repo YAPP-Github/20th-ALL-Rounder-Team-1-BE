@@ -1,6 +1,8 @@
 package com.yapp.weekand.domain.sticker.service
 
 import com.yapp.weekand.api.generated.types.*
+import com.yapp.weekand.domain.notification.entity.NotificationType
+import com.yapp.weekand.domain.notification.service.NotificationService
 import com.yapp.weekand.domain.schedule.exception.ScheduleNotFoundException
 import com.yapp.weekand.domain.sticker.entity.ScheduleSticker
 import com.yapp.weekand.domain.user.entity.User
@@ -12,13 +14,15 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Service
 @Transactional(readOnly = true)
 class ScheduleStickerService(
 	private val scheduleStickerRepository: ScheduleStickerRepository,
 	private val scheduleRepository: ScheduleRepository,
-	private val userService: UserService
+	private val userService: UserService,
+	private val notificationService: NotificationService
 ) {
 	fun getScheduleStickerSummary(scheduleId: Long, date: LocalDateTime): ScheduleStickerSummary {
 		val schedule =
@@ -59,7 +63,11 @@ class ScheduleStickerService(
 		val schedule = scheduleRepository.findByIdOrNull(input.scheduleId.toLong())
 			?: throw ScheduleNotFoundException()
 
-		val scheduleSticker = scheduleStickerRepository.findByUserAndScheduleRuleAndScheduleDate(user, schedule, input.scheduleDate.toLocalDate())
+		val scheduleSticker = scheduleStickerRepository.findByUserAndScheduleRuleAndScheduleDate(
+			user,
+			schedule,
+			input.scheduleDate.toLocalDate()
+		)
 		if (scheduleSticker != null) {
 			scheduleStickerRepository.delete(scheduleSticker)
 		}
@@ -72,6 +80,13 @@ class ScheduleStickerService(
 				scheduleDate = input.scheduleDate.toLocalDate()
 			)
 		)
+
+		val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+		val dateYmd = input.scheduleDate.format(formatter)
+		val notiMessage = "${user.nickname}님이 ${dateYmd} ${schedule.name} 일정에 스티커를 붙였습니다"
+
+		val tagetUser = schedule.user
+		notificationService.addNotifications(tagetUser, NotificationType.STICKER, notiMessage)
 	}
 
 	@Transactional
@@ -80,7 +95,11 @@ class ScheduleStickerService(
 			?: throw ScheduleNotFoundException()
 		val user = userService.getCurrentUser()
 
-		scheduleStickerRepository.deleteByUserAndScheduleRuleAndScheduleDate(user, schedule, input.scheduleDate.toLocalDate())
+		scheduleStickerRepository.deleteByUserAndScheduleRuleAndScheduleDate(
+			user,
+			schedule,
+			input.scheduleDate.toLocalDate()
+		)
 	}
 
 	@Transactional

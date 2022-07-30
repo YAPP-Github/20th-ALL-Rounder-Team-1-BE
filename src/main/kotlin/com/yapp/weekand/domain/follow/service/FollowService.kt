@@ -7,6 +7,8 @@ import com.yapp.weekand.domain.follow.exception.FollowDuplicatedException
 import com.yapp.weekand.domain.follow.exception.FollowNotFoundException
 import com.yapp.weekand.domain.follow.mapper.toFollowUserGraphql
 import com.yapp.weekand.domain.follow.repository.FollowRepository
+import com.yapp.weekand.domain.notification.entity.NotificationType
+import com.yapp.weekand.domain.notification.service.NotificationService
 import com.yapp.weekand.domain.user.entity.User
 import com.yapp.weekand.domain.user.repository.UserRepository
 import org.springframework.data.domain.Pageable
@@ -19,7 +21,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class FollowService(
 	private val followRepository: FollowRepository,
-	private val userRepository: UserRepository
+	private val userRepository: UserRepository,
+	private val notificationService: NotificationService
 ) {
 	fun getFollowers(userId: Long, pageable: Pageable): Slice<FollowUser> {
 		val user: User = userRepository.findByIdOrNull(userId)
@@ -60,6 +63,9 @@ class FollowService(
 			)
 		)
 		targetUser.plusFollowerCount()
+
+		val notiMessage = "${user.nickname}님이 팔로우하였습니다"
+		notificationService.addNotifications(targetUser, NotificationType.FOLLOW, notiMessage)
 	}
 
 	@Transactional
