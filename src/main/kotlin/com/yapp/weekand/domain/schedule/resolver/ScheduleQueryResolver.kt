@@ -18,13 +18,21 @@ class ScheduleQueryResolver(
 ) {
 	@DgsQuery
 	@JwtAuth
-	fun schedules(@InputArgument date: LocalDateTime, @InputArgument userId: String?): List<ScheduleRule> {
+	fun schedules(@InputArgument date: LocalDateTime, @InputArgument userId: String?): DataFetcherResult<List<ScheduleRule>> {
 		val currentUserId = userService.getCurrentUser().id
-		return if (userId == null) {
-			scheduleService.getUserSchedulesByDate(date, currentUserId, currentUserId)
-		} else {
-			scheduleService.getUserSchedulesByDate(date, userId.toLong(), currentUserId)
-		}
+		val args = mapOf("date" to date)
+
+		val schedules =
+			if (userId == null) {
+				scheduleService.getUserSchedulesByDate(date, currentUserId, currentUserId)
+			} else {
+				scheduleService.getUserSchedulesByDate(date, userId.toLong(), currentUserId)
+			}
+
+		return DataFetcherResult.newResult<List<ScheduleRule>>()
+			.data(schedules)
+			.localContext(args)
+			.build()
 	}
 
 	@DgsQuery

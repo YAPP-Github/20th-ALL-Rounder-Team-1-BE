@@ -7,7 +7,6 @@ import com.yapp.weekand.api.generated.types.PaginationInfo
 import com.yapp.weekand.api.generated.types.Schedule
 import com.yapp.weekand.api.generated.types.ScheduleCategory
 import com.yapp.weekand.domain.schedule.entity.ScheduleRule
-import com.yapp.weekand.domain.schedule.entity.ScheduleStatus
 import com.yapp.weekand.domain.schedule.entity.Status
 import com.yapp.weekand.domain.sticker.entity.ScheduleStickerName
 
@@ -23,9 +22,7 @@ class ScheduleListResolver {
 			Schedule(
 				id = scheduleRule.id.toString(),
 				name = scheduleRule.name,
-				status = scheduleRule.scheduleStatus
-					.find { status -> status.dateYmd == scheduleRule.dateStart.toLocalDate() }?.status
-					?: Status.UNDETERMINED,
+				status = Status.UNDETERMINED,
 				category = ScheduleCategory(
 					id = scheduleRule.scheduleCategory.id.toString(),
 					name = scheduleRule.scheduleCategory.name,
@@ -36,6 +33,7 @@ class ScheduleListResolver {
 				dateTimeEnd = scheduleRule.dateEnd,
 				stickerCount = 0,
 				stickerNames = listOf(ScheduleStickerName.CHEER_UP),
+				repeatType = scheduleRule.repeatType
 			)
 		}
 	}
