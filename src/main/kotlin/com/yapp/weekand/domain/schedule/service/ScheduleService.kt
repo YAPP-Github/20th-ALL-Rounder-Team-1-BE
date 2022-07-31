@@ -77,12 +77,24 @@ class ScheduleService(
 			throw UnauthorizedAccessException()
 		}
 
-		if (schedule.dateRepeatEnd != null && input.date > schedule.dateRepeatEnd) {
+		if (!validDate(status, schedule, input.date)) {
 			throw ScheduleStatusInvalidDateException()
 		}
 
 		scheduleStatusRepository.deleteByDateYmdAndScheduleRule(input.date.toLocalDate(), schedule)
 		scheduleStatusRepository.save(ScheduleStatus.of(status, input.date.toLocalDate(), schedule))
+	}
+
+	private fun validDate (status: Status, schedule: ScheduleRule, date: LocalDateTime): Boolean {
+		if (schedule.dateRepeatEnd != null && date > schedule.dateRepeatEnd) {
+			return false
+		}
+		if ((status == Status.COMPLETED) or (status == Status.INCOMPLETED)) {
+			if (LocalDateTime.now().isBefore(date.toLocalDate().atTime(schedule.dateEnd.toLocalTime()))) {
+				return false
+			}
+		}
+		return true
 	}
 
 	@Transactional
