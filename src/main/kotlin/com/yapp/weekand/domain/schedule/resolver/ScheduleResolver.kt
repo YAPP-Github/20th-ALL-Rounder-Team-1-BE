@@ -38,7 +38,7 @@ class ScheduleResolver(
 		val date = args["date"]!!
 		val status = scheduleService.getScheduleStatus(targetSchedule.id.toLong(), date)
 		val endDateTime = date.toLocalDate().atTime(targetSchedule.dateTimeEnd.toLocalTime())
-		if(LocalDateTime.now().isBefore(endDateTime)) {
+		if (LocalDateTime.now().isBefore(endDateTime)) {
 			return Status.NOT_YET
 		}
 		return status
