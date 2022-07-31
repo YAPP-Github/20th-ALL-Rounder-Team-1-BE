@@ -60,7 +60,7 @@ class ScheduleCategoryService(
 
 	@Transactional
 	fun createCategory(categoryInput: ScheduleCategoryInput, user: User): Boolean {
-		if (scheduleCategoryRepository.existsByName(categoryInput.name)) {
+		if (scheduleCategoryRepository.existsByNameAndUser(categoryInput.name, user)) {
 			throw ScheduleCategoryDuplicatedNameException()
 		}
 
@@ -82,7 +82,7 @@ class ScheduleCategoryService(
 		val category = scheduleCategoryRepository.findByIdOrNull(categoryId)
 			?: throw ScheduleCategoryNotFoundException()
 
-		if (categoryInput.name != category.name && scheduleCategoryRepository.existsByName(categoryInput.name)) {
+		if (categoryInput.name != category.name && scheduleCategoryRepository.existsByNameAndUser(categoryInput.name, user)) {
 			throw ScheduleCategoryDuplicatedNameException()
 		}
 

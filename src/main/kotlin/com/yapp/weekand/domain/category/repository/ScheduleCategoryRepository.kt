@@ -11,5 +11,5 @@ interface ScheduleCategoryRepository: JpaRepository<ScheduleCategory, Long> {
 
 	fun findByUser(user: User): List<ScheduleCategory>
 
-	fun existsByName(name: String): Boolean
+	fun existsByNameAndUser(name: String, user: User): Boolean
 }
