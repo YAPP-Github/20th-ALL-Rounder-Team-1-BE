@@ -12,6 +12,7 @@ type Schedule {
 	dateTimeEnd: Timestamp!
 	stickerCount: Int!
 	stickerNames: [ScheduleStickerName!]!
+	repeatType: RepeatType!
 }
 
 enum ScheduleStatus {

@@ -18,7 +18,7 @@ class ScheduleInfoResolver(
 		val date = args["date"]!!
 		val targetSchedule = dfe.getSource<ScheduleInfo>()
 		val status = scheduleService.getScheduleStatus(targetSchedule.id.toLong(), date)
-		if(LocalDateTime.now().isBefore(targetSchedule.dateTimeStart)) {
+		if(LocalDateTime.now().isBefore(targetSchedule.dateTimeEnd)) {
 			return Status.NOT_YET
 		}
 		return status
