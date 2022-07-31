@@ -18,6 +18,7 @@ import com.yapp.weekand.domain.user.entity.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import com.yapp.weekand.api.generated.types.ScheduleRule as ScheduleRuleGraphql
@@ -65,7 +66,52 @@ class ScheduleService(
 			throw UnauthorizedAccessException()
 		}
 
-		scheduleRepository.save(ScheduleRule.of(schedule, category, user))
+		val scheduleInput = calibrateScheduleRuleInputDate(schedule)
+
+		scheduleRepository.save(ScheduleRule.of(scheduleInput, category, user))
+	}
+
+	fun calibrateScheduleRuleInputDate(scheduleInput: ScheduleInput): ScheduleInput {
+		if (scheduleInput.repeatType != RepeatType.WEEKLY) {
+			return scheduleInput
+		}
+
+		if (scheduleInput.repeatSelectedValue.isEmpty()) {
+			return scheduleInput
+		}
+
+		var calibratedDateTimeStart = scheduleInput.dateTimeStart
+		var calibratedDateTimeEnd = scheduleInput.dateTimeEnd
+
+		do {
+			val targetDateDayOfWeek = when (calibratedDateTimeStart.dayOfWeek) {
+				DayOfWeek.MONDAY -> Week.MONDAY
+				DayOfWeek.TUESDAY -> Week.TUESDAY
+				DayOfWeek.WEDNESDAY -> Week.WEDNESDAY
+				DayOfWeek.THURSDAY -> Week.THURSDAY
+				DayOfWeek.FRIDAY -> Week.FRIDAY
+				DayOfWeek.SATURDAY -> Week.SATURDAY
+				DayOfWeek.SUNDAY -> Week.SUNDAY
+			}
+
+			if (scheduleInput.repeatSelectedValue.contains(targetDateDayOfWeek)) {
+				break
+			}
+
+			calibratedDateTimeStart = calibratedDateTimeStart.plusDays(1)
+			calibratedDateTimeEnd = calibratedDateTimeEnd.plusDays(1)
+		} while (true)
+
+		return ScheduleInput(
+			name = scheduleInput.name,
+			categoryId = scheduleInput.categoryId,
+			dateTimeStart = calibratedDateTimeStart,
+			dateTimeEnd = calibratedDateTimeEnd,
+			repeatType = scheduleInput.repeatType,
+			repeatSelectedValue = scheduleInput.repeatSelectedValue,
+			repeatEnd = scheduleInput.repeatEnd,
+			memo = scheduleInput.memo
+		)
 	}
 
 	@Transactional
@@ -116,7 +162,7 @@ class ScheduleService(
 		val category = scheduleCategoryRepository.findByIdOrNull(input.categoryId.toLong())
 			?: throw ScheduleCategoryNotFoundException()
 
-		if(existedSchedule.repeatType === RepeatType.ONCE) {
+		if (existedSchedule.repeatType === RepeatType.ONCE) {
 			scheduleRepository.save(ScheduleRule.of(input, category, user))
 			return
 		}
