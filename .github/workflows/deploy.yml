@@ -3,6 +3,7 @@ name: Deploy
 on:
   push:
     branches:
+      - develop
       - feature/CI
 
 env:
@@ -57,4 +58,4 @@ jobs:
       - name: Docker run
         run: |
           docker stop $ECR_REPOSITORY && docker rm $ECR_REPOSITORY && docker rmi $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker run -d -p 8080:8080 --name $ECR_REPOSITORY --restart always $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker run -e TZ=Asia/Seoul -d -p 8080:8080 --name $ECR_REPOSITORY --restart always $ECR_REGISTRY/$ECR_REPOSITORY:latest
