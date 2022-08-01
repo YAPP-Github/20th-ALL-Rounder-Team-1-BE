@@ -20,11 +20,11 @@ class ScheduleMutationResolver(
 	@DgsMutation
 	@JwtAuth
 	fun createSchedule(@InputArgument input: ScheduleInput): Boolean {
-		if (input.dateTimeStart >= input.dateTimeEnd) {
+		if (input.dateTimeStart > input.dateTimeEnd) {
 			throw ScheduleInvalidDateException()
 		}
 
-		if (input.repeatType == RepeatType.WEEKLY && input.repeatSelectedValue == null) {
+		if (input.repeatType == RepeatType.WEEKLY && input.repeatSelectedValue.isNullOrEmpty()) {
 			throw ScheduleRepeatValueInvalidException()
 		}
 
@@ -35,7 +35,7 @@ class ScheduleMutationResolver(
 	@DgsMutation
 	@JwtAuth
 	fun updateSchedule(@InputArgument input: UpdateScheduleInput): Boolean {
-		if (input.dateTimeStart >= input.dateTimeEnd) {
+		if (input.dateTimeStart > input.dateTimeEnd) {
 			throw ScheduleInvalidDateException()
 		}
 
