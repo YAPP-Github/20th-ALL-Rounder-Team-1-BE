@@ -39,14 +39,15 @@ class ScheduleRepositorySupportImpl(
 			.filter { it.repeatType != RepeatType.WEEKLY }
 			.map { filterNoneWeeklyRules(it, targetDate) }
 			.mapNotNull { it }
-			.filter { rule -> filterSkipSchedule(rule) }
+			.filter { rule -> filterSkipSchedule(rule, targetDate) }
 
 		val targetWeeklyRules = scheduleRules
 			.filter { it.repeatType == RepeatType.WEEKLY }
 			.filter { it.repeatSelectedValue.split(",").contains(targetDateDayOfWeek.toString()) }
-			.filter { rule -> filterSkipSchedule(rule) }
+			.filter { rule -> filterSkipSchedule(rule, targetDate) }
 
-		return (noneWeeklyRules + targetWeeklyRules).sortedBy { it.dateStart.toLocalTime() }
+		return (noneWeeklyRules + targetWeeklyRules)
+			.sortedWith(compareBy({ it.dateStart.toLocalTime() }, { it.dateEnd.toLocalTime() }))
 	}
 
 	private fun openType(userId: Long, currentUserId: Long): BooleanExpression? {
@@ -62,8 +63,8 @@ class ScheduleRepositorySupportImpl(
 	private fun isFollowed(userId: Long, currentUserId: Long) =
 		followRepository.existsByFollowerUserIdAndFolloweeUserId(userId, currentUserId) && followRepository.existsByFollowerUserIdAndFolloweeUserId(currentUserId, userId)
 
-	private fun filterSkipSchedule(scheduleRule: ScheduleRule): Boolean {
-		val targetStatus = scheduleRule.scheduleStatus.find { it.dateYmd == scheduleRule.dateStart.toLocalDate() }
+	private fun filterSkipSchedule(scheduleRule: ScheduleRule, date: LocalDate): Boolean {
+		val targetStatus = scheduleRule.scheduleStatus.find { it.dateYmd == date }
 		if (targetStatus?.status == Status.SKIP) {
 			return false
 		}

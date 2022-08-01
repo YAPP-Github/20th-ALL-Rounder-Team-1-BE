@@ -164,7 +164,7 @@ class ScheduleService(
 			throw UnauthorizedAccessException()
 		}
 
-		schedule.updateDateRepeatEnd(input.date)
+		schedule.updateDateRepeatEnd(input.date.minusDays(1))
 	}
 
 	@Transactional
