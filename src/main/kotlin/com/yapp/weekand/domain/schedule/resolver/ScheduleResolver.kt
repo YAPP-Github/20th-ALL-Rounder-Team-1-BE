@@ -18,16 +18,20 @@ class ScheduleResolver(
 	@DgsData(parentType = "Schedule")
 	fun stickerCount(dfe: DgsDataFetchingEnvironment): Int {
 		val schedule = dfe.getSource<Schedule>()
+		val args: Map<String, LocalDateTime> = dfe.getLocalContext()
+		val date = args["date"]!!
 		val scheduleStickerSummary =
-			scheduleStickerService.getScheduleStickerSummary(schedule.id.toLong(), schedule.dateTimeStart)
+			scheduleStickerService.getScheduleStickerSummary(schedule.id.toLong(), date)
 		return scheduleStickerSummary.totalCount
 	}
 
 	@DgsData(parentType = "Schedule")
 	fun stickerNames(dfe: DgsDataFetchingEnvironment): List<ScheduleStickerName> {
 		val schedule = dfe.getSource<Schedule>()
+		val args: Map<String, LocalDateTime> = dfe.getLocalContext()
+		val date = args["date"]!!
 		val scheduleStickerSummary =
-			scheduleStickerService.getScheduleStickerSummary(schedule.id.toLong(), schedule.dateTimeStart)
+			scheduleStickerService.getScheduleStickerSummary(schedule.id.toLong(), date)
 		return scheduleStickerSummary.scheduleStickers.map { it.name }
 	}
 
