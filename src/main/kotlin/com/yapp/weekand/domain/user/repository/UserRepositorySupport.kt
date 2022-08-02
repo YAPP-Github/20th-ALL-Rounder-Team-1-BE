@@ -10,4 +10,6 @@ interface UserRepositorySupport {
 		condition: SearchUserListCondition,
 		pageable: Pageable
 	): Page<User>
+
+	fun minusFollowerCount(targetUserIds: List<Long>)
 }
