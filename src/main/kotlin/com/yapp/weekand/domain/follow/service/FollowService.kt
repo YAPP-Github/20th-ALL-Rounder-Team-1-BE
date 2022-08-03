@@ -1,6 +1,7 @@
 package com.yapp.weekand.domain.follow.service
 
 import com.yapp.weekand.api.generated.types.FollowUser
+import com.yapp.weekand.common.util.Logger
 import com.yapp.weekand.domain.auth.exception.UserNotFoundException
 import com.yapp.weekand.domain.follow.entity.Follow
 import com.yapp.weekand.domain.follow.exception.FollowDuplicatedException
@@ -71,6 +72,10 @@ class FollowService(
 	@Transactional
 	fun deleteFollowByUser(user: User) {
 		val follows = followRepository.findByFollowerUserOrFolloweeUser(user, user)
+		val targetUserIds = follows
+			.map { it.followeeUser.id }
+			.filter { it != user.id }
+		userRepository.minusFollowerCount(targetUserIds)
 		followRepository.deleteAllInBatch(follows)
 	}
 
