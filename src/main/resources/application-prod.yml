@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database-1.ccbd1uk8wp0e.ap-northeast-2.rds.amazonaws.com:3306/weekand-prod
+    url: jdbc:mysql://database-1.ccbd1uk8wp0e.ap-northeast-2.rds.amazonaws.com:3306/weekand-dev
     username: admin
     password: ${/weekand/mysql/password}
   mail:
