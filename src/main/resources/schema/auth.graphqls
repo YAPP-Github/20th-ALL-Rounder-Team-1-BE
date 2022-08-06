@@ -1,0 +1,36 @@
+input LoginInput {
+	email: String!
+	password: String!
+}
+
+type LoginResponse {
+	accessToken: String!
+	refreshToken: String!
+}
+
+type ReissueAccessTokenResponse {
+	accessToken: String!
+}
+
+input ValidAuthKeyInput {
+	authKey: String!
+	email: String!
+}
+
+input SignUpInput {
+	email: String!
+	password: String!
+	nickname: String!
+	jobs: [String!]
+	interests: [String!]
+	signUpAgreed: Boolean!
+}
+
+input PasswordInput {
+	newPassword: String!
+	oldPassword: String!
+}
+
+input IssueTempPasswordInput {
+	email: String!
+}

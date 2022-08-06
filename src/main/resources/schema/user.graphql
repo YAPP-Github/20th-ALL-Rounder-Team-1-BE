@@ -1,0 +1,46 @@
+type User {
+	id: ID!
+	email: String!
+	nickname: String!
+	profileImageUrl: String!
+	goal: String
+	followerCount: Int!
+	followeeCount: Int!
+	jobs: [String!]!
+	interests: [String!]!
+	followed: Boolean!
+}
+
+type SearchUserList {
+	paginationInfo: PaginationInfo!
+	users: [User!]!
+}
+
+enum SearchUserSort {
+	DATE_CREATED_DESC
+	FOLLOWER_COUNT_DESC
+	NICKNAME_ASC
+	NICKNAME_DESC
+}
+
+input UpdateUserProfileInput {
+	profileImageFilename: String!
+	nickname: String!
+	goal: String!
+	jobs: [String!]!
+	interests: [String!]!
+}
+
+input CreateUserProfileImageS3PresignedUrlInput {
+	extension: UserProfileImageExtensionType!
+}
+
+enum UserProfileImageExtensionType {
+	JPEG
+	PNG
+}
+
+type UserProfileImageS3PresignedUrl {
+	url: String!
+	filename: String!
+}

@@ -1,0 +1,24 @@
+type FollowerList {
+	paginationInfo: PaginationInfo
+	followers: [FollowUser!]!
+}
+
+type FolloweeList {
+	paginationInfo: PaginationInfo
+	followees: [FollowUser!]!
+}
+
+type FollowUser{
+	id: ID!
+	nickname: String!
+	profileImageUrl: String!
+	goal: String
+}
+
+input CreateFollowInput {
+	targetUserId: ID!
+}
+
+input DeleteFollowInput {
+	targetUserId: ID!
+}

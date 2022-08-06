@@ -1,0 +1,327 @@
+"""Unix Timestamp"""
+scalar Timestamp
+
+schema {
+	query: Query,
+	mutation: Mutation
+}
+
+type Query {
+	"""
+	weekand 테스트 query
+	"""
+	weekand(customField: String): Weekand!
+	"""
+	닉네임의 중복 여부를 체크한다
+	"""
+	checkDuplicateNickname(nickname: String!): Boolean!
+	"""
+	조건에 맞는 회원 상세 정보를 가져온다
+	id 인자를 주어지지 않으면, 현재 로그인 된 회원 상세 정보를 가져온다
+
+	[error]
+	- 3001: 존재하지 않는 유저입니다.
+	"""
+	user(id: ID): User
+	"""
+	인자로 넘어온 회원의 팔로워 목록을 가져온다
+	userId 인자를 주어지지 않으면, 현재 로그인 된 회원을 팔로우 하고 있는 유저 목록을 가져온다
+	"""
+	followers(page: Int!, size: Int!, userId: ID): FollowerList!
+	"""
+	인자로 넘어온 회원의 팔로잉 목록을 가져온다
+	userId 인자를 주어지지 않으면, 현재 로그인 된 회원이 팔로우 하고 있는 유저 목록을 가져온다
+	"""
+	followees(page: Int!, size: Int!, userId: ID): FolloweeList!
+	"""
+	알림 목록을 가져온다
+	"""
+	notifications(page: Int!, size: Int!): NotificationList!
+	"""
+	로그인 한다
+
+	[error]
+	- 3007: 이메일, 비밀번호가 일치하지 않습니다.
+	"""
+	login(loginInput: LoginInput!): LoginResponse!
+	"""
+	로그인 리프레시 토큰을 발급한다
+
+	[error]
+	- 3004: 유효하지 않은 리프레시 토큰입니다.
+	- 3001: 존재하지 않는 유저입니다.
+	"""
+	reissue: ReissueAccessTokenResponse!
+	"""
+	일정 카테고리 목록을 가져온다
+	"""
+	scheduleCategories(sort: ScheduleCategorySort!, page: Int!, size: Int!): ScheduleCategoryList!
+	"""
+	이메일 인증 키를 발급한다
+
+	[error]
+	- 3009: 이미 등록된 이메일입니다.
+	- 6001: 이메일 내용 형식이 올바르지 않습니다.
+	- 3008: 이메일 전송에 실패하였습니다.
+	"""
+	sendAuthKey(email: String!): Boolean!
+	"""
+	이메일 인증 키를 검증한다
+	"""
+	validAuthKey(validAuthKeyInput: ValidAuthKeyInput!): Boolean!
+	"""
+	일정의 스티커 요약 정보를 반환한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	"""
+	scheduleStickerSummary(
+		"조회하려는 일정 ID"
+		scheduleId: ID!,
+		"조회하려는 일정의 특정 일자"
+		selectedDate: Timestamp!
+	): ScheduleStickerSummary!
+	"""
+	일정을 검색한다
+
+	[error]
+	- 4002: 해당 카테고리를 찾을 수 없습니다.
+	"""
+	searchSchedules(sort: ScheduleCategorySort!, page: Int!, size: Int!, searchQuery: String, categoryId: ID!): SearchScheduleList!
+	"""
+	회원을 검색한다
+	"""
+	searchUsers(
+		"닉네임, 한 줄 목표 검색어 쿼리"
+		searchQuery: String,
+		jobs: [String!],
+		interests: [String!],
+		sort: SearchUserSort,
+		page: Int!,
+		size: Int!): SearchUserList!
+	"""
+	메인 화면에 표시될 일정 목록을 반환한다
+	userId 인자가 주어지지 않으면, 현재 로그인 된 회원의 일정 목록을 반환한다
+	"""
+	schedules(
+		"조회하려는 특정 일자"
+		date: Timestamp!,
+		"조회하려는 회원 ID"
+		userId: ID
+	): ScheduleList!
+	"""
+	일정 수정 시, 일정 상세 정보를 반환한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	"""
+	scheduleRule(scheduleId: ID!): ScheduleRule!
+	"""
+	일정 상세 정보를 반환한다
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	"""
+	schedule(
+		"조회하려는 일정 ID"
+		scheduleId: ID!,
+		"조회하려는 일정의 특정 일자"
+		date: Timestamp!
+	): ScheduleInfo!
+}
+
+type Mutation {
+	"""
+	회원가입을 한다
+
+	[error]
+	- 3010: 회원가입에 실패하였습니다.
+	- 3012: 올바른 이메일 형식이 아닙니다.
+	- 3011: 올바른 비밀번호 형식이 아닙니다.
+	- 3013: 올바른 닉네임 형식이 아닙니다.
+	- 3009: 이미 등록된 이메일입니다.
+	- 3014: 이미 등록된 닉네임입니다.
+	"""
+	signUp(signUpInput: SignUpInput!): Boolean!
+	"""
+	비밀번호를 수정한다
+
+	[error]
+	- 3011: 올바른 비밀번호 형식이 아닙니다.
+	- 3015: 비밀번호가 일치하지 않습니다.
+	"""
+	updatePassword(passwordInput: PasswordInput!): Boolean!
+	"""
+	카테고리를 추가한다
+
+	[error]
+	- 4007: 해당 카테고리명은 이미 사용중입니다.
+	"""
+	createCategory(scheduleCategoryInput: ScheduleCategoryInput!): Boolean!
+	"""
+	카테고리를 수정한다
+
+	[error]
+	- 4007: 해당 카테고리명은 이미 사용중입니다.
+	- 4002: 해당 카테고리를 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	"""
+	updateCategory(categoryId: ID!, scheduleCategoryInput: ScheduleCategoryInput!): ScheduleCategory!
+	"""
+	회원을 팔로우 한다
+
+	[error]
+	- 3001: 존재하지 않는 유저입니다.
+	- 5001: 이미 등록된 팔로우 내역입니다.
+	"""
+	createFollow(input: CreateFollowInput!): Boolean!
+	"""
+	임시 비밀번호를 발급한다
+
+	[error]
+	- 3001: 존재하지 않는 유저입니다.
+	- 6001: 이메일 내용 형식이 올바르지 않습니다.
+	- 3008: 이메일 전송에 실패하였습니다.
+	"""
+	issueTempPassword(input: IssueTempPasswordInput!): Boolean!
+	"""
+	문의 내용을 전송한다
+
+	[error]
+	- 6001: 이메일 내용 형식이 올바르지 않습니다.
+	- 3008: 이메일 전송에 실패하였습니다.
+	"""
+	inquiry(contents: String!): Boolean!
+	"""
+	스케줄을 생성한다
+
+	[error]
+	- 4003: 시작 일시와 종료 일시를 확인해주세요.
+	- 4004: 반복 요일을 입력해주세요.
+	- 4002: 해당 카테고리를 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	"""
+	createSchedule(input: ScheduleInput!): Boolean!
+	"""
+	스케줄을 수정한다
+
+	[error]
+	- 4003: 시작 일시와 종료 일시를 확인해주세요.
+	- 4004: 반복 요일을 입력해주세요.
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	- 4002: 해당 카테고리를 찾을 수 없습니다.
+	"""
+	updateSchedule(input: UpdateScheduleInput!): Boolean!
+	"""
+	특정 스케줄을 삭제한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	- 4009: 상태 추가할 날짜를 확인해주세요.
+	"""
+	skipSchedule(input: ScheduleStateInput!): Boolean!
+	"""
+	이후 모든 스케줄을 삭제한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	"""
+	deleteScheduleFromDate(input: DeleteScheduleFromDateInput!): Boolean!
+	"""
+	유저 프로필을 수정한다
+
+	[error]
+	- 3016: 한 줄 목표 최대 길이를 초과하였습니다.
+	- 3018: 닉네임 최대 길이를 초과하였습니다.
+	- 3017: 닉네임이 최소 길이 미만입니다.
+	- 3001: 존재하지 않는 유저입니다.
+	- 3014: 이미 등록된 닉네임입니다.
+	"""
+	updateUserProfile(input: UpdateUserProfileInput!): User!
+	"""
+	스티커를 추가한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	"""
+	createScheduleSticker(input: CreateScheduleStickerInput!): Boolean!
+	"""
+	프로필 이미지 업로드를 위한 signed url 을 생성한다
+	"""
+	createUserProfileImageS3PresignedUrl(input: CreateUserProfileImageS3PresignedUrlInput!): UserProfileImageS3PresignedUrl!
+	"""
+	스티커를 삭제한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	"""
+	deleteScheduleSticker(input: DeleteScheduleStickerInput!): Boolean!
+	"""
+	스케줄을 삭제한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	"""
+	deleteSchedule(input: DeleteScheduleInput!): Boolean!
+	"""
+	카테고리를 삭제한다
+
+	[error]
+	- 4008: 최소 2개 이상의 카테고리가 존재할 시 삭제 가능합니다.
+	- 4002: 해당 카테고리를 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	"""
+	deleteCategory(input: DeleteScheduleCategoryInput!): Boolean!
+	"""
+	회원 탈퇴 한다
+	"""
+	deleteUser: Boolean!
+	"""
+	로그아웃을 한다
+	"""
+	logout: Boolean!
+	"""
+	스케줄을 완료 처리한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	- 4009: 상태 추가할 날짜를 확인해주세요.
+	"""
+	completeSchedule(input: ScheduleStateInput!): Boolean!
+	"""
+	스케줄 미완료 처리한다
+
+	[error]
+	- 4001: 해당 스케줄을 찾을 수 없습니다.
+	- 3006: 권한이 없는 유저의 접근입니다.
+	- 4009: 상태 추가할 날짜를 확인해주세요.
+	"""
+	incompleteSchedule(input: ScheduleStateInput!): Boolean!
+	"""
+	나를 팔로우한 유저를 삭제한다
+
+	[error]
+	- 3001: 존재하지 않는 유저입니다.
+	- 5002: 팔로우 관계가 아닙니다.
+	"""
+	deleteFollower(input: DeleteFollowInput!): Boolean!
+	"""
+	내가 팔로우하는 유저를 삭제한다
+
+	[error]
+	- 3001: 존재하지 않는 유저입니다.
+	- 5002: 팔로우 관계가 아닙니다.
+	"""
+	deleteFollowee(input: DeleteFollowInput!): Boolean!
+}
+
+type Weekand {
+	hello: String!
+}
+
+type PaginationInfo {
+	hasNext: Boolean!
+}

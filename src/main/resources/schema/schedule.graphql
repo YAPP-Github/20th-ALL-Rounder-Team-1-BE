@@ -1,0 +1,106 @@
+type ScheduleList {
+	paginationInfo: PaginationInfo!
+	schedules: [Schedule!]!
+}
+
+type Schedule {
+	id: ID!
+	name: String!
+	status: ScheduleStatus!
+	category: ScheduleCategory!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	stickerCount: Int!
+	stickerNames: [ScheduleStickerName!]!
+	repeatType: RepeatType!
+}
+
+enum ScheduleStatus {
+	COMPLETED
+	INCOMPLETED
+	SKIP
+	UNDETERMINED
+	NOT_YET
+}
+
+enum RepeatType {
+	DAILY
+	WEEKLY
+	MONTHLY
+	YEARLY
+	ONCE
+}
+
+type ScheduleRule {
+	id: ID!
+	name: String!
+	category: ScheduleCategory!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	repeatType: RepeatType!
+	repeatSelectedValue: [Week!]!
+	repeatEnd: Timestamp
+	memo: String
+}
+
+type ScheduleInfo {
+	id: ID!
+	name: String!
+	category: ScheduleCategory!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	repeatType: RepeatType!
+	repeatSelectedValue: [Week!]!
+	repeatEnd: Timestamp
+	memo: String
+	dateSkip: [Timestamp!]
+	status: ScheduleStatus!
+}
+
+input ScheduleInput {
+	name: String!
+	categoryId: ID!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	repeatType: RepeatType!
+	repeatSelectedValue: [Week!]!
+	repeatEnd: Timestamp
+	memo: String
+}
+
+input UpdateScheduleInput {
+	id: ID!
+	requestDateTime: Timestamp!
+	name: String!
+	categoryId: ID!
+	dateTimeStart: Timestamp!
+	dateTimeEnd: Timestamp!
+	repeatType: RepeatType!
+	repeatSelectedValue: [Week!]!
+	repeatEnd: Timestamp
+	memo: String
+}
+
+enum Week {
+	MONDAY,
+	TUESDAY,
+	WEDNESDAY,
+	THURSDAY,
+	FRIDAY,
+	SATURDAY,
+	SUNDAY
+}
+
+input DeleteScheduleInput {
+	scheduleId: ID!
+}
+
+input ScheduleStateInput {
+	scheduleId: ID!
+	date: Timestamp!
+}
+
+input DeleteScheduleFromDateInput {
+	scheduleId: ID!
+	date: Timestamp!
+}

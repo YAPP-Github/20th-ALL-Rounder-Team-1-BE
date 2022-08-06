@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    default: dev
+  mail:
+    host: smtp.naver.com
+    port: 465

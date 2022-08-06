@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    container_name: weekand-server-redis-dev
+    hostname: redis
+    labels:
+      - "name=weekand-server-redis-dev"
+      - "mode=standalone"
+    ports:
+      - "6379:6379"
